@@ -121,10 +121,16 @@ const StartForFreeBar = ({
           className={cn(
             "flex items-center gap-4 rounded-full",
             isDark
-              ? "h-14 border border-white/10 bg-[#1a1a1a] px-5 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20"
+              ? "group/shine relative h-14 border border-white/10 bg-[#1a1a1a] px-5 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20"
               : "w-full"
           )}
         >
+          {isDark && (
+            <span
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 rounded-full p-[1px] opacity-20 transition-opacity duration-300 ease-out [background:conic-gradient(from_0deg,rgba(255,255,255,0)_0deg,rgba(255,255,255,0.18)_70deg,rgba(255,255,255,0.55)_120deg,rgba(255,255,255,0)_200deg,rgba(255,255,255,0.28)_260deg,rgba(255,255,255,0)_360deg)] [mask:linear-gradient(#000_0_0)_content-box,linear-gradient(#000_0_0)] [mask-composite:exclude] [-webkit-mask-composite:xor] group-hover/shine:opacity-40 group-focus-within/shine:opacity-70 motion-reduce:animate-none motion-reduce:opacity-40 animate-[shine-rotate_8s_linear_infinite]"
+            />
+          )}
           <Input
             placeholder="Enter your email"
             value={email}
@@ -168,6 +174,16 @@ const StartForFreeBar = ({
           </p>
         )}
       </form>
+      <style jsx>{`
+        @keyframes shine-rotate {
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
+        }
+      `}</style>
     </div>
   );
 };
@@ -267,7 +283,7 @@ export default function WebDesignLanding() {
 
   return (
     <main className="bg-background text-foreground">
-      <section className="relative overflow-hidden bg-background pb-16 pt-12 sm:pb-20 sm:pt-16">
+      <section className="relative min-h-[72vh] overflow-hidden bg-background pb-16 pt-12 sm:min-h-[78vh] sm:pb-20 sm:pt-16 lg:min-h-[86vh]">
         <div className="absolute inset-0">
           {hasHeroVideo ? (
             <div className="absolute inset-0">

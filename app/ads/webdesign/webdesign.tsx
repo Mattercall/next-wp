@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 import { ArrowRight, Plus, ShoppingBag } from "lucide-react";
 
 const heroImages = [
@@ -70,6 +71,71 @@ const faqs = [
 
 export default function WebDesignLanding() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+  const heroSentinelRef = useRef<HTMLDivElement | null>(null);
+  const footerSentinelRef = useRef<HTMLDivElement | null>(null);
+  const [isHeroVisible, setIsHeroVisible] = useState(true);
+  const [isFooterVisible, setIsFooterVisible] = useState(false);
+
+  useEffect(() => {
+    const heroSentinel = heroSentinelRef.current;
+    if (!heroSentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsHeroVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+
+    observer.observe(heroSentinel);
+
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const footerSentinel = footerSentinelRef.current;
+    if (!footerSentinel) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => setIsFooterVisible(entry.isIntersecting),
+      { threshold: 0 }
+    );
+
+    observer.observe(footerSentinel);
+
+    return () => observer.disconnect();
+  }, []);
+
+  const showStickyCta = !isHeroVisible && !isFooterVisible;
+
+  const StartForFreeBar = ({ className }: { className?: string }) => (
+    <div
+      className={cn(
+        "rounded-[28px] border border-white/10 bg-gradient-to-b from-[#111111] to-[#0B0B0B] p-5 text-left text-white shadow-[0_24px_60px_rgba(0,0,0,0.45)]",
+        className
+      )}
+    >
+      <div>
+        <div className="text-base font-semibold">Start for free</div>
+        <p className="mt-1 text-xs text-white/60">
+          You agree to receive marketing emails.
+        </p>
+      </div>
+      <div className="mt-3 border-t border-white/10 pt-3">
+        <div className="flex h-14 items-center gap-4 rounded-full border border-white/10 bg-[#1a1a1a] px-5">
+          <Input
+            placeholder="Enter your email"
+            className="h-14 flex-1 border-0 bg-transparent text-base text-white placeholder:text-neutral-500 focus-visible:ring-0"
+          />
+          <button
+            type="button"
+            aria-label="Submit email"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-white/90 transition-colors hover:text-white"
+          >
+            <ArrowRight className="h-5 w-5" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 
   return (
     <main className="bg-background text-foreground">
@@ -109,28 +175,10 @@ export default function WebDesignLanding() {
               <br />
               What are you waiting for?
             </p>
-            <div className="mt-6 rounded-2xl bg-neutral-900 p-4 text-left text-white">
-              <div className="text-xs font-semibold uppercase tracking-wide">
-                Start for free
-              </div>
-              <p className="mt-1 text-[11px] text-neutral-400">
-                You agree to receive marketing emails.
-              </p>
-              <div className="mt-4 flex items-center gap-3 rounded-2xl bg-neutral-950 px-4 py-3">
-                <Input
-                  placeholder="Enter your email"
-                  className="h-9 flex-1 border-0 bg-transparent text-sm text-white placeholder:text-neutral-500 focus-visible:ring-0"
-                />
-                <Button
-                  size="icon"
-                  className="h-9 w-9 rounded-full bg-white text-neutral-900 hover:bg-white/90"
-                >
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+            <StartForFreeBar className="mt-6" />
           </div>
         </div>
+        <div ref={heroSentinelRef} className="h-px w-full" aria-hidden="true" />
       </section>
 
       <section className="bg-background py-10">
@@ -273,6 +321,7 @@ export default function WebDesignLanding() {
       </section>
 
       <footer className="bg-background py-10">
+        <div ref={footerSentinelRef} className="h-px w-full" aria-hidden="true" />
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 text-xs text-neutral-500 sm:flex-row">
           <div className="flex items-center gap-2">
             <ShoppingBag className="h-4 w-4" />
@@ -296,6 +345,17 @@ export default function WebDesignLanding() {
           </div>
         </div>
       </footer>
+
+      <div
+        className={cn(
+          "fixed bottom-6 left-1/2 z-50 w-[min(420px,calc(100vw-2rem))] -translate-x-1/2 transition-all duration-300",
+          showStickyCta
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-3 opacity-0"
+        )}
+      >
+        <StartForFreeBar />
+      </div>
     </main>
   );
 }

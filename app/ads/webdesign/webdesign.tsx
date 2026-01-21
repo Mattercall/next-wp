@@ -17,7 +17,7 @@ const heroImages = [
   "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=900&q=80",
 ];
 
-const heroVideoUrl = "";
+const heroVideoUrl = "https://alidrives.b-cdn.net/Intro.mp4";
 
 const logos = [
   "allbirds",

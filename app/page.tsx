@@ -13,6 +13,7 @@ export default function Home() {
   return (
     <main>
       <HeroSection />
+      <HowItWorksSection />
     </main>
   );
 }
@@ -173,6 +174,175 @@ const HeroSection = () => {
           >
             Explore more <span className="ml-2">→</span>
           </Button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const HowItWorksSection = () => {
+  return (
+    <section className="w-full bg-white py-20 sm:py-24">
+      <div className="mx-auto flex max-w-5xl flex-col items-center px-4 text-center">
+        <Badge className="mb-4 rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-xs font-medium text-neutral-600 shadow-none">
+          How it works
+        </Badge>
+        <h2 className="text-balance text-3xl font-bold text-neutral-900 sm:text-4xl">
+          With us, appointment scheduling is easy
+        </h2>
+        <p className="mt-4 max-w-2xl text-sm text-neutral-500 sm:text-base">
+          Effortless scheduling for business and individuals, powerful solutions
+          for fast-growing modern companies.
+        </p>
+        <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+          <Button className="h-11 rounded-lg bg-neutral-900 px-6 text-white hover:bg-neutral-900/90">
+            Get started
+          </Button>
+          <Button
+            variant="outline"
+            className="h-11 rounded-lg border-neutral-200 bg-white px-6 text-neutral-700"
+          >
+            Talk to sales
+          </Button>
+        </div>
+        <div className="mt-10 grid w-full gap-6 text-left sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              step: "01",
+              title: "Connect your calendar",
+              description:
+                "We'll handle all the cross-referencing, so you don't have to worry about double bookings.",
+            },
+            {
+              step: "02",
+              title: "Set your availability",
+              description:
+                "Want to block off weekends? Set up any buffers? We make that easy.",
+            },
+            {
+              step: "03",
+              title: "Choose how to meet",
+              description:
+                "It could be a video chat, phone call, or a walk in the park!",
+            },
+          ].map((item, index) => (
+            <div
+              key={item.step}
+              className="flex flex-col rounded-2xl border border-neutral-200 bg-white p-6 shadow-sm"
+            >
+              <span className="mb-4 inline-flex w-fit items-center rounded-full bg-neutral-100 px-3 py-1 text-xs font-semibold text-neutral-600">
+                {item.step}
+              </span>
+              <h3 className="text-lg font-semibold text-neutral-900">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-sm text-neutral-500">
+                {item.description}
+              </p>
+              <div className="mt-6 flex flex-1 items-end justify-center">
+                {index === 0 && (
+                  <div className="flex h-36 w-full max-w-[220px] items-center justify-center rounded-2xl border border-dashed border-neutral-200 bg-neutral-50">
+                    <svg
+                      aria-hidden
+                      viewBox="0 0 220 140"
+                      className="h-full w-full"
+                    >
+                      <circle
+                        cx="110"
+                        cy="70"
+                        r="18"
+                        fill="#fff"
+                        stroke="#d1d5db"
+                      />
+                      <circle
+                        cx="110"
+                        cy="70"
+                        r="52"
+                        fill="none"
+                        stroke="#e5e7eb"
+                      />
+                      <circle
+                        cx="110"
+                        cy="70"
+                        r="74"
+                        fill="none"
+                        stroke="#f1f5f9"
+                      />
+                      <rect
+                        x="79"
+                        y="60"
+                        width="62"
+                        height="20"
+                        rx="10"
+                        fill="#fff"
+                        stroke="#d1d5db"
+                      />
+                      <text
+                        x="110"
+                        y="74"
+                        textAnchor="middle"
+                        fontSize="10"
+                        fill="#111827"
+                        fontFamily="Inter, sans-serif"
+                      >
+                        Cal.com
+                      </text>
+                      <circle cx="54" cy="40" r="8" fill="#fef3c7" />
+                      <circle cx="168" cy="32" r="7" fill="#e0f2fe" />
+                      <circle cx="160" cy="108" r="6" fill="#ede9fe" />
+                    </svg>
+                  </div>
+                )}
+                {index === 1 && (
+                  <div className="flex h-36 w-full max-w-[240px] flex-col gap-3 rounded-2xl border border-dashed border-neutral-200 bg-neutral-50 p-4">
+                    {[
+                      { day: "Mon", start: "8:30 am", end: "5:00 pm" },
+                      { day: "Tue", start: "9:00 am", end: "6:30 pm" },
+                      { day: "Wed", start: "10:00 am", end: "7:00 pm" },
+                    ].map((row) => (
+                      <div
+                        key={row.day}
+                        className="flex items-center justify-between gap-2 text-[10px] text-neutral-500"
+                      >
+                        <span className="h-4 w-8 rounded-full bg-neutral-200" />
+                        <span className="w-8">{row.day}</span>
+                        <span className="rounded-full border border-neutral-200 bg-white px-2 py-0.5 text-neutral-600">
+                          {row.start}
+                        </span>
+                        <span className="rounded-full border border-neutral-200 bg-white px-2 py-0.5 text-neutral-600">
+                          {row.end}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                {index === 2 && (
+                  <div className="flex h-36 w-full max-w-[240px] flex-col overflow-hidden rounded-2xl border border-dashed border-neutral-200 bg-neutral-50">
+                    <div className="flex items-center gap-2 border-b border-neutral-200 px-3 py-2 text-[10px] text-neutral-400">
+                      <span className="h-2 w-2 rounded-full bg-neutral-300" />
+                      <span className="h-2 w-2 rounded-full bg-neutral-300" />
+                      <span className="h-2 w-2 rounded-full bg-neutral-300" />
+                    </div>
+                    <div className="flex flex-1 items-center justify-around px-4">
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="h-8 w-8 rounded-full bg-neutral-300" />
+                        <div className="h-4 w-12 rounded-full bg-neutral-300" />
+                      </div>
+                      <div className="flex flex-col items-center gap-2">
+                        <div className="h-8 w-8 rounded-full bg-neutral-300" />
+                        <div className="h-4 w-12 rounded-full bg-neutral-300" />
+                      </div>
+                    </div>
+                    <div className="mx-auto mb-3 flex w-32 items-center justify-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-1 text-[10px] text-neutral-500">
+                      <span className="h-2 w-2 rounded-full bg-neutral-400" />
+                      <span className="h-2 w-2 rounded-full bg-neutral-400" />
+                      <span className="h-2 w-2 rounded-full bg-neutral-400" />
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>

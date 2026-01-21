@@ -71,6 +71,105 @@ const faqs = [
 
 const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
 
+type StartForFreeBarProps = {
+  className?: string;
+  variant: "dark" | "light";
+  email: string;
+  isSubmitting: boolean;
+  errorMessage: string | null;
+  onEmailChange: (value: string) => void;
+  onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+};
+
+const StartForFreeBar = ({
+  className,
+  variant,
+  email,
+  isSubmitting,
+  errorMessage,
+  onEmailChange,
+  onSubmit,
+}: StartForFreeBarProps) => {
+  const isDark = variant === "dark";
+
+  return (
+    <div
+      className={cn(
+        isDark
+          ? "rounded-[28px] border border-white/10 bg-gradient-to-b from-[#111111] to-[#0B0B0B] p-5 text-left text-white shadow-[0_24px_60px_rgba(0,0,0,0.45)]"
+          : "rounded-full border border-transparent bg-white px-4 py-2 text-neutral-900 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20",
+        className
+      )}
+    >
+      {isDark && (
+        <div>
+          <div className="text-base font-semibold">Start for free</div>
+          <p className="mt-1 text-xs text-white/60">
+            You agree to receive marketing emails.
+          </p>
+        </div>
+      )}
+      <form
+        onSubmit={onSubmit}
+        className={cn(
+          isDark ? "mt-3 border-t border-white/10 pt-3" : "flex w-full"
+        )}
+      >
+        <div
+          className={cn(
+            "flex items-center gap-4 rounded-full",
+            isDark
+              ? "h-14 border border-white/10 bg-[#1a1a1a] px-5 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20"
+              : "w-full"
+          )}
+        >
+          <Input
+            placeholder="Enter your email"
+            value={email}
+            onChange={(event) => onEmailChange(event.target.value)}
+            disabled={isSubmitting}
+            className={cn(
+              "flex-1 border-0 bg-transparent shadow-none outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+              isDark
+                ? "h-14 text-base text-white placeholder:text-neutral-500"
+                : "h-9 text-sm placeholder:text-neutral-500"
+            )}
+          />
+          {isDark ? (
+            <button
+              type="submit"
+              aria-label="Submit email"
+              disabled={isSubmitting}
+              className="flex h-9 w-9 items-center justify-center rounded-full text-white/90 shadow-none outline-none transition-colors hover:text-white focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <ArrowRight className="h-5 w-5" />
+            </button>
+          ) : (
+            <Button
+              type="submit"
+              size="icon"
+              disabled={isSubmitting}
+              className="h-9 w-9 rounded-full bg-neutral-900 text-white shadow-none hover:bg-neutral-900/90 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              <ArrowRight className="h-4 w-4" />
+            </Button>
+          )}
+        </div>
+        {errorMessage && (
+          <p
+            className={cn(
+              "mt-2 text-xs",
+              isDark ? "text-red-200" : "text-red-600"
+            )}
+          >
+            {errorMessage}
+          </p>
+        )}
+      </form>
+    </div>
+  );
+};
+
 export default function WebDesignLanding() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const heroSentinelRef = useRef<HTMLDivElement | null>(null);
@@ -155,93 +254,6 @@ export default function WebDesignLanding() {
     }
   };
 
-  const StartForFreeBar = ({
-    className,
-    variant,
-  }: {
-    className?: string;
-    variant: "dark" | "light";
-  }) => {
-    const isDark = variant === "dark";
-
-    return (
-      <div
-        className={cn(
-          isDark
-            ? "rounded-[28px] border border-white/10 bg-gradient-to-b from-[#111111] to-[#0B0B0B] p-5 text-left text-white shadow-[0_24px_60px_rgba(0,0,0,0.45)]"
-            : "rounded-full border border-transparent bg-white px-4 py-2 text-neutral-900 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20",
-          className
-        )}
-      >
-        {isDark && (
-          <div>
-            <div className="text-base font-semibold">Start for free</div>
-            <p className="mt-1 text-xs text-white/60">
-              You agree to receive marketing emails.
-            </p>
-          </div>
-        )}
-        <form
-          onSubmit={handleSubmit}
-          className={cn(
-            isDark ? "mt-3 border-t border-white/10 pt-3" : "flex w-full"
-          )}
-        >
-          <div
-            className={cn(
-              "flex items-center gap-4 rounded-full",
-              isDark
-                ? "h-14 border border-white/10 bg-[#1a1a1a] px-5 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20"
-                : "w-full"
-            )}
-          >
-            <Input
-              placeholder="Enter your email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              disabled={isSubmitting}
-              className={cn(
-                "flex-1 border-0 bg-transparent shadow-none outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
-                isDark
-                  ? "h-14 text-base text-white placeholder:text-neutral-500"
-                  : "h-9 text-sm placeholder:text-neutral-500"
-              )}
-            />
-            {isDark ? (
-              <button
-                type="submit"
-                aria-label="Submit email"
-                disabled={isSubmitting}
-                className="flex h-9 w-9 items-center justify-center rounded-full text-white/90 shadow-none outline-none transition-colors hover:text-white focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                <ArrowRight className="h-5 w-5" />
-              </button>
-            ) : (
-              <Button
-                type="submit"
-                size="icon"
-                disabled={isSubmitting}
-                className="h-9 w-9 rounded-full bg-neutral-900 text-white shadow-none hover:bg-neutral-900/90 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-60"
-              >
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            )}
-          </div>
-          {errorMessage && (
-            <p
-              className={cn(
-                "mt-2 text-xs",
-                isDark ? "text-red-200" : "text-red-600"
-              )}
-            >
-              {errorMessage}
-            </p>
-          )}
-        </form>
-      </div>
-    );
-  };
-
   return (
     <main className="bg-background text-foreground">
       <section className="relative overflow-hidden bg-background pb-16 pt-12 sm:pb-20 sm:pt-16">
@@ -280,7 +292,15 @@ export default function WebDesignLanding() {
               <br />
               What are you waiting for?
             </p>
-            <StartForFreeBar className="mt-6" variant="dark" />
+            <StartForFreeBar
+              className="mt-6"
+              variant="dark"
+              email={email}
+              isSubmitting={isSubmitting}
+              errorMessage={errorMessage}
+              onEmailChange={setEmail}
+              onSubmit={handleSubmit}
+            />
           </div>
         </div>
         <div ref={heroSentinelRef} className="h-px w-full" aria-hidden="true" />
@@ -360,6 +380,11 @@ export default function WebDesignLanding() {
               <StartForFreeBar
                 className="w-full max-w-md"
                 variant="light"
+                email={email}
+                isSubmitting={isSubmitting}
+                errorMessage={errorMessage}
+                onEmailChange={setEmail}
+                onSubmit={handleSubmit}
               />
               <p className="text-xs text-white/70">
                 You agree to receive Shopify marketing emails.
@@ -449,7 +474,14 @@ export default function WebDesignLanding() {
             : "pointer-events-none translate-y-3 opacity-0"
         )}
       >
-        <StartForFreeBar variant="dark" />
+        <StartForFreeBar
+          variant="dark"
+          email={email}
+          isSubmitting={isSubmitting}
+          errorMessage={errorMessage}
+          onEmailChange={setEmail}
+          onSubmit={handleSubmit}
+        />
       </div>
     </main>
   );

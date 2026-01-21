@@ -81,6 +81,7 @@ type StartForFreeBarProps = {
   errorMessage: string | null;
   onEmailChange: (value: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
+  buttonName?: string;
 };
 
 const StartForFreeBar = ({
@@ -91,8 +92,12 @@ const StartForFreeBar = ({
   errorMessage,
   onEmailChange,
   onSubmit,
+  buttonName,
 }: StartForFreeBarProps) => {
   const isDark = variant === "dark";
+  const trimmedButtonName = buttonName?.trim();
+  const showButton = Boolean(trimmedButtonName);
+  const isEmailValid = EMAIL_REGEX.test(email);
 
   return (
     <div
@@ -137,7 +142,20 @@ const StartForFreeBar = ({
                 : "h-9 text-sm placeholder:text-neutral-500"
             )}
           />
-          {isDark ? (
+          {showButton ? (
+            <Button
+              type="submit"
+              disabled={isSubmitting || !isEmailValid}
+              className={cn(
+                "h-10 rounded-full border px-5 text-sm font-semibold shadow-sm transition-all focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-50",
+                isDark
+                  ? "border-white/15 bg-white text-neutral-900 hover:bg-white/90"
+                  : "border-neutral-900/10 bg-neutral-900 text-white hover:bg-neutral-800"
+              )}
+            >
+              {trimmedButtonName}
+            </Button>
+          ) : isDark ? (
             <button
               type="submit"
               aria-label="Submit email"
@@ -181,6 +199,7 @@ export default function WebDesignLanding() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const ctaButtonLabel = "Start free";
   const hasHeroVideo = (() => {
     if (!heroVideoUrl?.trim()) return false;
     try {
@@ -324,6 +343,7 @@ export default function WebDesignLanding() {
               errorMessage={errorMessage}
               onEmailChange={setEmail}
               onSubmit={handleSubmit}
+              buttonName={ctaButtonLabel}
             />
           </div>
         </div>
@@ -409,6 +429,7 @@ export default function WebDesignLanding() {
                 errorMessage={errorMessage}
                 onEmailChange={setEmail}
                 onSubmit={handleSubmit}
+                buttonName={ctaButtonLabel}
               />
               <p className="text-xs text-white/70">
                 You agree to receive MatterCall marketing emails.
@@ -480,6 +501,7 @@ export default function WebDesignLanding() {
           errorMessage={errorMessage}
           onEmailChange={setEmail}
           onSubmit={handleSubmit}
+          buttonName={ctaButtonLabel}
         />
       </div>
     </main>

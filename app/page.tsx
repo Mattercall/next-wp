@@ -1,19 +1,17 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import {
-  Pencil,
-  Sparkles,
-  Star,
-  Zap,
-  PenLine,
-} from "lucide-react";
+import { Pencil, Sparkles, Star, Zap, PenLine } from "lucide-react";
 
 export default function Home() {
   return (
     <main>
       <HeroSection />
       <HowItWorksSection />
+      <TestimonialsSection />
     </main>
   );
 }
@@ -343,6 +341,172 @@ const HowItWorksSection = () => {
               </div>
             </div>
           ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const testimonials = [
+  {
+    quote:
+      "Enrich helped us verify company data instantly. The UI feels premium, and the workflows are faster than anything we've used.",
+    name: "Alexandra Lee",
+    title: "Lead Developer",
+    company: "TechNova",
+    avatar: "AL",
+  },
+  {
+    quote:
+      "The verified data enrichment cut our research time in half. We now close deals with confidence and clarity.",
+    name: "Marcus Chen",
+    title: "Growth Strategist",
+    company: "Summit Labs",
+    avatar: "MC",
+  },
+  {
+    quote:
+      "Our team loves how smooth the experience is. The insights are accurate, beautifully presented, and easy to act on.",
+    name: "Priya Patel",
+    title: "Product Lead",
+    company: "Orbitly",
+    avatar: "PP",
+  },
+  {
+    quote:
+      "We finally have a data partner that keeps up with our pace. Enrich makes our outbound workflows feel effortless.",
+    name: "Diego Ruiz",
+    title: "Revenue Operations",
+    company: "Northwind",
+    avatar: "DR",
+  },
+  {
+    quote:
+      "The results speak for themselves: higher conversion, cleaner CRM data, and a sales team that trusts the numbers.",
+    name: "Samantha Brooks",
+    title: "Customer Insights",
+    company: "Brightline",
+    avatar: "SB",
+  },
+];
+
+const TestimonialsSection = () => {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    if (isHovered) {
+      return undefined;
+    }
+
+    const interval = window.setInterval(() => {
+      setActiveIndex((current) => (current + 1) % testimonials.length);
+    }, 4500);
+
+    return () => window.clearInterval(interval);
+  }, [isHovered]);
+
+  useEffect(() => {
+    setIsVisible(false);
+    const timeout = window.setTimeout(() => setIsVisible(true), 80);
+    return () => window.clearTimeout(timeout);
+  }, [activeIndex]);
+
+  const activeTestimonial = testimonials[activeIndex];
+
+  return (
+    <section className="w-full bg-white py-20 sm:py-24">
+      <div className="mx-auto max-w-6xl px-4">
+        <div className="rounded-3xl bg-gradient-to-b from-muted/40 to-muted/70 px-6 py-16 text-center shadow-sm md:px-12">
+          <h2 className="text-balance text-3xl font-bold text-neutral-900 sm:text-4xl">
+            Don&apos;t just take our word for it.
+            <br />
+            They found verified data with enrich.
+          </h2>
+          <p className="mx-auto mt-4 max-w-2xl text-sm text-muted-foreground sm:text-base">
+            Discover the enthusiastic feedback from our satisfied clients!
+          </p>
+          <div className="mt-6 flex justify-center">
+            <Button className="h-11 rounded-full bg-neutral-900 px-6 text-white hover:bg-neutral-900/90">
+              More customer stories
+            </Button>
+          </div>
+
+          <div className="mt-6 flex items-center justify-center gap-2">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                type="button"
+                aria-label={`Go to review ${index + 1}`}
+                onClick={() => setActiveIndex(index)}
+                className={`h-2 w-2 rounded-full transition-colors ${
+                  activeIndex === index
+                    ? "bg-neutral-900"
+                    : "bg-neutral-300"
+                }`}
+              />
+            ))}
+          </div>
+
+          <div
+            className="relative mx-auto mt-10 flex min-h-[260px] max-w-2xl items-center justify-center"
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            {[2, 1].map((offset) => (
+              <div
+                key={offset}
+                aria-hidden
+                className={`absolute inset-0 rounded-2xl border border-neutral-200 bg-white/70 shadow-sm transition-transform duration-500 ${
+                  offset === 2
+                    ? "translate-y-6 scale-[0.96] opacity-40"
+                    : "translate-y-3 scale-[0.98] opacity-60"
+                }`}
+              />
+            ))}
+            <div className="relative z-10 w-full rounded-2xl border border-neutral-200 bg-white px-6 py-10 shadow-md">
+              <div
+                className={`transition-all duration-500 ease-in-out ${
+                  isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2"
+                }`}
+              >
+                <div className="flex justify-center gap-1">
+                  {[...Array(5)].map((_, index) => (
+                    <Star
+                      key={index}
+                      className="h-5 w-5 fill-orange-400 text-orange-400"
+                    />
+                  ))}
+                </div>
+                <p className="mt-4 text-center text-sm text-neutral-600 sm:text-base">
+                  “{activeTestimonial.quote}”
+                </p>
+                <div className="mt-6 flex flex-col items-center gap-2">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-neutral-900 text-xs font-semibold text-white">
+                    {activeTestimonial.avatar}
+                  </div>
+                  <div className="text-center">
+                    <p className="text-sm font-semibold text-neutral-900">
+                      {activeTestimonial.name}
+                    </p>
+                    <p className="text-xs text-neutral-500">
+                      {activeTestimonial.title} at{" "}
+                      <span className="font-semibold text-neutral-700">
+                        {activeTestimonial.company}
+                      </span>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-12 flex flex-wrap items-center justify-center gap-8 text-sm font-semibold text-muted-foreground/70">
+            <span className="tracking-wide">Google</span>
+            <span className="tracking-wide">Walmart</span>
+            <span className="tracking-wide">HubSpot</span>
+          </div>
         </div>
       </div>
     </section>

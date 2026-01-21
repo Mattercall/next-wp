@@ -79,6 +79,8 @@ type StartForFreeBarProps = {
   email: string;
   isSubmitting: boolean;
   errorMessage: string | null;
+  showCheckoutCta: boolean;
+  checkoutUrl?: string;
   onEmailChange: (value: string) => void;
   onSubmit: (event: FormEvent<HTMLFormElement>) => void;
 };
@@ -89,10 +91,13 @@ const StartForFreeBar = ({
   email,
   isSubmitting,
   errorMessage,
+  showCheckoutCta,
+  checkoutUrl,
   onEmailChange,
   onSubmit,
 }: StartForFreeBarProps) => {
   const isDark = variant === "dark";
+  const isCheckoutDisabled = showCheckoutCta && !checkoutUrl;
 
   return (
     <div
@@ -137,6 +142,27 @@ const StartForFreeBar = ({
                 : "h-9 text-sm placeholder:text-neutral-500"
             )}
           />
+          {showCheckoutCta && (
+            <a
+              href={checkoutUrl || "#"}
+              onClick={(event) => {
+                if (isCheckoutDisabled) {
+                  event.preventDefault();
+                }
+              }}
+              aria-disabled={isCheckoutDisabled}
+              tabIndex={isCheckoutDisabled ? -1 : 0}
+              className={cn(
+                "inline-flex shrink-0 items-center justify-center whitespace-nowrap font-semibold transition-colors focus-visible:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                isDark
+                  ? "h-14 rounded-full border border-white/10 bg-white/10 px-5 text-sm text-white hover:bg-white/20"
+                  : "h-9 rounded-full bg-neutral-900 px-4 text-sm text-white hover:bg-neutral-900/90",
+                isCheckoutDisabled && "cursor-not-allowed opacity-60"
+              )}
+            >
+              Checkout Now
+            </a>
+          )}
           {isDark ? (
             <button
               type="submit"
@@ -181,6 +207,8 @@ export default function WebDesignLanding() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const hasWebhook = Boolean(process.env.WEBDESIGN_FORM_WEBHOOK?.trim());
+  const checkoutUrl = process.env.WEBDESIGN_STRIPE_CHECKOUT_URL?.trim();
   const hasHeroVideo = (() => {
     if (!heroVideoUrl?.trim()) return false;
     try {
@@ -218,6 +246,18 @@ export default function WebDesignLanding() {
 
     return () => observer.disconnect();
   }, []);
+
+  useEffect(() => {
+    if (
+      !hasWebhook &&
+      !checkoutUrl &&
+      process.env.NODE_ENV === "development"
+    ) {
+      console.warn(
+        "WEBDESIGN_STRIPE_CHECKOUT_URL is not set; checkout CTA will be disabled."
+      );
+    }
+  }, [checkoutUrl, hasWebhook]);
 
   const showStickyCta = !isHeroVisible && !isFooterVisible;
 
@@ -322,6 +362,8 @@ export default function WebDesignLanding() {
               email={email}
               isSubmitting={isSubmitting}
               errorMessage={errorMessage}
+              showCheckoutCta={!hasWebhook}
+              checkoutUrl={checkoutUrl}
               onEmailChange={setEmail}
               onSubmit={handleSubmit}
             />
@@ -407,6 +449,8 @@ export default function WebDesignLanding() {
                 email={email}
                 isSubmitting={isSubmitting}
                 errorMessage={errorMessage}
+                showCheckoutCta={!hasWebhook}
+                checkoutUrl={checkoutUrl}
                 onEmailChange={setEmail}
                 onSubmit={handleSubmit}
               />
@@ -478,6 +522,8 @@ export default function WebDesignLanding() {
           email={email}
           isSubmitting={isSubmitting}
           errorMessage={errorMessage}
+          showCheckoutCta={!hasWebhook}
+          checkoutUrl={checkoutUrl}
           onEmailChange={setEmail}
           onSubmit={handleSubmit}
         />

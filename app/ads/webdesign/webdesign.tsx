@@ -120,15 +120,15 @@ export default function WebDesignLanding() {
         </p>
       </div>
       <div className="mt-3 border-t border-white/10 pt-3">
-        <div className="flex h-14 items-center gap-4 rounded-full border border-white/10 bg-[#1a1a1a] px-5">
+        <div className="flex h-14 items-center gap-4 rounded-full border border-white/10 bg-[#1a1a1a] px-5 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20">
           <Input
             placeholder="Enter your email"
-            className="h-14 flex-1 border-0 bg-transparent text-base text-white placeholder:text-neutral-500 focus-visible:ring-0"
+            className="h-14 flex-1 border-0 bg-transparent text-base text-white placeholder:text-neutral-500 shadow-none outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
           />
           <button
             type="button"
             aria-label="Submit email"
-            className="flex h-9 w-9 items-center justify-center rounded-full text-white/90 transition-colors hover:text-white"
+            className="flex h-9 w-9 items-center justify-center rounded-full text-white/90 shadow-none outline-none transition-colors hover:text-white focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
           >
             <ArrowRight className="h-5 w-5" />
           </button>
@@ -252,14 +252,14 @@ export default function WebDesignLanding() {
               Try Shopify for $1/month.
             </h2>
             <div className="mt-6 flex flex-col items-center gap-3">
-              <div className="flex w-full max-w-md items-center gap-3 rounded-full bg-white px-4 py-2 text-neutral-900">
+              <div className="flex w-full max-w-md items-center gap-3 rounded-full border border-transparent bg-white px-4 py-2 text-neutral-900 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20">
                 <Input
                   placeholder="Enter your email"
-                  className="h-9 flex-1 border-0 bg-transparent text-sm placeholder:text-neutral-500 focus-visible:ring-0"
+                  className="h-9 flex-1 border-0 bg-transparent text-sm placeholder:text-neutral-500 shadow-none outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                 />
                 <Button
                   size="icon"
-                  className="h-9 w-9 rounded-full bg-neutral-900 text-white hover:bg-neutral-900/90"
+                  className="h-9 w-9 rounded-full bg-neutral-900 text-white shadow-none hover:bg-neutral-900/90 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
                 >
                   <ArrowRight className="h-4 w-4" />
                 </Button>

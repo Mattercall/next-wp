@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Pencil, Sparkles, Star, Zap, PenLine } from "lucide-react";
+import { ChevronDown, Pencil, Sparkles, Star, Zap, PenLine } from "lucide-react";
 
 export default function Home() {
   return (
@@ -12,6 +12,7 @@ export default function Home() {
       <HeroSection />
       <HowItWorksSection />
       <TestimonialsSection />
+      <FaqSection />
     </main>
   );
 }
@@ -506,6 +507,118 @@ const TestimonialsSection = () => {
             <span className="tracking-wide">Google</span>
             <span className="tracking-wide">Walmart</span>
             <span className="tracking-wide">HubSpot</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const faqCategories = ["General", "Pricing", "Dashboard", "API", "License"];
+
+const faqItems = [
+  {
+    question: "What is LaraSaas? Why do I need a LaraSaas Boilerplate?",
+    answer:
+      "LaraSaas is a Laravel boilerplate specifically designed to help you launch your SaaS application quickly and efficiently. It provides pre-built features for user management, subscriptions, payments, and more, saving you significant development time and effort.",
+  },
+  {
+    question: "Is there a demo available?",
+    answer:
+      "Yes. We provide a live demo so you can explore the layouts, flows, and admin experience before you purchase.",
+  },
+  {
+    question: "Which payment providers are supported?",
+    answer:
+      "The boilerplate includes integrations for popular providers like Stripe and Paddle, with clear extension points for additional gateways.",
+  },
+  {
+    question: "How is the codebase distributed?",
+    answer:
+      "You receive full source code access in a private repository download, along with setup documentation and release updates.",
+  },
+  {
+    question: "I want to integrate LaraSaas into my existing project. Should I buy it?",
+    answer:
+      "If you need pre-built subscription flows and a solid SaaS foundation, LaraSaas can save you weeks of engineering time, even for existing apps.",
+  },
+];
+
+const FaqSection = () => {
+  const [activeCategory, setActiveCategory] = useState("General");
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  const handleToggle = (index: number) => {
+    setOpenIndex((current) => (current === index ? null : index));
+  };
+
+  return (
+    <section className="w-full bg-white py-20 sm:py-24">
+      <div className="mx-auto flex max-w-6xl flex-col items-center px-4 text-center">
+        <h2 className="text-balance text-3xl font-bold text-neutral-900 sm:text-4xl">
+          Commonly Asked Questions
+        </h2>
+        <p className="mt-4 max-w-2xl text-sm text-neutral-500 sm:text-base">
+          Utilize artificial intelligence algorithms to deliver valuable insights
+          to users.
+        </p>
+
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
+          {faqCategories.map((category) => {
+            const isActive = category === activeCategory;
+            return (
+              <button
+                key={category}
+                type="button"
+                onClick={() => setActiveCategory(category)}
+                className={`rounded-full border px-4 py-1.5 text-xs font-semibold transition-shadow focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 ${
+                  isActive
+                    ? "border-neutral-200 bg-white text-neutral-900 shadow-sm"
+                    : "border-transparent bg-neutral-100/60 text-neutral-500 shadow-none"
+                }`}
+              >
+                {category}
+              </button>
+            );
+          })}
+        </div>
+
+        <div className="mt-12 w-full max-w-5xl text-left">
+          <div className="flex flex-col gap-4">
+            {faqItems.map((item, index) => {
+              const isOpen = openIndex === index;
+              return (
+                <div
+                  key={item.question}
+                  className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm sm:p-6"
+                >
+                  <button
+                    type="button"
+                    onClick={() => handleToggle(index)}
+                    className="flex w-full items-center justify-between gap-4 text-left text-sm font-semibold text-neutral-900 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 sm:text-base"
+                    aria-expanded={isOpen}
+                  >
+                    <span>{item.question}</span>
+                    <ChevronDown
+                      className={`h-5 w-5 text-neutral-500 transition-transform duration-300 ${
+                        isOpen ? "rotate-180" : "rotate-0"
+                      }`}
+                    />
+                  </button>
+                  <div
+                    className={`grid transition-all duration-300 ease-in-out ${
+                      isOpen ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+                    }`}
+                  >
+                    <div className="overflow-hidden">
+                      <p className="mt-4 text-sm text-neutral-500 sm:text-base">
+                        {item.answer}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </div>

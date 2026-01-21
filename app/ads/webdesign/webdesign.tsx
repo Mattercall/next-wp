@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
@@ -69,12 +69,17 @@ const faqs = [
   "Do I need to be a designer or developer to use Shopify?",
 ];
 
+const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
+
 export default function WebDesignLanding() {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
   const heroSentinelRef = useRef<HTMLDivElement | null>(null);
   const footerSentinelRef = useRef<HTMLDivElement | null>(null);
   const [isHeroVisible, setIsHeroVisible] = useState(true);
   const [isFooterVisible, setIsFooterVisible] = useState(false);
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
     const heroSentinel = heroSentinelRef.current;
@@ -106,36 +111,136 @@ export default function WebDesignLanding() {
 
   const showStickyCta = !isHeroVisible && !isFooterVisible;
 
-  const StartForFreeBar = ({ className }: { className?: string }) => (
-    <div
-      className={cn(
-        "rounded-[28px] border border-white/10 bg-gradient-to-b from-[#111111] to-[#0B0B0B] p-5 text-left text-white shadow-[0_24px_60px_rgba(0,0,0,0.45)]",
-        className
-      )}
-    >
-      <div>
-        <div className="text-base font-semibold">Start for free</div>
-        <p className="mt-1 text-xs text-white/60">
-          You agree to receive marketing emails.
-        </p>
-      </div>
-      <div className="mt-3 border-t border-white/10 pt-3">
-        <div className="flex h-14 items-center gap-4 rounded-full border border-white/10 bg-[#1a1a1a] px-5 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20">
-          <Input
-            placeholder="Enter your email"
-            className="h-14 flex-1 border-0 bg-transparent text-base text-white placeholder:text-neutral-500 shadow-none outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-          />
-          <button
-            type="button"
-            aria-label="Submit email"
-            className="flex h-9 w-9 items-center justify-center rounded-full text-white/90 shadow-none outline-none transition-colors hover:text-white focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+
+    if (isSubmitting) return;
+
+    if (!EMAIL_REGEX.test(email)) {
+      setErrorMessage("Please enter a valid email address.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    setErrorMessage(null);
+
+    try {
+      const response = await fetch("/api/webdesign-lead", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (!response.ok) {
+        const data = (await response.json()) as { error?: string };
+        setErrorMessage(data?.error ?? "Something went wrong. Please try again.");
+        return;
+      }
+
+      const data = (await response.json()) as { checkoutUrl?: string };
+
+      if (data.checkoutUrl) {
+        window.location.href = data.checkoutUrl;
+        return;
+      }
+
+      setErrorMessage("Missing checkout URL. Please try again.");
+    } catch (error) {
+      console.error("Failed to submit lead", error);
+      setErrorMessage("Something went wrong. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const StartForFreeBar = ({
+    className,
+    variant,
+  }: {
+    className?: string;
+    variant: "dark" | "light";
+  }) => {
+    const isDark = variant === "dark";
+
+    return (
+      <div
+        className={cn(
+          isDark
+            ? "rounded-[28px] border border-white/10 bg-gradient-to-b from-[#111111] to-[#0B0B0B] p-5 text-left text-white shadow-[0_24px_60px_rgba(0,0,0,0.45)]"
+            : "rounded-full border border-transparent bg-white px-4 py-2 text-neutral-900 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20",
+          className
+        )}
+      >
+        {isDark && (
+          <div>
+            <div className="text-base font-semibold">Start for free</div>
+            <p className="mt-1 text-xs text-white/60">
+              You agree to receive marketing emails.
+            </p>
+          </div>
+        )}
+        <form
+          onSubmit={handleSubmit}
+          className={cn(
+            isDark ? "mt-3 border-t border-white/10 pt-3" : "flex w-full"
+          )}
+        >
+          <div
+            className={cn(
+              "flex items-center gap-4 rounded-full",
+              isDark
+                ? "h-14 border border-white/10 bg-[#1a1a1a] px-5 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20"
+                : "w-full"
+            )}
           >
-            <ArrowRight className="h-5 w-5" />
-          </button>
-        </div>
+            <Input
+              placeholder="Enter your email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              disabled={isSubmitting}
+              className={cn(
+                "flex-1 border-0 bg-transparent shadow-none outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0",
+                isDark
+                  ? "h-14 text-base text-white placeholder:text-neutral-500"
+                  : "h-9 text-sm placeholder:text-neutral-500"
+              )}
+            />
+            {isDark ? (
+              <button
+                type="submit"
+                aria-label="Submit email"
+                disabled={isSubmitting}
+                className="flex h-9 w-9 items-center justify-center rounded-full text-white/90 shadow-none outline-none transition-colors hover:text-white focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <ArrowRight className="h-5 w-5" />
+              </button>
+            ) : (
+              <Button
+                type="submit"
+                size="icon"
+                disabled={isSubmitting}
+                className="h-9 w-9 rounded-full bg-neutral-900 text-white shadow-none hover:bg-neutral-900/90 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                <ArrowRight className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+          {errorMessage && (
+            <p
+              className={cn(
+                "mt-2 text-xs",
+                isDark ? "text-red-200" : "text-red-600"
+              )}
+            >
+              {errorMessage}
+            </p>
+          )}
+        </form>
       </div>
-    </div>
-  );
+    );
+  };
 
   return (
     <main className="bg-background text-foreground">
@@ -175,7 +280,7 @@ export default function WebDesignLanding() {
               <br />
               What are you waiting for?
             </p>
-            <StartForFreeBar className="mt-6" />
+            <StartForFreeBar className="mt-6" variant="dark" />
           </div>
         </div>
         <div ref={heroSentinelRef} className="h-px w-full" aria-hidden="true" />
@@ -252,18 +357,10 @@ export default function WebDesignLanding() {
               Try Shopify for $1/month.
             </h2>
             <div className="mt-6 flex flex-col items-center gap-3">
-              <div className="flex w-full max-w-md items-center gap-3 rounded-full border border-transparent bg-white px-4 py-2 text-neutral-900 focus-within:border-white/30 focus-within:ring-2 focus-within:ring-white/20">
-                <Input
-                  placeholder="Enter your email"
-                  className="h-9 flex-1 border-0 bg-transparent text-sm placeholder:text-neutral-500 shadow-none outline-none focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                />
-                <Button
-                  size="icon"
-                  className="h-9 w-9 rounded-full bg-neutral-900 text-white shadow-none hover:bg-neutral-900/90 focus:outline-none focus-visible:ring-0 focus-visible:ring-offset-0"
-                >
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </div>
+              <StartForFreeBar
+                className="w-full max-w-md"
+                variant="light"
+              />
               <p className="text-xs text-white/70">
                 You agree to receive Shopify marketing emails.
               </p>
@@ -284,9 +381,7 @@ export default function WebDesignLanding() {
                 <div key={question} className="py-5">
                   <button
                     type="button"
-                    onClick={() =>
-                      setOpenIndex(isOpen ? null : index)
-                    }
+                    onClick={() => setOpenIndex(isOpen ? null : index)}
                     className="flex w-full items-center justify-between text-left text-base font-medium text-neutral-900"
                   >
                     {question}
@@ -354,7 +449,7 @@ export default function WebDesignLanding() {
             : "pointer-events-none translate-y-3 opacity-0"
         )}
       >
-        <StartForFreeBar />
+        <StartForFreeBar variant="dark" />
       </div>
     </main>
   );

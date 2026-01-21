@@ -17,6 +17,8 @@ const heroImages = [
   "https://images.unsplash.com/photo-1491553895911-0055eca6402d?auto=format&fit=crop&w=900&q=80",
 ];
 
+const heroVideoUrl = "";
+
 const logos = [
   "allbirds",
   "GYMSHARK",
@@ -29,44 +31,44 @@ const logos = [
 
 const features = [
   {
-    tag: "CUSTOMIZABLE THEMES",
-    title: "Create a stunning store in seconds",
+    tag: "SIGNATURE DESIGN",
+    title: "Design that feels custom the moment it loads",
     description:
-      "Pre-built designs make it fast and easy to kickstart your brand.",
+      "MatterCall crafts layouts that match your voice, not a template.",
     image:
       "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80",
   },
   {
-    tag: "OPTIMIZED CHECKOUT",
-    title: "Sell more with the world's best checkout",
+    tag: "CONVERSION FOCUS",
+    title: "Every page built to earn trust and action",
     description:
-      "15% higher conversion means you can sell more on Shopify than elsewhere.",
+      "We shape the flow so visitors see the proof, the offer, and the next step.",
     image:
       "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=900&q=80",
   },
   {
-    tag: "NEXT-LEVEL",
-    title: "Level up with an AI assistant",
+    tag: "MOBILE-FIRST",
+    title: "Fast, responsive, and built for real shoppers",
     description:
-      "Selling is easy with a built-in business partner who can help scale your vision.",
+      "Speed, clarity, and tap-friendly UX mean more buyers on every device.",
     image:
       "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80",
   },
   {
-    tag: "ALL-IN-ONE",
-    title: "Getting stuff done? Done.",
+    tag: "SEO-READY",
+    title: "Structure that search engines can actually read",
     description:
-      "Shopify handles everything from secure payments to marketing and hardware.",
+      "Clean hierarchy, metadata, and content strategy help you rank with intent.",
     image:
       "https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
 const faqs = [
-  "What is Shopify and how does it work?",
-  "How much does Shopify cost?",
-  "Can I use my own domain name with Shopify?",
-  "Do I need to be a designer or developer to use Shopify?",
+  "How fast can MatterCall launch my new site?",
+  "What is included in a MatterCall web design build?",
+  "Will my site be optimized for mobile and SEO?",
+  "Can you work with my existing brand and content?",
 ];
 
 const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
@@ -179,6 +181,15 @@ export default function WebDesignLanding() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const hasHeroVideo = (() => {
+    if (!heroVideoUrl?.trim()) return false;
+    try {
+      new URL(heroVideoUrl);
+      return true;
+    } catch {
+      return false;
+    }
+  })();
 
   useEffect(() => {
     const heroSentinel = heroSentinelRef.current;
@@ -258,23 +269,37 @@ export default function WebDesignLanding() {
     <main className="bg-background text-foreground">
       <section className="relative overflow-hidden bg-background pb-16 pt-12 sm:pb-20 sm:pt-16">
         <div className="absolute inset-0">
-          <div className="absolute inset-[-35%] rotate-[-4deg]">
-            <div className="grid h-full w-full grid-cols-4 gap-6 opacity-90">
-              {heroImages.map((image, index) => (
-                <div
-                  key={image}
-                  className="relative overflow-hidden rounded-3xl bg-neutral-100 shadow-sm"
-                >
-                  <img
-                    src={image}
-                    alt="Shopify collage"
-                    className="h-full w-full object-cover"
-                    loading={index < 4 ? "eager" : "lazy"}
-                  />
-                </div>
-              ))}
+          {hasHeroVideo ? (
+            <div className="absolute inset-0">
+              <video
+                className="h-full w-full object-cover"
+                autoPlay
+                loop
+                muted
+                playsInline
+                preload="metadata"
+                src={heroVideoUrl}
+              />
             </div>
-          </div>
+          ) : (
+            <div className="absolute inset-[-35%] rotate-[-4deg]">
+              <div className="grid h-full w-full grid-cols-4 gap-6 opacity-90">
+                {heroImages.map((image, index) => (
+                  <div
+                    key={image}
+                    className="relative overflow-hidden rounded-3xl bg-neutral-100 shadow-sm"
+                  >
+                    <img
+                      src={image}
+                      alt="MatterCall design collage"
+                      className="h-full w-full object-cover"
+                      loading={index < 4 ? "eager" : "lazy"}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
           <div className="absolute inset-0 bg-black/10" />
           <div className="absolute inset-0 backdrop-blur-[2px]" />
         </div>
@@ -282,15 +307,14 @@ export default function WebDesignLanding() {
           <div className="mt-6 w-full max-w-md rounded-3xl bg-white/95 p-8 text-center shadow-[0_20px_60px_rgba(0,0,0,0.18)] backdrop-blur">
             <div className="flex items-center justify-center gap-2 text-sm font-semibold text-neutral-600">
               <ShoppingBag className="h-5 w-5" />
-              shopify
+              MatterCall
             </div>
             <h1 className="mt-4 text-balance text-3xl font-semibold text-neutral-900 sm:text-4xl">
-              Your business starts with Shopify
+              Premium web design that turns clicks into clients
             </h1>
             <p className="mt-3 text-sm text-neutral-500">
-              Try 3 days free, then $1/month for 3 months.
-              <br />
-              What are you waiting for?
+              Launch a site that feels high-end, loads fast, and explains your
+              value in seconds.
             </p>
             <StartForFreeBar
               className="mt-6"
@@ -354,11 +378,11 @@ export default function WebDesignLanding() {
       <section className="bg-background py-16 sm:py-20">
         <div className="mx-auto max-w-4xl px-4">
           <blockquote className="text-2xl font-semibold text-neutral-900 sm:text-3xl">
-            “We&apos;ve tripled in size since we first started on Shopify. It
-            gives us the tools we need to keep pushing forward.”
+            “MatterCall gave us a site that finally reflects the caliber of our
+            work. Leads feel warmer, and deals close faster.”
           </blockquote>
           <p className="mt-4 text-sm text-neutral-500">
-            Clare Jerome, NEOM Wellbeing
+            Clare Jerome, NEOM Studio
           </p>
         </div>
       </section>
@@ -372,9 +396,9 @@ export default function WebDesignLanding() {
               </div>
             </div>
             <h2 className="mt-6 text-2xl font-semibold sm:text-3xl">
-              No risk, all rewards.
+              Turn your best traffic into confident yeses.
               <br />
-              Try Shopify for $1/month.
+              Start with a MatterCall build sprint.
             </h2>
             <div className="mt-6 flex flex-col items-center gap-3">
               <StartForFreeBar
@@ -387,7 +411,7 @@ export default function WebDesignLanding() {
                 onSubmit={handleSubmit}
               />
               <p className="text-xs text-white/70">
-                You agree to receive Shopify marketing emails.
+                You agree to receive MatterCall marketing emails.
               </p>
             </div>
           </div>
@@ -427,9 +451,9 @@ export default function WebDesignLanding() {
                   >
                     <div className="overflow-hidden">
                       <p className="mt-3 text-sm text-neutral-500">
-                        Shopify gives you everything you need to set up your
-                        store, accept payments, and manage your business in one
-                        place.
+                        We map your goals, design around proof and clarity, and
+                        deliver a launch-ready site with conversion-focused
+                        messaging.
                       </p>
                     </div>
                   </div>
@@ -439,32 +463,7 @@ export default function WebDesignLanding() {
           </div>
         </div>
       </section>
-
-      <footer className="bg-background py-10">
-        <div ref={footerSentinelRef} className="h-px w-full" aria-hidden="true" />
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-4 text-xs text-neutral-500 sm:flex-row">
-          <div className="flex items-center gap-2">
-            <ShoppingBag className="h-4 w-4" />
-            <span>Shopify</span>
-          </div>
-          <div className="flex flex-wrap items-center gap-4">
-            {[
-              "Terms of Service",
-              "Privacy Policy",
-              "Sitemap",
-              "Your Privacy Choices",
-            ].map((link) => (
-              <button
-                key={link}
-                type="button"
-                className="transition-colors hover:text-neutral-900"
-              >
-                {link}
-              </button>
-            ))}
-          </div>
-        </div>
-      </footer>
+      <div ref={footerSentinelRef} className="h-px w-full" aria-hidden="true" />
 
       <div
         className={cn(

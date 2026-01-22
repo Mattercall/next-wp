@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { siteConfig } from "@/site.config";
 
 const WP = process.env.WORDPRESS_URL; // e.g. https://backend.mattercall.com
-const POSTS_PER_SITEMAP = 2; // chunk size
+const POSTS_PER_SITEMAP = 2; // chunk size (set higher in production)
 const PER_PAGE = 100; // WP REST max is usually 100
 
 type PostMini = { slug: string; modified: string };
@@ -21,6 +21,18 @@ ${items
 </urlset>`;
 }
 
+async function getPublishedPostCount(): Promise<number> {
+  if (!WP) return 0;
+
+  const res = await fetch(
+    `${WP}/wp-json/wp/v2/posts?status=publish&per_page=1&_fields=id`,
+    { next: { revalidate: 3600 } }
+  );
+
+  const total = res.headers.get("x-wp-total");
+  return total ? Number(total) : 0;
+}
+
 export async function GET(
   _req: Request,
   context: { params: Promise<{ slug: string }> }
@@ -35,7 +47,26 @@ export async function GET(
     return new NextResponse("Invalid sitemap id", { status: 400 });
   }
 
+  // ✅ Prevent infinite empty sitemaps: return 404 if chunk is out of range
+  const total = await getPublishedPostCount();
   const startIndex = id * POSTS_PER_SITEMAP;
+
+  if (total === 0) {
+    // No published posts yet -> return an empty, valid urlset for 0.xml, 404 for others
+    if (id !== 0) return new NextResponse("Not found", { status: 404 });
+
+    return new NextResponse(makeUrlset([]), {
+      headers: {
+        "Content-Type": "application/xml; charset=utf-8",
+        "Cache-Control": "public, s-maxage=300, stale-while-revalidate=3600",
+      },
+    });
+  }
+
+  if (startIndex >= total) {
+    return new NextResponse("Not found", { status: 404 });
+  }
+
   const endIndex = startIndex + POSTS_PER_SITEMAP;
 
   const startPage = Math.floor(startIndex / PER_PAGE) + 1;

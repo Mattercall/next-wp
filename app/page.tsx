@@ -198,7 +198,47 @@ export default function Home() {
             <button className={primaryButtonClass}>Learn more</button>
             <button className={secondaryButtonClass}>Buy</button>
           </div>
-          <div className="featured-border-beam mt-8 w-full rounded-[28px] bg-gradient-to-r from-[#d8f0ff] via-[#d8f5f2] to-[#c8f2ea] p-6 text-left sm:mx-auto sm:w-[calc(5*260px+4*24px+2*32px)] sm:p-8">
+          <div className="relative mt-8 w-full overflow-hidden rounded-[32px] bg-gradient-to-r from-[#d8f0ff] via-[#d8f5f2] to-[#c8f2ea] p-6 text-left sm:mx-auto sm:w-[calc(5*260px+4*24px+2*32px)] sm:p-8">
+            <div className="pointer-events-none absolute inset-0">
+              <svg
+                className="absolute inset-0 h-full w-full"
+                preserveAspectRatio="none"
+              >
+                <defs>
+                  <filter
+                    id="featured-border-beam-glow"
+                    x="-50%"
+                    y="-50%"
+                    width="200%"
+                    height="200%"
+                  >
+                    <feGaussianBlur stdDeviation="3" result="blur" />
+                    <feMerge>
+                      <feMergeNode in="blur" />
+                      <feMergeNode in="SourceGraphic" />
+                    </feMerge>
+                  </filter>
+                </defs>
+                <rect
+                  x="1"
+                  y="1"
+                  width="calc(100%-2)"
+                  height="calc(100%-2)"
+                  rx="32"
+                  ry="32"
+                  className="featured-border-beam__base"
+                />
+                <rect
+                  x="1"
+                  y="1"
+                  width="calc(100%-2)"
+                  height="calc(100%-2)"
+                  rx="32"
+                  ry="32"
+                  className="featured-border-beam__beam"
+                />
+              </svg>
+            </div>
             <div className="relative z-10">
               <div className="mb-6 flex items-center justify-between">
                 <h3 className="text-xl font-semibold text-neutral-900">

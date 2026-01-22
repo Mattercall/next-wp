@@ -130,6 +130,7 @@ const featuredCards = [
     rating: "4.7",
     image:
       "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
+    isVideo: true,
   },
   {
     title: "Adobe Marketing Specialist",
@@ -182,7 +183,7 @@ export default function Home() {
       </div>
 
       <section>
-        <div className="mx-auto flex max-w-[1440px] flex-col items-center px-4 py-16 text-center">
+        <div className="mx-auto flex max-w-[1600px] flex-col items-center px-4 py-16 text-center">
           <AppleLogo className="h-6 w-6 text-black" />
           <p className="mt-3 text-xs font-semibold uppercase tracking-[0.3em] text-neutral-900">
             Watch Series 11
@@ -197,36 +198,40 @@ export default function Home() {
             <button className={primaryButtonClass}>Learn more</button>
             <button className={secondaryButtonClass}>Buy</button>
           </div>
-          <div className="mt-8 w-full rounded-[28px] bg-gradient-to-r from-[#d8f0ff] via-[#d8f5f2] to-[#c8f2ea] p-6 text-left sm:p-8">
+          <div className="mt-8 w-full rounded-[28px] bg-gradient-to-r from-[#d8f0ff] via-[#d8f5f2] to-[#c8f2ea] p-6 text-left overflow-hidden sm:mx-auto sm:w-[calc(5*260px+4*24px+2*32px)] sm:p-8">
             <div className="mb-6 flex items-center justify-between">
               <h3 className="text-xl font-semibold text-neutral-900">
                 Featured Cards
               </h3>
             </div>
-            <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth sm:flex-wrap sm:gap-6 sm:overflow-visible sm:snap-none lg:flex-nowrap">
-              {featuredCards.map((card, index) => (
+            <div className="flex w-max gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth sm:gap-6 sm:overflow-visible sm:snap-none lg:flex-nowrap">
+              {featuredCards.map((card) => (
                 <a
                   key={card.title}
                   href="#"
-                  className="group shrink-0 snap-start"
+                  className={cn(
+                    "group shrink-0 snap-start",
+                    card.isVideo && "order-first sm:order-none"
+                  )}
                 >
                   <Card className="h-full w-[82vw] max-w-[260px] overflow-hidden border border-neutral-200/70 shadow-sm transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md sm:w-[260px]">
                     <div className="h-[150px] w-full overflow-hidden">
-                      {index === 2 ? (
+                      {card.isVideo ? (
                         <video
-                          src="https://cdn.coverr.co/videos/coverr-working-on-a-laptop-1565/1080p.mp4"
+                          src="https://alidrives.b-cdn.net/alibacklink-main.mp4"
                           autoPlay
                           muted
                           loop
                           playsInline
                           preload="metadata"
-                          className="h-full w-full object-cover"
+                          controls={false}
+                          className="h-full w-full rounded-t-[24px] object-cover"
                         />
                       ) : (
                         <img
                           src={card.image}
                           alt={card.title}
-                          className="h-full w-full object-cover"
+                          className="h-full w-full rounded-t-[24px] object-cover"
                         />
                       )}
                     </div>

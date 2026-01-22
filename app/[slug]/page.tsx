@@ -10,12 +10,16 @@ import { generateContentMetadata, stripHtml } from "@/lib/metadata";
 import { Section, Container, Article } from "@/components/craft";
 import { badgeVariants } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Script from "next/script";
+import { MoreHorizontal } from "lucide-react";
 
 /**
  * ===== Site config (set via env if you want) =====
@@ -501,35 +505,79 @@ export default async function Page({
 
           <aside className="order-3">
             <div className="sticky top-24 flex max-h-[calc(100vh-6rem)] flex-col gap-6 overflow-auto">
-              <Card className="shadow-sm">
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-base font-semibold tracking-normal text-foreground">
-                    About this article
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-2 text-sm text-muted-foreground">
-                  <div className="flex items-center justify-between">
-                    <span>Published</span>
-                    <span className="font-medium text-foreground">{dateHuman}</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span>Reading time</span>
-                    <span className="font-medium text-foreground">
-                      {readingTimeMinutes} min
-                    </span>
-                  </div>
-                  {category?.name && (
-                    <div className="flex items-center justify-between">
-                      <span>Category</span>
-                      <Link
-                        href={`/posts/?category=${category.id}`}
-                        className="font-medium text-foreground hover:underline"
-                      >
-                        {category.name}
-                      </Link>
+              <Card className="border-border/60 shadow-sm">
+                <div className="space-y-5 p-6">
+                  <div className="flex items-start justify-between">
+                    <div>
+                      <h3 className="text-lg font-semibold text-foreground">
+                        For Business Shark
+                      </h3>
+                      <p className="mt-2 text-sm text-muted-foreground">
+                        Here, I focus on a range of items and features that we use in
+                        life without them
+                      </p>
                     </div>
-                  )}
-                </CardContent>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      className="h-8 w-8 text-muted-foreground"
+                      aria-label="Open plan menu"
+                    >
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </div>
+
+                  <div className="space-y-4">
+                    <p className="text-sm font-semibold text-foreground">
+                      Choose a plan to get started
+                    </p>
+                    <div className="space-y-3">
+                      {[
+                        { name: "Branding", price: "$60" },
+                        { name: "Marketing", price: "$120", selected: true },
+                        { name: "Web Development", price: "$250" },
+                        { name: "App Development", price: "$320" },
+                      ].map((plan) => (
+                        <div
+                          key={plan.name}
+                          className="flex items-center gap-3 rounded-xl border border-border/70 bg-white px-3 py-2.5"
+                        >
+                          <Checkbox
+                            checked={plan.selected}
+                            readOnly
+                            aria-label={`${plan.name} plan`}
+                            className="h-4 w-4 border-border/70 accent-black"
+                          />
+                          <span className="text-sm font-medium text-foreground">
+                            {plan.name}
+                          </span>
+                          <span className="ml-auto rounded-full bg-muted px-2.5 py-1 text-xs font-semibold text-foreground">
+                            {plan.price}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <Separator className="bg-border/60" />
+
+                  <div className="space-y-3 text-sm text-muted-foreground">
+                    <div className="flex items-center justify-between">
+                      <span>Taxes</span>
+                      <span className="text-foreground">$32</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span>Total amount</span>
+                      <span className="text-lg font-semibold text-foreground">
+                        $152
+                      </span>
+                    </div>
+                  </div>
+
+                  <Button className="h-11 w-full rounded-full bg-black text-white shadow-sm hover:bg-black/90">
+                    Pay now
+                  </Button>
+                </div>
               </Card>
 
               {author?.name && (

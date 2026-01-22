@@ -24,24 +24,8 @@ const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL || "https://frontend.mattercall.com";
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || ""; // e.g. "Mattercall Blog"
 const TWITTER_SITE = process.env.NEXT_PUBLIC_TWITTER_SITE || ""; // e.g. "@mattercall"
-const PUBLISHER_NAME =
-  process.env.NEXT_PUBLIC_PUBLISHER_NAME || SITE_NAME || "Mattercall";
+const PUBLISHER_NAME = process.env.NEXT_PUBLIC_PUBLISHER_NAME || SITE_NAME || "Mattercall";
 const PUBLISHER_LOGO_URL = process.env.NEXT_PUBLIC_PUBLISHER_LOGO_URL || ""; // e.g. "https://frontend.mattercall.com/logo.png"
-
-/**
- * Reserved slugs that should NOT be treated as posts at root level.
- * (Add/remove depending on your routes.)
- */
-const RESERVED_SLUGS = new Set([
-  "posts",
-  "pages",
-  "admin",
-  "api",
-  "sitemap.xml",
-  "sitemap-static.xml",
-  "robots.txt",
-  "favicon.ico",
-]);
 
 /**
  * ===== FAQ extraction from WP HTML =====
@@ -103,11 +87,6 @@ function safeJsonLd(obj: any) {
   return JSON.stringify(obj).replace(/</g, "\\u003c");
 }
 
-/**
- * IMPORTANT:
- * - If you move posts to root (/:slug), you should also update your old /posts/[slug]
- *   page to either redirect or keep it (with a 301 in next.config redirects).
- */
 export async function generateStaticParams() {
   return await getAllPostSlugs();
 }
@@ -118,50 +97,40 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-
-  // Prevent root catch-all from hijacking known routes
-  if (RESERVED_SLUGS.has(slug)) return {};
-
   const post = await getPostBySlug(slug);
+
   if (!post) return {};
 
   const meta = (post as any).meta || {};
 
   const title = String(meta._next_seo_title ?? "").trim() || post.title.rendered;
   const description =
-    String(meta._next_meta_description ?? "").trim() ||
-    stripHtml(post.excerpt.rendered);
+    String(meta._next_meta_description ?? "").trim() || stripHtml(post.excerpt.rendered);
 
   const canonicalOverride = String(meta._next_canonical ?? "").trim();
   const ogImageOverride = String(meta._next_og_image ?? "").trim();
   const noindex = Boolean(meta._next_noindex);
 
-  // ✅ basePath removed so canonical/OG URLs are root-based
   const base = generateContentMetadata({
     title,
     description,
     slug: post.slug,
-    basePath: "", // <— root URL
+    basePath: "posts",
   });
 
   const merged: Metadata = { ...base };
 
   if (canonicalOverride) {
-    merged.alternates = {
-      ...(base.alternates || {}),
-      canonical: canonicalOverride,
-    };
+    merged.alternates = { ...(base.alternates || {}), canonical: canonicalOverride };
     merged.openGraph = { ...(base.openGraph || {}), url: canonicalOverride };
   }
 
   if (ogImageOverride) {
-    merged.openGraph = {
-      ...(merged.openGraph || {}),
-      images: [{ url: ogImageOverride }],
-    };
+    merged.openGraph = { ...(merged.openGraph || {}), images: [{ url: ogImageOverride }] };
     merged.twitter = { ...(merged.twitter || {}), images: [ogImageOverride] };
   }
 
+  // Optional nice-to-haves:
   if (SITE_NAME) {
     merged.openGraph = { ...(merged.openGraph || {}), siteName: SITE_NAME };
   }
@@ -182,11 +151,8 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-
-  // Prevent root catch-all from hijacking known routes
-  if (RESERVED_SLUGS.has(slug)) notFound();
-
   const post = await getPostBySlug(slug);
+
   if (!post) notFound();
 
   const meta = (post as any).meta || {};
@@ -196,6 +162,7 @@ export default async function Page({
     : null;
 
   const author = await getAuthorById(post.author);
+
   const category = await getCategoryById(post.categories[0]);
 
   const datePublishedIso = new Date(post.date).toISOString();
@@ -208,18 +175,17 @@ export default async function Page({
   });
 
   // Use same SEO overrides for schema consistency
-  const seoTitle =
-    String(meta._next_seo_title ?? "").trim() || stripHtml(post.title.rendered);
+  const seoTitle = String(meta._next_seo_title ?? "").trim() || stripHtml(post.title.rendered);
   const seoDescription =
-    String(meta._next_meta_description ?? "").trim() ||
-    stripHtml(post.excerpt.rendered);
+    String(meta._next_meta_description ?? "").trim() || stripHtml(post.excerpt.rendered);
 
-  // ✅ canonical is now root-based
   const canonicalUrl =
-    String(meta._next_canonical ?? "").trim() || `${SITE_URL}/${post.slug}`;
+    String(meta._next_canonical ?? "").trim() || `${SITE_URL}/posts/${post.slug}`;
 
   const imageUrl =
-    String(meta._next_og_image ?? "").trim() || featuredMedia?.source_url || "";
+    String(meta._next_og_image ?? "").trim() ||
+    featuredMedia?.source_url ||
+    ""; // ok to be empty; schema image is optional but recommended
 
   // FAQ schema (only if FAQs detected)
   const faqs = extractFaqsFromHtml(post.content.rendered);
@@ -267,7 +233,7 @@ export default async function Page({
     ...(imageUrl ? { image: [imageUrl] } : {}),
   };
 
-  // BreadcrumbList schema
+  // BreadcrumbList schema (optional)
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -282,7 +248,7 @@ export default async function Page({
         "@type": "ListItem",
         position: 2,
         name: "Blog",
-        item: `${SITE_URL}/posts`, // keep blog listing page at /posts
+        item: `${SITE_URL}/posts`,
       },
       ...(category?.name
         ? [
@@ -338,9 +304,7 @@ export default async function Page({
 
         <Prose>
           <h1>
-            <span
-              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-            ></span>
+            <span dangerouslySetInnerHTML={{ __html: post.title.rendered }}></span>
           </h1>
 
           <div className="flex justify-between items-center gap-4 text-sm mb-4">
@@ -356,10 +320,7 @@ export default async function Page({
             {category?.name && (
               <Link
                 href={`/posts/?category=${category.id}`}
-                className={cn(
-                  badgeVariants({ variant: "outline" }),
-                  "no-underline!"
-                )}
+                className={cn(badgeVariants({ variant: "outline" }), "no-underline!")}
               >
                 {category.name}
               </Link>

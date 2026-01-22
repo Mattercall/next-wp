@@ -1,3 +1,7 @@
+"use client"
+
+import type { ChangeEvent, FormEvent } from "react"
+import { useState } from "react"
 import { Mail, Phone, User } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -6,7 +10,54 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 
+const initialFormValues = {
+  name: "",
+  email: "",
+  phone: "",
+  message: "",
+}
+
 export default function ContactPage() {
+  const [formValues, setFormValues] = useState(initialFormValues)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [status, setStatus] = useState<{
+    type: "success" | "error"
+    message: string
+  } | null>(null)
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = event.target
+    setFormValues((prev) => ({ ...prev, [name]: value }))
+  }
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    setIsSubmitting(true)
+    setStatus(null)
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formValues),
+      })
+      const data = (await response.json()) as { ok: boolean; error?: string }
+
+      if (!response.ok || !data.ok) {
+        throw new Error(data.error || "Something went wrong.")
+      }
+
+      setStatus({ type: "success", message: "Message sent successfully." })
+      setFormValues(initialFormValues)
+    } catch (error) {
+      const message =
+        error instanceof Error ? error.message : "Unable to send message."
+      setStatus({ type: "error", message })
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <main className="bg-white">
       <section
@@ -47,15 +98,18 @@ export default function ContactPage() {
                   </h2>
                 </div>
 
-                <form className="space-y-5">
+                <form className="space-y-5" onSubmit={handleSubmit}>
                   <div className="grid gap-4 sm:grid-cols-2">
                     <div className="space-y-2">
                       <Label htmlFor="name">Your Name</Label>
                       <div className="relative">
                         <Input
                           id="name"
+                          name="name"
                           placeholder="Enter your name here..."
                           className="pr-10"
+                          value={formValues.name}
+                          onChange={handleChange}
                         />
                         <User className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
                       </div>
@@ -65,8 +119,11 @@ export default function ContactPage() {
                       <div className="relative">
                         <Input
                           id="email"
+                          name="email"
                           placeholder="Enter your email here..."
                           className="pr-10"
+                          value={formValues.email}
+                          onChange={handleChange}
                         />
                         <Mail className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
                       </div>
@@ -78,8 +135,11 @@ export default function ContactPage() {
                     <div className="relative">
                       <Input
                         id="phone"
+                        name="phone"
                         placeholder="Enter your phone number here..."
                         className="pr-10"
+                        value={formValues.phone}
+                        onChange={handleChange}
                       />
                       <Phone className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
                     </div>
@@ -89,13 +149,33 @@ export default function ContactPage() {
                     <Label htmlFor="message">Message</Label>
                     <Textarea
                       id="message"
+                      name="message"
                       placeholder="Enter your message"
                       className="min-h-[140px] resize-none"
+                      value={formValues.message}
+                      onChange={handleChange}
                     />
                   </div>
 
-                  <Button className="h-12 w-full rounded-lg bg-neutral-900 text-white hover:bg-neutral-900/90">
-                    Send Your Message
+                  {status ? (
+                    <p
+                      className={
+                        status.type === "success"
+                          ? "text-sm font-medium text-green-600"
+                          : "text-sm font-medium text-red-600"
+                      }
+                      role="status"
+                    >
+                      {status.message}
+                    </p>
+                  ) : null}
+
+                  <Button
+                    className="h-12 w-full rounded-lg bg-neutral-900 text-white hover:bg-neutral-900/90"
+                    disabled={isSubmitting}
+                    type="submit"
+                  >
+                    {isSubmitting ? "Sending..." : "Send Your Message"}
                   </Button>
                 </form>
               </div>

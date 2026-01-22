@@ -5,7 +5,7 @@ interface ContentMetadataOptions {
   title: string;
   description: string;
   slug: string;
-  basePath: "posts" | "pages";
+  basePath: "posts" | "pages" | "";
 }
 
 export function generateContentMetadata({
@@ -14,7 +14,8 @@ export function generateContentMetadata({
   slug,
   basePath,
 }: ContentMetadataOptions): Metadata {
-  const pageUrl = `${siteConfig.site_domain}/${basePath}/${slug}`;
+  const baseSegment = basePath ? `/${basePath}` : "";
+  const pageUrl = `${siteConfig.site_domain}${baseSegment}/${slug}`;
 
   const ogUrl = new URL(`${siteConfig.site_domain}/api/og`);
   ogUrl.searchParams.append("title", title);

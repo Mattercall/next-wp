@@ -2,7 +2,7 @@
 
 import type { ChangeEvent, FormEvent } from "react"
 import { useState } from "react"
-import { Mail, Phone, User } from "lucide-react"
+import { Mail, Phone, Plus, User } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
@@ -15,6 +15,107 @@ const initialFormValues = {
   email: "",
   phone: "",
   message: "",
+}
+
+const faqItems = [
+  {
+    question: "How fast will I get a response?",
+    answer: "We typically respond within 6 hours on business days.",
+  },
+  {
+    question: "What information should I include in my message?",
+    answer: "Goals, timeline, budget range, and any links/examples.",
+  },
+  {
+    question: "Do you offer a free consultation?",
+    answer: "Yes, a 15–30 minute intro call to understand your needs.",
+  },
+  {
+    question: "What services do you provide?",
+    answer: "Website design, UX/UI, strategy, content, and ongoing support.",
+  },
+  {
+    question: "Can you work with my existing website/design?",
+    answer: "Yes, we can improve, redesign, or iterate on existing work.",
+  },
+  {
+    question: "Do you work with international clients and different time zones?",
+    answer: "Yes, remote-friendly with flexible scheduling.",
+  },
+]
+
+const commonQuestions = [
+  {
+    question: "What’s the typical project timeline?",
+    answer: "Most projects take 2–6 weeks depending on scope.",
+  },
+  {
+    question: "How do pricing and budgets work?",
+    answer: "Fixed-price for defined scope; hourly/retainer for ongoing work.",
+  },
+  {
+    question: "What’s your revision policy?",
+    answer: "Includes 2–3 revision rounds (depending on package).",
+  },
+  {
+    question: "How do we communicate?",
+    answer: "Email + Slack/WhatsApp optional; weekly check-ins if needed.",
+  },
+  {
+    question: "Do you provide post-launch support?",
+    answer: "Yes, maintenance and updates via monthly support plans.",
+  },
+  {
+    question: "What files/deliverables will I receive?",
+    answer:
+      "Final designs/assets + handoff notes; code handoff if applicable.",
+  },
+]
+
+const FaqList = ({
+  items,
+}: {
+  items: { question: string; answer: string }[]
+}) => {
+  const [openIndex, setOpenIndex] = useState<number | null>(0)
+
+  return (
+    <div className="mt-6 divide-y divide-neutral-200">
+      {items.map((item, index) => {
+        const isOpen = openIndex === index
+        return (
+          <div key={item.question} className="py-5">
+            <button
+              type="button"
+              onClick={() => setOpenIndex(isOpen ? null : index)}
+              className="flex w-full items-center justify-between text-left text-base font-medium text-neutral-900"
+              aria-expanded={isOpen}
+            >
+              {item.question}
+              <span
+                className={`flex h-8 w-8 items-center justify-center rounded-full border border-neutral-300 transition-transform ${
+                  isOpen ? "rotate-45" : "rotate-0"
+                }`}
+              >
+                <Plus className="h-4 w-4" />
+              </span>
+            </button>
+            <div
+              className={`grid transition-all duration-300 ${
+                isOpen
+                  ? "grid-rows-[1fr] opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
+              }`}
+            >
+              <div className="overflow-hidden">
+                <p className="mt-3 text-sm text-neutral-500">{item.answer}</p>
+              </div>
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
 }
 
 export default function ContactPage() {
@@ -61,23 +162,15 @@ export default function ContactPage() {
   return (
     <main className="bg-white">
       <section
-        className="relative min-h-[70vh] w-full overflow-hidden bg-slate-900"
+        className="relative min-h-[58vh] w-full overflow-hidden bg-black"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)), linear-gradient(120deg, rgba(15,23,42,0.92), rgba(71,85,105,0.6)), radial-gradient(circle at top right, rgba(148,163,184,0.5), transparent 55%)",
+            "linear-gradient(135deg, rgba(26,6,14,0.98) 0%, rgba(10,16,38,0.95) 48%, rgba(4,5,8,1) 100%)",
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
       >
-
-        <div className="absolute left-6 top-6 z-10 flex items-center gap-3 text-sm font-medium text-white sm:left-8 sm:top-8">
-          <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/80">
-            <span className="h-2 w-2 rounded-full bg-white" />
-          </span>
-          <span>shadcn/studio</span>
-        </div>
-
-        <div className="relative z-10 flex h-full flex-col items-center px-4 pt-24 text-center text-white sm:pt-28 lg:pt-32">
+        <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 py-20 text-center text-white sm:py-24 lg:py-28">
           <h1 className="max-w-3xl text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
             Get in touch with us for more information
           </h1>
@@ -87,7 +180,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <section className="relative -mt-20 pb-20 sm:-mt-24 lg:-mt-28">
+      <section className="relative -mt-24 pb-20 sm:-mt-28 lg:-mt-32">
         <Card className="mx-auto w-[92%] max-w-6xl rounded-3xl border border-neutral-200 bg-white shadow-xl">
           <CardContent className="p-6 sm:p-8 lg:p-10">
             <div className="grid gap-8 lg:grid-cols-12">
@@ -214,6 +307,22 @@ export default function ContactPage() {
             </div>
           </CardContent>
         </Card>
+      </section>
+
+      <section className="bg-white pb-12 sm:pb-16">
+        <div className="mx-auto max-w-5xl px-4">
+          <h2 className="text-3xl font-semibold text-neutral-900">FAQs</h2>
+          <FaqList items={faqItems} />
+        </div>
+      </section>
+
+      <section className="bg-white pb-20 sm:pb-24">
+        <div className="mx-auto max-w-5xl px-4">
+          <h2 className="text-3xl font-semibold text-neutral-900">
+            Common Questions
+          </h2>
+          <FaqList items={commonQuestions} />
+        </div>
       </section>
     </main>
   )

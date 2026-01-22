@@ -7,8 +7,9 @@ import {
 } from "@/lib/wordpress";
 import { generateContentMetadata, stripHtml } from "@/lib/metadata";
 
-import { Section, Container, Article, Prose } from "@/components/craft";
+import { Section, Container, Article } from "@/components/craft";
 import { badgeVariants } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 import Link from "next/link";
@@ -35,6 +36,7 @@ const PUBLISHER_LOGO_URL = process.env.NEXT_PUBLIC_PUBLISHER_LOGO_URL || ""; // 
  *  - answer content until next <h3> or end of FAQ block
  */
 type FaqItem = { question: string; answerText: string };
+type TocItem = { id: string; text: string; level: number };
 
 function decodeEntities(s: string) {
   return s
@@ -44,6 +46,47 @@ function decodeEntities(s: string) {
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
     .replace(/&nbsp;/g, " ");
+}
+
+function slugifyHeading(text: string) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/['"]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function buildTocAndContent(html: string) {
+  const headings: TocItem[] = [];
+  const slugCounts = new Map<string, number>();
+
+  const updatedHtml = html.replace(
+    /<h([23])([^>]*)>([\s\S]*?)<\/h\1>/gi,
+    (match, level, attrs, inner) => {
+      const existingIdMatch = String(attrs).match(/id=["']([^"']+)["']/i);
+      const headingText = decodeEntities(stripHtml(inner || ""));
+      const baseSlug = slugifyHeading(headingText) || "section";
+
+      const count = slugCounts.get(baseSlug) ?? 0;
+      slugCounts.set(baseSlug, count + 1);
+
+      const id = existingIdMatch?.[1] ?? (count ? `${baseSlug}-${count + 1}` : baseSlug);
+
+      headings.push({ id, text: headingText, level: Number(level) });
+
+      if (existingIdMatch) return match;
+
+      return `<h${level}${attrs} id="${id}">${inner}</h${level}>`;
+    },
+  );
+
+  return { html: updatedHtml, headings };
+}
+
+function getReadingTimeMinutes(text: string) {
+  const words = text.trim().split(/\s+/).filter(Boolean).length;
+  return Math.max(1, Math.ceil(words / 200));
 }
 
 function extractFaqsFromHtml(html: string): FaqItem[] {
@@ -174,6 +217,10 @@ export default async function Page({
     year: "numeric",
   });
 
+  const excerptText = stripHtml(post.excerpt.rendered).trim();
+  const { html: contentHtml, headings } = buildTocAndContent(post.content.rendered);
+  const readingTimeMinutes = getReadingTimeMinutes(stripHtml(post.content.rendered));
+
   // Use same SEO overrides for schema consistency
   const seoTitle = String(meta._next_seo_title ?? "").trim() || stripHtml(post.title.rendered);
   const seoDescription =
@@ -277,8 +324,8 @@ export default async function Page({
   };
 
   return (
-    <Section>
-      <Container>
+    <Section className="bg-white">
+      <Container className="max-w-7xl">
         {/* BlogPosting schema (always) */}
         <Script
           id="blogposting-schema"
@@ -302,44 +349,229 @@ export default async function Page({
           />
         )}
 
-        <Prose>
-          <h1>
-            <span dangerouslySetInnerHTML={{ __html: post.title.rendered }}></span>
-          </h1>
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-[minmax(0,1fr)_280px] lg:grid-cols-[260px_minmax(0,720px)_300px] lg:gap-8">
+          <aside className="order-2 hidden lg:order-1 lg:block">
+            <div className="sticky top-24 flex max-h-[calc(100vh-6rem)] flex-col gap-6">
+              <Card className="shadow-sm">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base font-semibold tracking-normal text-foreground">
+                    Table of contents
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="pt-0">
+                  {headings.length > 0 ? (
+                    <ul className="space-y-2 text-sm text-muted-foreground">
+                      {headings.map((heading) => (
+                        <li
+                          key={heading.id}
+                          className={cn(
+                            "leading-snug",
+                            heading.level === 3 && "pl-4 text-xs",
+                          )}
+                        >
+                          <a
+                            href={`#${heading.id}`}
+                            className="text-foreground/70 transition hover:text-foreground"
+                          >
+                            {heading.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : (
+                    <p className="text-sm text-muted-foreground">No sections available.</p>
+                  )}
+                </CardContent>
+              </Card>
+            </div>
+          </aside>
 
-          <div className="flex justify-between items-center gap-4 text-sm mb-4">
-            <h5>
-              Published {dateHuman} by{" "}
-              {author?.name && (
-                <span>
-                  <a href={`/posts/?author=${author.id}`}>{author.name}</a>{" "}
-                </span>
+          <div className="order-1 lg:order-2">
+            <div className="space-y-8">
+              {headings.length > 0 && (
+                <Card className="shadow-sm lg:hidden">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base font-semibold tracking-normal text-foreground">
+                      Table of contents
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="pt-0">
+                    <details className="group">
+                      <summary className="cursor-pointer text-sm font-medium text-foreground">
+                        Jump to section
+                      </summary>
+                      <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
+                        {headings.map((heading) => (
+                          <li
+                            key={heading.id}
+                            className={cn(
+                              "leading-snug",
+                              heading.level === 3 && "pl-4 text-xs",
+                            )}
+                          >
+                            <a
+                              href={`#${heading.id}`}
+                              className="text-foreground/70 transition hover:text-foreground"
+                            >
+                              {heading.text}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  </CardContent>
+                </Card>
               )}
-            </h5>
 
-            {category?.name && (
-              <Link
-                href={`/posts/?category=${category.id}`}
-                className={cn(badgeVariants({ variant: "outline" }), "no-underline!")}
-              >
-                {category.name}
-              </Link>
-            )}
-          </div>
+              <header className="space-y-4">
+                <h1 className="text-4xl font-semibold tracking-tight text-foreground md:text-5xl">
+                  <span dangerouslySetInnerHTML={{ __html: post.title.rendered }}></span>
+                </h1>
 
-          {featuredMedia?.source_url && (
-            <div className="h-96 my-12 md:h-[500px] overflow-hidden flex items-center justify-center border rounded-lg bg-accent/25">
-              {/* eslint-disable-next-line */}
-              <img
-                className="w-full h-full object-cover"
-                src={featuredMedia.source_url}
-                alt={post.title.rendered}
+                {excerptText && (
+                  <p className="text-lg text-muted-foreground">{excerptText}</p>
+                )}
+
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-2 text-sm text-muted-foreground">
+                  {author?.avatar_urls?.["96"] && (
+                    // eslint-disable-next-line
+                    <img
+                      src={author.avatar_urls["96"]}
+                      alt={author.name}
+                      className="h-9 w-9 rounded-full border object-cover"
+                    />
+                  )}
+                  {author?.name && (
+                    <span>
+                      <a
+                        href={`/posts/?author=${author.id}`}
+                        className="font-medium text-foreground hover:underline"
+                      >
+                        {author.name}
+                      </a>
+                    </span>
+                  )}
+                  <span className="text-muted-foreground">•</span>
+                  <span>{dateHuman}</span>
+                  <span className="text-muted-foreground">•</span>
+                  <span>{readingTimeMinutes} min read</span>
+                  {category?.name && (
+                    <>
+                      <span className="text-muted-foreground">•</span>
+                      <Link
+                        href={`/posts/?category=${category.id}`}
+                        className={cn(
+                          badgeVariants({ variant: "outline" }),
+                          "no-underline! text-foreground",
+                        )}
+                      >
+                        {category.name}
+                      </Link>
+                    </>
+                  )}
+                </div>
+              </header>
+
+              {featuredMedia?.source_url && (
+                <div className="h-72 overflow-hidden rounded-xl border bg-accent/25 md:h-[420px]">
+                  {/* eslint-disable-next-line */}
+                  <img
+                    className="h-full w-full object-cover"
+                    src={featuredMedia.source_url}
+                    alt={post.title.rendered}
+                  />
+                </div>
+              )}
+
+              <Article
+                className={cn(
+                  "max-w-none text-foreground/90",
+                  "[&_h2]:scroll-mt-24 [&_h3]:scroll-mt-24",
+                  "[&_p]:text-[1rem] [&_p]:leading-7",
+                  "[&_h2]:mt-10 [&_h2]:mb-4 [&_h2]:text-2xl",
+                  "[&_h3]:mt-8 [&_h3]:mb-3 [&_h3]:text-xl",
+                  "[&_a]:text-blue-600 hover:[&_a]:text-blue-700",
+                  "[&_blockquote]:rounded-lg [&_blockquote]:border [&_blockquote]:border-border/60 [&_blockquote]:bg-muted/40 [&_blockquote]:px-6 [&_blockquote]:py-4 [&_blockquote]:text-foreground/80",
+                  "[&_.is-style-callout]:rounded-xl [&_.is-style-callout]:border [&_.is-style-callout]:border-amber-100 [&_.is-style-callout]:bg-amber-50/70 [&_.is-style-callout]:px-6 [&_.is-style-callout]:py-4",
+                )}
+                dangerouslySetInnerHTML={{ __html: contentHtml }}
               />
             </div>
-          )}
-        </Prose>
+          </div>
 
-        <Article dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+          <aside className="order-3">
+            <div className="sticky top-24 flex max-h-[calc(100vh-6rem)] flex-col gap-6 overflow-auto">
+              <Card className="shadow-sm">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base font-semibold tracking-normal text-foreground">
+                    About this article
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-2 text-sm text-muted-foreground">
+                  <div className="flex items-center justify-between">
+                    <span>Published</span>
+                    <span className="font-medium text-foreground">{dateHuman}</span>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <span>Reading time</span>
+                    <span className="font-medium text-foreground">
+                      {readingTimeMinutes} min
+                    </span>
+                  </div>
+                  {category?.name && (
+                    <div className="flex items-center justify-between">
+                      <span>Category</span>
+                      <Link
+                        href={`/posts/?category=${category.id}`}
+                        className="font-medium text-foreground hover:underline"
+                      >
+                        {category.name}
+                      </Link>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {author?.name && (
+                <Card className="shadow-sm">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base font-semibold tracking-normal text-foreground">
+                      Author
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-3">
+                      {author.avatar_urls?.["96"] && (
+                        // eslint-disable-next-line
+                        <img
+                          src={author.avatar_urls["96"]}
+                          alt={author.name}
+                          className="h-12 w-12 rounded-full border object-cover"
+                        />
+                      )}
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">
+                          {author.name}
+                        </p>
+                        {author.description && (
+                          <p className="text-xs text-muted-foreground">
+                            {author.description}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                    <a
+                      href={`/posts/?author=${author.id}`}
+                      className="text-xs font-semibold text-blue-600 hover:underline"
+                    >
+                      View all posts
+                    </a>
+                  </CardContent>
+                </Card>
+              )}
+            </div>
+          </aside>
+        </div>
       </Container>
     </Section>
   );

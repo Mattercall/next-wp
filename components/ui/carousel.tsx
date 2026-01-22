@@ -12,7 +12,7 @@ type CarouselApi = {
 };
 
 type CarouselProps = {
-  opts?: Record<string, never>;
+  opts?: Record<string, unknown>;
   plugins?: unknown;
   orientation?: "horizontal" | "vertical";
   setApi?: (api: CarouselApi) => void;

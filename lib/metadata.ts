@@ -1,4 +1,5 @@
 import { siteConfig } from "@/site.config";
+import { decodeEntities } from "@/lib/html";
 import type { Metadata } from "next";
 
 interface ContentMetadataOptions {
@@ -59,7 +60,7 @@ export function stripHtml(html: string): string {
 }
 
 export function truncateHtml(html: string, maxWords: number): string {
-  const text = html.replace(/<[^>]*>/g, "").trim();
+  const text = decodeEntities(stripHtml(html));
   const words = text.split(/\s+/);
   if (words.length <= maxWords) return text;
   return words.slice(0, maxWords).join(" ") + "...";

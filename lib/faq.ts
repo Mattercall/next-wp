@@ -1,18 +1,9 @@
+import { decodeEntities } from "@/lib/html";
+
 export type FaqItem = { question: string; answerHtml: string };
 
 function stripTags(html: string) {
   return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-}
-
-function decodeEntities(s: string) {
-  // minimal decode for common entities
-  return s
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&nbsp;/g, " ");
 }
 
 export function extractFaqsFromHtml(html: string): FaqItem[] {

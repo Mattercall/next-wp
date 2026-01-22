@@ -6,6 +6,7 @@ import {
   getAllPostSlugs,
 } from "@/lib/wordpress";
 import { generateContentMetadata, stripHtml } from "@/lib/metadata";
+import { decodeEntities } from "@/lib/html";
 
 import { Section, Container, Article } from "@/components/craft";
 import { badgeVariants } from "@/components/ui/badge";
@@ -41,16 +42,6 @@ const PUBLISHER_LOGO_URL = process.env.NEXT_PUBLIC_PUBLISHER_LOGO_URL || ""; // 
  */
 type FaqItem = { question: string; answerText: string };
 type TocItem = { id: string; text: string; level: number };
-
-function decodeEntities(s: string) {
-  return s
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&nbsp;/g, " ");
-}
 
 function slugifyHeading(text: string) {
   return text
@@ -152,7 +143,8 @@ export async function generateMetadata({
 
   const title = String(meta._next_seo_title ?? "").trim() || post.title.rendered;
   const description =
-    String(meta._next_meta_description ?? "").trim() || stripHtml(post.excerpt.rendered);
+    String(meta._next_meta_description ?? "").trim() ||
+    decodeEntities(stripHtml(post.excerpt.rendered));
 
   const canonicalOverride = String(meta._next_canonical ?? "").trim();
   const ogImageOverride = String(meta._next_og_image ?? "").trim();
@@ -221,14 +213,15 @@ export default async function Page({
     year: "numeric",
   });
 
-  const excerptText = stripHtml(post.excerpt.rendered).trim();
+  const excerptText = decodeEntities(stripHtml(post.excerpt.rendered)).trim();
   const { html: contentHtml, headings } = buildTocAndContent(post.content.rendered);
   const readingTimeMinutes = getReadingTimeMinutes(stripHtml(post.content.rendered));
 
   // Use same SEO overrides for schema consistency
   const seoTitle = String(meta._next_seo_title ?? "").trim() || stripHtml(post.title.rendered);
   const seoDescription =
-    String(meta._next_meta_description ?? "").trim() || stripHtml(post.excerpt.rendered);
+    String(meta._next_meta_description ?? "").trim() ||
+    decodeEntities(stripHtml(post.excerpt.rendered));
 
   const canonicalUrl =
     String(meta._next_canonical ?? "").trim() || `${SITE_URL}/${post.slug}`;

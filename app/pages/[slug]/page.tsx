@@ -6,6 +6,7 @@ import {
   getAllPostSlugs,
 } from "@/lib/wordpress";
 import { generateContentMetadata, stripHtml } from "@/lib/metadata";
+import { decodeEntities } from "@/lib/html";
 
 import { Section, Container, Article, Prose } from "@/components/craft";
 import { badgeVariants } from "@/components/ui/badge";
@@ -24,16 +25,6 @@ import Script from "next/script";
  *  - Answer is the content until the next <h3> or end of FAQ block
  */
 type FaqItem = { question: string; answerText: string };
-
-function decodeEntities(s: string) {
-  return s
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&nbsp;/g, " ");
-}
 
 function extractFaqsFromHtml(html: string): FaqItem[] {
   if (!html) return [];
@@ -105,7 +96,7 @@ export async function generateMetadata({
 
   const description =
     String(meta._next_meta_description ?? "").trim() ||
-    stripHtml(post.excerpt.rendered);
+    decodeEntities(stripHtml(post.excerpt.rendered));
 
   const canonicalOverride = String(meta._next_canonical ?? "").trim();
   const ogImageOverride = String(meta._next_og_image ?? "").trim();

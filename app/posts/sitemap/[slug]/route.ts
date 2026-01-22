@@ -94,7 +94,7 @@ export async function GET(
   const sliceStart = startIndex % PER_PAGE;
   const chunk = results.slice(sliceStart, sliceStart + POSTS_PER_SITEMAP);
 
-  const base = siteConfig.site_domain.replace(/\/$/, "");
+  const base = siteConfig.site_domain.replace(/\/$/, "").replace(/\/posts$/, "");
   const urlset = makeUrlset(
     chunk.map((p) => ({
       loc: `${base}/${p.slug}`,

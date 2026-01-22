@@ -198,13 +198,13 @@ export default function Home() {
             <button className={primaryButtonClass}>Learn more</button>
             <button className={secondaryButtonClass}>Buy</button>
           </div>
-          <div className="mt-8 w-full rounded-[28px] bg-gradient-to-r from-[#d8f0ff] via-[#d8f5f2] to-[#c8f2ea] p-6 text-left overflow-hidden sm:mx-auto sm:w-[calc(5*260px+4*24px+2*32px)] sm:p-8">
+          <div className="mt-8 w-full rounded-[28px] bg-gradient-to-r from-[#d8f0ff] via-[#d8f5f2] to-[#c8f2ea] p-6 text-left sm:mx-auto sm:w-[calc(5*260px+4*24px+2*32px)] sm:p-8">
             <div className="mb-6 flex items-center justify-between">
               <h3 className="text-xl font-semibold text-neutral-900">
                 Featured Cards
               </h3>
             </div>
-            <div className="flex w-max gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth sm:gap-6 sm:overflow-visible sm:snap-none lg:flex-nowrap">
+            <div className="flex w-full flex-nowrap gap-4 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth touch-pan-x [-webkit-overflow-scrolling:touch] sm:gap-6 sm:overflow-visible sm:snap-none">
               {featuredCards.map((card) => (
                 <a
                   key={card.title}

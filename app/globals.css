@@ -176,3 +176,9 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* Make sure this wins over Tailwind utilities */
+.rounded-t-\[24px\] {
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+}

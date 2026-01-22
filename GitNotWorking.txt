@@ -1,0 +1,1 @@
+git stash push -u -m "wip" && git pull

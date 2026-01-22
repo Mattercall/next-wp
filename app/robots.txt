@@ -1,2 +1,7 @@
 User-agent: *
 Allow: /
+
+Disallow: /admin
+Disallow: /api/
+
+Sitemap: https://frontend.mattercall.com/sitemap.xml

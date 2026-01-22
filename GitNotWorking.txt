@@ -1,1 +1,11 @@
 git stash push -u -m "wip" && git pull
+-------------------------------------------------
+## Sitemap setup (Next.js + WP) — quick notes
+Set the same value in **both** files:
+
+* `app/sitemap.xml/route.ts`
+* `app/posts/sitemap/[slug]/route.ts`
+
+```ts
+const POSTS_PER_SITEMAP = 2000; // production
+-------------------------------------------------

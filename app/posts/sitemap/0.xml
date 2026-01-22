@@ -1,0 +1,26 @@
+import type { MetadataRoute } from "next";
+import { siteConfig } from "@/site.config";
+import { getPostCountForSitemap, getPostsForSitemapChunk } from "@/lib/wordpress-sitemap";
+
+const POSTS_PER_SITEMAP = 2;
+
+export async function generateSitemaps() {
+  const total = await getPostCountForSitemap();
+  const chunks = Math.max(1, Math.ceil(total / POSTS_PER_SITEMAP));
+  return Array.from({ length: chunks }, (_, i) => ({ id: i }));
+}
+
+export default async function sitemap(
+  props: { id: Promise<string> }
+): Promise<MetadataRoute.Sitemap> {
+  const id = Number(await props.id);
+  const posts = await getPostsForSitemapChunk(id, POSTS_PER_SITEMAP);
+
+  const base = siteConfig.site_domain.replace(/\/$/, "");
+  return posts.map((p) => ({
+    url: `${base}/posts/${p.slug}`,
+    lastModified: new Date(p.modified),
+    changeFrequency: "weekly",
+    priority: 0.5,
+  }));
+}

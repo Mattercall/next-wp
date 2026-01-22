@@ -14,6 +14,8 @@ export function generateContentMetadata({
   slug,
   basePath,
 }: ContentMetadataOptions): Metadata {
+  const pageUrl = `${siteConfig.site_domain}/${basePath}/${slug}`;
+
   const ogUrl = new URL(`${siteConfig.site_domain}/api/og`);
   ogUrl.searchParams.append("title", title);
   ogUrl.searchParams.append("description", description);
@@ -21,11 +23,17 @@ export function generateContentMetadata({
   return {
     title,
     description,
+
+    // ✅ This controls <link rel="canonical" ...>
+    alternates: {
+      canonical: pageUrl,
+    },
+
     openGraph: {
       title,
       description,
       type: "article",
-      url: `${siteConfig.site_domain}/${basePath}/${slug}`,
+      url: pageUrl,
       images: [
         {
           url: ogUrl.toString(),
@@ -35,6 +43,7 @@ export function generateContentMetadata({
         },
       ],
     },
+
     twitter: {
       card: "summary_large_image",
       title,

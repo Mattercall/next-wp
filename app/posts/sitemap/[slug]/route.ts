@@ -97,7 +97,7 @@ export async function GET(
   const base = siteConfig.site_domain.replace(/\/$/, "");
   const urlset = makeUrlset(
     chunk.map((p) => ({
-      loc: `${base}/posts/${p.slug}`,
+      loc: `${base}/${p.slug}`,
       lastmod: new Date(p.modified).toISOString(),
     }))
   );

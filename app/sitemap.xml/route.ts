@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { siteConfig } from "@/site.config";
 
 const WP = process.env.WORDPRESS_URL;
-const POSTS_PER_SITEMAP = 2000;
+const POSTS_PER_SITEMAP = 2;
 
 async function getPublishedPostCount(): Promise<number> {
   if (!WP) return 0;

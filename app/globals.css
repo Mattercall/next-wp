@@ -199,23 +199,21 @@
 }
 
 .featured-border-beam::before {
-    border: 1px solid color-mix(in srgb, #2fb6ff 25%, transparent);
-    opacity: 0.45;
+    border: 1px solid color-mix(in srgb, #2fb6ff 20%, transparent);
+    opacity: 0.5;
 }
 
 .featured-border-beam::after {
-    padding: 2px;
+    padding: 3px;
     background: conic-gradient(
         from 0deg,
-        transparent 0deg,
-        color-mix(in srgb, #2fb6ff 70%, transparent) 70deg,
-        color-mix(in srgb, #2fe3d4 60%, transparent) 140deg,
-        transparent 220deg,
-        transparent 360deg
+        transparent 0deg 300deg,
+        color-mix(in srgb, #7fd7ff 80%, transparent) 318deg,
+        color-mix(in srgb, #2fe3d4 85%, transparent) 332deg,
+        transparent 350deg 360deg
     );
-    filter: blur(6px);
-    opacity: 0.75;
-    animation: featured-border-beam 4.5s linear infinite;
+    opacity: 0.8;
+    animation: featured-border-beam 4s linear infinite;
     -webkit-mask: linear-gradient(#000 0 0) content-box,
         linear-gradient(#000 0 0);
     -webkit-mask-composite: xor;
@@ -232,6 +230,6 @@
 @media (prefers-reduced-motion: reduce) {
     .featured-border-beam::after {
         animation: none;
-        opacity: 0.4;
+        opacity: 0.35;
     }
 }

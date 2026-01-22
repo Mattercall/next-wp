@@ -141,6 +141,16 @@ const featuredCards = [
     image:
       "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80",
   },
+  {
+    title: "Google Data Analytics",
+    provider: "Google",
+    providerLogo:
+      "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
+    metaLabel: "Professional Certificate",
+    rating: "4.8",
+    image:
+      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
+  },
 ];
 
 const AppleLogo = ({ className }: { className?: string }) => (
@@ -172,7 +182,7 @@ export default function Home() {
       </div>
 
       <section>
-        <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
+        <div className="mx-auto flex max-w-[1440px] flex-col items-center px-4 py-16 text-center">
           <AppleLogo className="h-6 w-6 text-black" />
           <p className="mt-3 text-xs font-semibold uppercase tracking-[0.3em] text-neutral-900">
             Watch Series 11
@@ -193,16 +203,32 @@ export default function Home() {
                 Featured Cards
               </h3>
             </div>
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-              {featuredCards.map((card) => (
-                <a key={card.title} href="#" className="group">
-                  <Card className="h-full overflow-hidden border border-neutral-200/70 shadow-sm transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md">
+            <div className="flex gap-4 overflow-x-auto pb-2 snap-x snap-mandatory scroll-smooth sm:flex-wrap sm:gap-6 sm:overflow-visible sm:snap-none lg:flex-nowrap">
+              {featuredCards.map((card, index) => (
+                <a
+                  key={card.title}
+                  href="#"
+                  className="group shrink-0 snap-start"
+                >
+                  <Card className="h-full w-[82vw] max-w-[260px] overflow-hidden border border-neutral-200/70 shadow-sm transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md sm:w-[260px]">
                     <div className="h-[150px] w-full overflow-hidden">
-                      <img
-                        src={card.image}
-                        alt={card.title}
-                        className="h-full w-full object-cover"
-                      />
+                      {index === 2 ? (
+                        <video
+                          src="https://cdn.coverr.co/videos/coverr-working-on-a-laptop-1565/1080p.mp4"
+                          autoPlay
+                          muted
+                          loop
+                          playsInline
+                          preload="metadata"
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <img
+                          src={card.image}
+                          alt={card.title}
+                          className="h-full w-full object-cover"
+                        />
+                      )}
                     </div>
                     <CardContent className="p-4">
                       <div className="flex items-center gap-2 text-xs text-neutral-500">

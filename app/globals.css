@@ -182,3 +182,56 @@
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
 }
+
+.featured-border-beam {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+}
+
+.featured-border-beam::before,
+.featured-border-beam::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.featured-border-beam::before {
+    border: 1px solid color-mix(in srgb, #2fb6ff 25%, transparent);
+    opacity: 0.45;
+}
+
+.featured-border-beam::after {
+    padding: 2px;
+    background: conic-gradient(
+        from 0deg,
+        transparent 0deg,
+        color-mix(in srgb, #2fb6ff 70%, transparent) 70deg,
+        color-mix(in srgb, #2fe3d4 60%, transparent) 140deg,
+        transparent 220deg,
+        transparent 360deg
+    );
+    filter: blur(6px);
+    opacity: 0.75;
+    animation: featured-border-beam 4.5s linear infinite;
+    -webkit-mask: linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask-composite: exclude;
+}
+
+@keyframes featured-border-beam {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .featured-border-beam::after {
+        animation: none;
+        opacity: 0.4;
+    }
+}

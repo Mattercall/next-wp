@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, Search, ShoppingBag, Star } from "lucide-react";
+import { Star } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -40,33 +40,6 @@ const posterSlides = [
     meta: "Thriller • Limited Series",
     image:
       "https://www.apple.com/v/tv-home/o/images/overview/billboard/shrinking__b2o0a7o7mymq_large.jpg",
-  },
-];
-
-const serviceSlides = [
-  {
-    service: "Fitness+",
-    cta: "Watch now",
-    image:
-      "https://www.apple.com/v/fitness-plus/aa/images/overview/hero/hero__cjlgwly5teq2_large.jpg",
-  },
-  {
-    service: "Music",
-    cta: "Listen now",
-    image:
-      "https://www.apple.com/v/music/s/images/overview/hero__cz2x9d8dzqa2_large.jpg",
-  },
-  {
-    service: "Arcade",
-    cta: "Play now",
-    image:
-      "https://www.apple.com/v/apple-arcade/a/images/overview/hero/hero__cw8t36n8ztu6_large.jpg",
-  },
-  {
-    service: "TV+",
-    cta: "Stream now",
-    image:
-      "https://www.apple.com/v/tv-home/o/images/overview/hero/hero__dvmk39xg1kqe_large.jpg",
   },
 ];
 
@@ -197,59 +170,6 @@ export default function Home() {
       <div className="w-full border-b border-neutral-200 bg-white px-4 py-2 text-center text-xs text-[#6e6e73]">
         Save on iPhone with carrier deals and trade-in. Terms apply.
       </div>
-
-      <header className="w-full">
-        <div className="mx-auto flex max-w-[1100px] items-center justify-end px-4 py-2 text-[11px] text-neutral-600">
-          <button className="flex items-center gap-1 rounded-full border border-neutral-200 px-2 py-0.5">
-            Suomi
-            <span className="text-[10px]">▾</span>
-          </button>
-          <span className="ml-2 rounded-full bg-neutral-900 px-3 py-0.5 text-[11px] text-white">
-            Iida
-          </span>
-        </div>
-        <div className="mx-auto flex h-11 max-w-[1100px] items-center justify-between px-4">
-          <div className="flex items-center gap-4 lg:hidden">
-            <button aria-label="Open menu">
-              <Menu className="h-5 w-5" />
-            </button>
-          </div>
-          <div className="flex flex-1 items-center justify-center lg:justify-start">
-            <AppleLogo className="h-5 w-5" />
-          </div>
-          <nav className="hidden flex-1 items-center justify-center text-[13px] text-neutral-700 lg:flex">
-            <ul className="flex items-center gap-6">
-              {
-                [
-                  "Store",
-                  "Mac",
-                  "iPad",
-                  "iPhone",
-                  "Watch",
-                  "Vision",
-                  "AirPods",
-                  "TV & Home",
-                  "Entertainment",
-                  "Accessories",
-                  "Support",
-                ].map((item) => (
-                  <li key={item} className="transition hover:text-black">
-                    {item}
-                  </li>
-                ))
-              }
-            </ul>
-          </nav>
-          <div className="flex flex-1 items-center justify-end gap-4 text-neutral-700">
-            <button aria-label="Search">
-              <Search className="h-4 w-4" />
-            </button>
-            <button aria-label="Bag">
-              <ShoppingBag className="h-4 w-4" />
-            </button>
-          </div>
-        </div>
-      </header>
 
       <section>
         <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
@@ -464,41 +384,6 @@ export default function Home() {
             <CarouselNext className="hidden sm:flex" />
           </Carousel>
 
-          <div className="mt-8">
-            <Carousel opts={{ align: "start", loop: true }}>
-              <CarouselContent>
-                {serviceSlides.map((slide) => (
-                  <CarouselItem
-                    key={slide.service}
-                    className="pl-4 sm:basis-1/2 lg:basis-1/4"
-                  >
-                    <div className="relative h-[220px] overflow-hidden rounded-2xl">
-                      <img
-                        src={slide.image}
-                        alt={slide.service}
-                        className="h-full w-full object-cover"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                      <div className="absolute bottom-4 left-4 text-white">
-                        <p className="text-sm font-semibold">Apple {slide.service}</p>
-                        <button className="mt-2 rounded-full bg-white/90 px-3 py-1 text-xs font-medium text-black">
-                          {slide.cta}
-                        </button>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-            </Carousel>
-            <div className="mt-4 flex items-center justify-center gap-2">
-              {serviceSlides.map((slide) => (
-                <span
-                  key={slide.service}
-                  className="h-1.5 w-1.5 rounded-full bg-neutral-300"
-                />
-              ))}
-            </div>
-          </div>
         </div>
       </section>
     </main>

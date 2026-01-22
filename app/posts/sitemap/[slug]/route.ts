@@ -1,9 +1,10 @@
+// app/posts/sitemap/[slug]/route.ts
 import { NextResponse } from "next/server";
 import { siteConfig } from "@/site.config";
 
-const WP = process.env.WORDPRESS_URL; // https://backend.mattercall.com
-const POSTS_PER_SITEMAP = 2000;       // keep small & safe
-const PER_PAGE = 100;                 // WP REST max is usually 100
+const WP = process.env.WORDPRESS_URL; // e.g. https://backend.mattercall.com
+const POSTS_PER_SITEMAP = 2000; // chunk size
+const PER_PAGE = 100; // WP REST max is usually 100
 
 type PostMini = { slug: string; modified: string };
 
@@ -22,12 +23,12 @@ ${items
 
 export async function GET(
   _req: Request,
-  { params }: { params: { slug: string } }
+  context: { params: Promise<{ slug: string }> }
 ) {
   if (!WP) return new NextResponse("WORDPRESS_URL missing", { status: 500 });
 
-  // slug will be like "0.xml"
-  const raw = params.slug.replace(/\.xml$/i, "");
+  const { slug } = await context.params; // Next.js 16 typing: params is a Promise
+  const raw = slug.replace(/\.xml$/i, "");
   const id = Number(raw);
 
   if (!Number.isFinite(id) || id < 0) {
@@ -42,6 +43,7 @@ export async function GET(
 
   const results: PostMini[] = [];
 
+  // Sequential fetch (safer than blasting WP with parallel requests)
   for (let page = startPage; page <= endPage; page++) {
     const res = await fetch(
       `${WP}/wp-json/wp/v2/posts?status=publish&per_page=${PER_PAGE}&page=${page}&_fields=slug,modified`,
@@ -53,10 +55,11 @@ export async function GET(
     const data = (await res.json()) as PostMini[];
     results.push(...data);
 
-    // If WP returns less than PER_PAGE, there are no more posts
+    // If WP returned less than PER_PAGE, there are no more posts
     if (data.length < PER_PAGE) break;
   }
 
+  // Slice the exact chunk window from the fetched pages
   const sliceStart = startIndex % PER_PAGE;
   const chunk = results.slice(sliceStart, sliceStart + POSTS_PER_SITEMAP);
 

@@ -116,7 +116,7 @@ export async function generateMetadata({
     title,
     description,
     slug: post.slug,
-    basePath: "posts",
+    basePath: "pages",
   });
 
   // Merge overrides only if provided

@@ -115,6 +115,7 @@ export async function generateMetadata({
     title,
     description,
     slug: post.slug,
+    basePath: "",
   });
 
   const merged: Metadata = { ...base };

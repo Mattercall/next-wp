@@ -35,13 +35,17 @@ const nextConfig: NextConfig = {
     if (!wordpressUrl) return [];
 
     return [
-      // Expose WP core sitemaps via the frontend domain
+      // Main sitemap on the frontend
       { source: "/sitemap.xml", destination: `${wordpressUrl}/wp-sitemap.xml` },
+
+      // Optional: expose WP's original path too
       { source: "/wp-sitemap.xml", destination: `${wordpressUrl}/wp-sitemap.xml` },
-      {
-        source: "/wp-sitemap-:path*.xml",
-        destination: `${wordpressUrl}/wp-sitemap-:path*.xml`,
-      },
+
+      // Proxy all split sitemap files like:
+      // /wp-sitemap-posts-post-1.xml
+      // /wp-sitemap-taxonomies-category-1.xml
+      // etc.
+      { source: "/wp-sitemap-:slug*", destination: `${wordpressUrl}/wp-sitemap-:slug*` },
     ];
   },
 };

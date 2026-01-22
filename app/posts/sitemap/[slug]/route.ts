@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { siteConfig } from "@/site.config";
 
 const WP = process.env.WORDPRESS_URL; // e.g. https://backend.mattercall.com
-const POSTS_PER_SITEMAP = 2000; // chunk size
+const POSTS_PER_SITEMAP = 2; // chunk size
 const PER_PAGE = 100; // WP REST max is usually 100
 
 type PostMini = { slug: string; modified: string };

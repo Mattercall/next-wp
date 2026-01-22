@@ -17,17 +17,24 @@ import type { Metadata } from "next";
 import Script from "next/script";
 
 /**
- * Extract FAQs from WP HTML content.
- * Expected structure:
- *  - A heading: <h2>FAQ</h2> or <h2>Häufige Fragen</h2> (also works with <h3>)
- *  - Each question as <h3>Question...</h3>
- *  - Answer is the content until the next <h3> or end of FAQ block
+ * ===== Site config (set via env if you want) =====
+ * Make sure NEXT_PUBLIC_SITE_URL is your real domain (not next-wp.com).
+ */
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://frontend.mattercall.com";
+const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || ""; // e.g. "Mattercall Blog"
+const TWITTER_SITE = process.env.NEXT_PUBLIC_TWITTER_SITE || ""; // e.g. "@mattercall"
+const PUBLISHER_NAME = process.env.NEXT_PUBLIC_PUBLISHER_NAME || SITE_NAME || "Mattercall";
+const PUBLISHER_LOGO_URL = process.env.NEXT_PUBLIC_PUBLISHER_LOGO_URL || ""; // e.g. "https://frontend.mattercall.com/logo.png"
+
+/**
+ * ===== FAQ extraction from WP HTML =====
+ * Expected:
+ *  - <h2>FAQs</h2> (or FAQ / Häufige Fragen)
+ *  - each question in <h3>Question</h3>
+ *  - answer content until next <h3> or end of FAQ block
  */
 type FaqItem = { question: string; answerText: string };
-
-function stripTags(html: string) {
-  return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-}
 
 function decodeEntities(s: string) {
   return s
@@ -42,7 +49,6 @@ function decodeEntities(s: string) {
 function extractFaqsFromHtml(html: string): FaqItem[] {
   if (!html) return [];
 
-  // Find the FAQ section heading
   const sectionRe =
     /<(h2|h3)[^>]*>\s*(faq|faqs|frequently asked questions|häufige fragen|haeufige fragen)\s*<\/\1>/i;
 
@@ -52,11 +58,10 @@ function extractFaqsFromHtml(html: string): FaqItem[] {
   const startIndex = sectionMatch.index + sectionMatch[0].length;
   const afterFaq = html.slice(startIndex);
 
-  // Stop at next H2 to avoid grabbing other sections
+  // stop at next h2
   const nextH2 = afterFaq.search(/<h2[^>]*>/i);
   const faqBlock = nextH2 >= 0 ? afterFaq.slice(0, nextH2) : afterFaq;
 
-  // Q/A pairs where Q is an H3
   const qaRe = /<h3[^>]*>([\s\S]*?)<\/h3>([\s\S]*?)(?=<h3[^>]*>|$)/gi;
 
   const out: FaqItem[] = [];
@@ -66,8 +71,8 @@ function extractFaqsFromHtml(html: string): FaqItem[] {
     const qHtml = m[1] || "";
     const aHtml = (m[2] || "").trim();
 
-    const question = decodeEntities(stripTags(qHtml));
-    const answerText = decodeEntities(stripTags(aHtml));
+    const question = decodeEntities(stripHtml(qHtml));
+    const answerText = decodeEntities(stripHtml(aHtml));
 
     if (!question || question.length < 3) continue;
     if (!answerText || answerText.length < 3) continue;
@@ -79,7 +84,6 @@ function extractFaqsFromHtml(html: string): FaqItem[] {
 }
 
 function safeJsonLd(obj: any) {
-  // Prevent closing </script> injection edge case
   return JSON.stringify(obj).replace(/</g, "\\u003c");
 }
 
@@ -95,25 +99,18 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 
-  if (!post) {
-    return {};
-  }
+  if (!post) return {};
 
-  // next-wp typing often treats post.meta as {}
-  // so we safely coerce via `any` + String()
-  const m = (post as any).meta || {};
+  const meta = (post as any).meta || {};
 
-  const title = String(m._next_seo_title ?? "").trim() || post.title.rendered;
-
+  const title = String(meta._next_seo_title ?? "").trim() || post.title.rendered;
   const description =
-    String(m._next_meta_description ?? "").trim() ||
-    stripHtml(post.excerpt.rendered);
+    String(meta._next_meta_description ?? "").trim() || stripHtml(post.excerpt.rendered);
 
-  const canonicalOverride = String(m._next_canonical ?? "").trim();
-  const ogImageOverride = String(m._next_og_image ?? "").trim();
-  const noindex = Boolean(m._next_noindex);
+  const canonicalOverride = String(meta._next_canonical ?? "").trim();
+  const ogImageOverride = String(meta._next_og_image ?? "").trim();
+  const noindex = Boolean(meta._next_noindex);
 
-  // Use your existing metadata generator as the base
   const base = generateContentMetadata({
     title,
     description,
@@ -121,32 +118,24 @@ export async function generateMetadata({
     basePath: "posts",
   });
 
-  // Merge overrides only if provided
   const merged: Metadata = { ...base };
 
   if (canonicalOverride) {
-    merged.alternates = {
-      ...(base.alternates || {}),
-      canonical: canonicalOverride,
-    };
-
-    // Keep OG url consistent with canonical if present
-    merged.openGraph = {
-      ...(base.openGraph || {}),
-      url: canonicalOverride,
-    };
+    merged.alternates = { ...(base.alternates || {}), canonical: canonicalOverride };
+    merged.openGraph = { ...(base.openGraph || {}), url: canonicalOverride };
   }
 
   if (ogImageOverride) {
-    merged.openGraph = {
-      ...(merged.openGraph || {}),
-      images: [{ url: ogImageOverride }],
-    };
+    merged.openGraph = { ...(merged.openGraph || {}), images: [{ url: ogImageOverride }] };
+    merged.twitter = { ...(merged.twitter || {}), images: [ogImageOverride] };
+  }
 
-    merged.twitter = {
-      ...(merged.twitter || {}),
-      images: [ogImageOverride],
-    };
+  // Optional nice-to-haves:
+  if (SITE_NAME) {
+    merged.openGraph = { ...(merged.openGraph || {}), siteName: SITE_NAME };
+  }
+  if (TWITTER_SITE) {
+    merged.twitter = { ...(merged.twitter || {}), site: TWITTER_SITE };
   }
 
   if (noindex) {
@@ -164,9 +153,9 @@ export default async function Page({
   const { slug } = await params;
   const post = await getPostBySlug(slug);
 
-  if (!post) {
-    notFound();
-  }
+  if (!post) notFound();
+
+  const meta = (post as any).meta || {};
 
   const featuredMedia = post.featured_media
     ? await getFeaturedMediaById(post.featured_media)
@@ -174,17 +163,32 @@ export default async function Page({
 
   const author = await getAuthorById(post.author);
 
-  const date = new Date(post.date).toLocaleDateString("en-US", {
+  const category = await getCategoryById(post.categories[0]);
+
+  const datePublishedIso = new Date(post.date).toISOString();
+  const dateModifiedIso = new Date(post.modified || post.date).toISOString();
+
+  const dateHuman = new Date(post.date).toLocaleDateString("en-US", {
     month: "long",
     day: "numeric",
     year: "numeric",
   });
 
-  const category = await getCategoryById(post.categories[0]);
+  // Use same SEO overrides for schema consistency
+  const seoTitle = String(meta._next_seo_title ?? "").trim() || stripHtml(post.title.rendered);
+  const seoDescription =
+    String(meta._next_meta_description ?? "").trim() || stripHtml(post.excerpt.rendered);
 
-  // Extract FAQs from the rendered HTML content
+  const canonicalUrl =
+    String(meta._next_canonical ?? "").trim() || `${SITE_URL}/posts/${post.slug}`;
+
+  const imageUrl =
+    String(meta._next_og_image ?? "").trim() ||
+    featuredMedia?.source_url ||
+    ""; // ok to be empty; schema image is optional but recommended
+
+  // FAQ schema (only if FAQs detected)
   const faqs = extractFaqsFromHtml(post.content.rendered);
-
   const faqSchema =
     faqs.length > 0
       ? {
@@ -193,18 +197,103 @@ export default async function Page({
           mainEntity: faqs.map((f) => ({
             "@type": "Question",
             name: f.question,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: f.answerText,
-            },
+            acceptedAnswer: { "@type": "Answer", text: f.answerText },
           })),
         }
       : null;
 
+  // BlogPosting schema
+  const blogPostingSchema: any = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": canonicalUrl,
+    },
+    headline: seoTitle,
+    description: seoDescription,
+    datePublished: datePublishedIso,
+    dateModified: dateModifiedIso,
+    author: {
+      "@type": "Person",
+      name: author?.name || "Unknown",
+    },
+    publisher: {
+      "@type": "Organization",
+      name: PUBLISHER_NAME,
+      ...(PUBLISHER_LOGO_URL
+        ? {
+            logo: {
+              "@type": "ImageObject",
+              url: PUBLISHER_LOGO_URL,
+            },
+          }
+        : {}),
+    },
+    ...(imageUrl ? { image: [imageUrl] } : {}),
+  };
+
+  // BreadcrumbList schema (optional)
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: SITE_URL,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Blog",
+        item: `${SITE_URL}/posts`,
+      },
+      ...(category?.name
+        ? [
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: category.name,
+              item: `${SITE_URL}/posts/?category=${category.id}`,
+            },
+            {
+              "@type": "ListItem",
+              position: 4,
+              name: stripHtml(post.title.rendered),
+              item: canonicalUrl,
+            },
+          ]
+        : [
+            {
+              "@type": "ListItem",
+              position: 3,
+              name: stripHtml(post.title.rendered),
+              item: canonicalUrl,
+            },
+          ]),
+    ],
+  };
+
   return (
     <Section>
       <Container>
-        {/* Inject FAQ schema only if we detected FAQ items */}
+        {/* BlogPosting schema (always) */}
+        <Script
+          id="blogposting-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(blogPostingSchema) }}
+        />
+
+        {/* Breadcrumb schema (optional but recommended) */}
+        <Script
+          id="breadcrumb-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
+        />
+
+        {/* FAQ schema only if FAQs exist */}
         {faqSchema && (
           <Script
             id="faq-schema"
@@ -215,30 +304,27 @@ export default async function Page({
 
         <Prose>
           <h1>
-            <span
-              dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-            ></span>
+            <span dangerouslySetInnerHTML={{ __html: post.title.rendered }}></span>
           </h1>
 
           <div className="flex justify-between items-center gap-4 text-sm mb-4">
             <h5>
-              Published {date} by{" "}
-              {author.name && (
+              Published {dateHuman} by{" "}
+              {author?.name && (
                 <span>
                   <a href={`/posts/?author=${author.id}`}>{author.name}</a>{" "}
                 </span>
               )}
             </h5>
 
-            <Link
-              href={`/posts/?category=${category.id}`}
-              className={cn(
-                badgeVariants({ variant: "outline" }),
-                "no-underline!"
-              )}
-            >
-              {category.name}
-            </Link>
+            {category?.name && (
+              <Link
+                href={`/posts/?category=${category.id}`}
+                className={cn(badgeVariants({ variant: "outline" }), "no-underline!")}
+              >
+                {category.name}
+              </Link>
+            )}
           </div>
 
           {featuredMedia?.source_url && (

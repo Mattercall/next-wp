@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu, Search, ShoppingBag } from "lucide-react";
+import { Menu, Search, ShoppingBag, Star } from "lucide-react";
 import {
   Carousel,
   CarouselContent,
@@ -8,6 +8,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 
 const primaryButtonClass =
@@ -126,6 +127,49 @@ const promoTiles = [
   },
 ];
 
+const featuredCards = [
+  {
+    title: "Learn SQL Basics for Data Science",
+    provider: "University of California, Davis",
+    providerLogo:
+      "https://upload.wikimedia.org/wikipedia/commons/8/8b/University_of_California_Davis_seal.svg",
+    metaLabel: "Specialization",
+    rating: "4.6",
+    image:
+      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    title: "Meta Full Stack Developer: Front-End & Back-End from Scratch",
+    provider: "Meta",
+    providerLogo:
+      "https://upload.wikimedia.org/wikipedia/commons/0/05/Meta_Platforms_Inc._logo.svg",
+    metaLabel: "Specialization",
+    rating: "4.7",
+    image:
+      "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    title: "IBM Business Analyst",
+    provider: "IBM",
+    providerLogo:
+      "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+    metaLabel: "Professional Certificate",
+    rating: "4.7",
+    image:
+      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    title: "Adobe Marketing Specialist",
+    provider: "Adobe",
+    providerLogo:
+      "https://upload.wikimedia.org/wikipedia/commons/6/6e/Adobe_Corporate_Logo.png",
+    metaLabel: "Professional Certificate",
+    rating: "4.7",
+    image:
+      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80",
+  },
+];
+
 const AppleLogo = ({ className }: { className?: string }) => (
   <svg
     aria-hidden
@@ -154,7 +198,7 @@ export default function Home() {
         Save on iPhone with carrier deals and trade-in. Terms apply.
       </div>
 
-      <header className="sticky top-0 z-40 w-full border-b border-neutral-200 bg-white/95 backdrop-blur">
+      <header className="w-full">
         <div className="mx-auto flex max-w-[1100px] items-center justify-end px-4 py-2 text-[11px] text-neutral-600">
           <button className="flex items-center gap-1 rounded-full border border-neutral-200 px-2 py-0.5">
             Suomi
@@ -207,7 +251,7 @@ export default function Home() {
         </div>
       </header>
 
-      <section className="bg-[#f5f5f7]">
+      <section>
         <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
           <AppleLogo className="h-6 w-6 text-black" />
           <p className="mt-3 text-xs font-semibold uppercase tracking-[0.3em] text-neutral-900">
@@ -223,15 +267,52 @@ export default function Home() {
             <button className={primaryButtonClass}>Learn more</button>
             <button className={secondaryButtonClass}>Buy</button>
           </div>
-          <img
-            src="https://www.apple.com/v/apple-watch-series-11/c/images/overview/highlights/highlights_motivation__dqyf9xo8hjsm_large.jpg"
-            alt="Apple Watch Series 11 lineup"
-            className="mt-12 w-full max-w-4xl object-contain"
-          />
+          <div className="mt-8 w-full rounded-[28px] bg-gradient-to-r from-[#d8f0ff] via-[#d8f5f2] to-[#c8f2ea] p-6 text-left sm:p-8">
+            <div className="mb-6 flex items-center justify-between">
+              <h3 className="text-xl font-semibold text-neutral-900">
+                Featured Cards
+              </h3>
+            </div>
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+              {featuredCards.map((card) => (
+                <a key={card.title} href="#" className="group">
+                  <Card className="h-full overflow-hidden border border-neutral-200/70 shadow-sm transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md">
+                    <div className="h-[150px] w-full overflow-hidden">
+                      <img
+                        src={card.image}
+                        alt={card.title}
+                        className="h-full w-full object-cover"
+                      />
+                    </div>
+                    <CardContent className="p-4">
+                      <div className="flex items-center gap-2 text-xs text-neutral-500">
+                        <img
+                          src={card.providerLogo}
+                          alt={`${card.provider} logo`}
+                          className="h-5 w-5 rounded-sm object-contain"
+                        />
+                        <span className="line-clamp-1">{card.provider}</span>
+                      </div>
+                      <h4 className="mt-3 line-clamp-2 text-sm font-semibold text-neutral-900">
+                        {card.title}
+                      </h4>
+                      <p className="mt-4 text-xs text-neutral-500">
+                        {card.metaLabel}
+                      </p>
+                      <div className="mt-3 flex items-center gap-1 text-xs text-neutral-600">
+                        <Star className="h-3 w-3 fill-current text-neutral-900" />
+                        <span>{card.rating}</span>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="bg-[#f5f5f7]">
+      <section>
         <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
           <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
             iPhone
@@ -243,7 +324,7 @@ export default function Home() {
             <button className={primaryButtonClass}>Learn more</button>
             <button className={secondaryButtonClass}>Shop iPhone</button>
           </div>
-          <div className="mt-10 w-full max-w-4xl overflow-hidden">
+          <div className="mt-8 w-full max-w-4xl overflow-hidden">
             <img
               src="https://www.apple.com/v/iphone/home/ch/images/overview/consider/designed-to_last__c3hmkknr9scy_large.jpg"
               alt="iPhone lineup"
@@ -268,7 +349,7 @@ export default function Home() {
           <img
             src="https://www.apple.com/v/ipad-air/af/images/overview/hero/hero_endframe__fvm22b45e5me_large.png"
             alt="iPad Air"
-            className="mt-10 w-full max-w-3xl object-contain"
+            className="mt-8 w-full max-w-3xl object-contain"
           />
         </div>
       </section>
@@ -383,7 +464,7 @@ export default function Home() {
             <CarouselNext className="hidden sm:flex" />
           </Carousel>
 
-          <div className="mt-10">
+          <div className="mt-8">
             <Carousel opts={{ align: "start", loop: true }}>
               <CarouselContent>
                 {serviceSlides.map((slide) => (

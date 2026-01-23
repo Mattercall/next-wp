@@ -309,10 +309,7 @@ export default async function Page({
         />
       )}
 
-      <div
-        className="sticky z-40 w-full bg-[#f7f3ee]"
-        style={{ top: "var(--nav-height, 72px)" }}
-      >
+      <div className="relative w-full bg-[#f7f3ee]">
         <div className="relative left-1/2 right-1/2 h-[276px] w-screen -translate-x-1/2 overflow-hidden">
           <div className="relative mx-auto flex h-full w-full max-w-[90rem] items-center px-6">
             <div className="grid h-full w-full grid-cols-1 items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)_minmax(0,1fr)]">

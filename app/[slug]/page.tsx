@@ -149,6 +149,57 @@ function sanitizeCtaValue(value: unknown) {
   return stripHtml(String(value ?? "")).trim();
 }
 
+function extractYoutubeId(url: string) {
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.toLowerCase();
+
+    if (host.includes("youtu.be")) {
+      return parsed.pathname.replace("/", "").trim() || null;
+    }
+
+    if (host.includes("youtube.com")) {
+      if (parsed.pathname.startsWith("/embed/")) {
+        return parsed.pathname.split("/")[2] || null;
+      }
+
+      if (parsed.pathname.startsWith("/shorts/")) {
+        return parsed.pathname.split("/")[2] || null;
+      }
+
+      const videoId = parsed.searchParams.get("v");
+      if (videoId) return videoId;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
+function renderYoutubeEmbeds(html: string) {
+  if (!html) return html;
+
+  const buildIframe = (videoId: string) =>
+    `<iframe src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+
+  const withOembed = html.replace(
+    /<oembed\s+url=["']([^"']+)["']\s*><\/oembed>/gi,
+    (match, url) => {
+      const videoId = extractYoutubeId(String(url));
+      return videoId ? buildIframe(videoId) : match;
+    },
+  );
+
+  return withOembed.replace(
+    /<div class="wp-block-embed__wrapper">\s*(https?:\/\/[^\s<]+)\s*<\/div>/gi,
+    (match, url) => {
+      const videoId = extractYoutubeId(String(url));
+      return videoId ? `<div class="wp-block-embed__wrapper">${buildIframe(videoId)}</div>` : match;
+    },
+  );
+}
+
 function parseCategoryProducts(value: unknown): CategoryProduct[] {
   if (Array.isArray(value)) {
     return value as CategoryProduct[];
@@ -464,10 +515,12 @@ export default async function Page({
         }
       : null;
 
+  const contentWithEmbeds = renderYoutubeEmbeds(post.content.rendered);
+
   const { mediaHtml: leadingMediaHtml, contentHtml: contentForToc } =
     featuredMedia?.source_url
-      ? { mediaHtml: null, contentHtml: post.content.rendered }
-      : extractLeadingMedia(post.content.rendered);
+      ? { mediaHtml: null, contentHtml: contentWithEmbeds }
+      : extractLeadingMedia(contentWithEmbeds);
 
   const isLeadingIframe = Boolean(leadingMediaHtml?.match(/<iframe/i));
 
@@ -694,9 +747,12 @@ export default async function Page({
                   </div>
 
                   {hasProductCards ? (
-                    <div className="not-prose mb-6">
+                    <div className="not-prose mb-6 w-full max-w-full">
                       <FeaturedCardsSection embedded>
-                        <ProductCardsStrip products={productCardItems} />
+                        <ProductCardsStrip
+                          products={productCardItems}
+                          rowClassName="sm:overflow-x-auto sm:snap-x sm:snap-mandatory"
+                        />
                       </FeaturedCardsSection>
                     </div>
                   ) : null}
@@ -747,9 +803,12 @@ export default async function Page({
                         />
                       ) : null}
                       {section.insertAfter ? (
-                        <div className="not-prose my-6">
+                        <div className="not-prose my-6 w-full max-w-full">
                           <FeaturedCardsSection embedded>
-                            <ProductCardsStrip products={productCardItems} />
+                            <ProductCardsStrip
+                              products={productCardItems}
+                              rowClassName="sm:overflow-x-auto sm:snap-x sm:snap-mandatory"
+                            />
                           </FeaturedCardsSection>
                         </div>
                       ) : null}

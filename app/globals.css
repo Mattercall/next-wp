@@ -196,6 +196,20 @@
     animation: blog-hero-gradient 18s ease-in-out infinite;
 }
 
+.faq-section {
+    background-color: #f6f6f1;
+    border-radius: 1.5rem;
+    margin-block: 2.5rem;
+    padding: 2rem;
+}
+
+.faq-section p,
+.faq-section li {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--color-neutral-600);
+}
+
 /* Make sure this wins over Tailwind utilities */
 .rounded-t-\[24px\] {
     border-top-left-radius: 0 !important;

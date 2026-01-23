@@ -75,6 +75,29 @@ function extractFaqsFromHtml(html: string): FaqItem[] {
   return out;
 }
 
+function wrapFaqSection(html: string) {
+  if (!html || html.includes("faq-section")) return html;
+
+  const sectionRe =
+    /<(h2|h3)[^>]*>\s*(faq|faqs|frequently asked questions|häufige fragen|haeufige fragen)\s*<\/\1>/i;
+
+  const sectionMatch = html.match(sectionRe);
+  if (!sectionMatch || sectionMatch.index == null) return html;
+
+  const startIndex = sectionMatch.index;
+  const afterHeadingIndex = startIndex + sectionMatch[0].length;
+  const afterFaq = html.slice(afterHeadingIndex);
+
+  const nextH2 = afterFaq.search(/<h2[^>]*>/i);
+  const endIndex = nextH2 >= 0 ? afterHeadingIndex + nextH2 : html.length;
+
+  const before = html.slice(0, startIndex);
+  const faqBlock = html.slice(startIndex, endIndex);
+  const after = html.slice(endIndex);
+
+  return `${before}<section class="faq-section">${faqBlock}</section>${after}`;
+}
+
 function safeJsonLd(obj: any) {
   // Prevent </script> injection edge case
   return JSON.stringify(obj).replace(/</g, "\\u003c");
@@ -251,7 +274,12 @@ export default async function Page({
           )}
         </Prose>
 
-        <Article dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+        <Article
+          className="[&_p]:font-sans [&_p]:text-[14px] [&_p]:text-[color:var(--color-neutral-600)] [&_li]:font-sans [&_li]:text-[14px] [&_li]:text-[color:var(--color-neutral-600)] [&_blockquote]:font-sans [&_blockquote]:text-[14px] [&_blockquote]:text-[color:var(--color-neutral-600)]"
+          dangerouslySetInnerHTML={{
+            __html: wrapFaqSection(post.content.rendered),
+          }}
+        />
       </Container>
     </Section>
   );

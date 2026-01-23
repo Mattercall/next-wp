@@ -21,6 +21,7 @@ import {
   primaryButtonClass,
   secondaryButtonClass,
 } from "@/components/marketing/cta-styles";
+import ProductSidebar from "./product-sidebar";
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -351,9 +352,6 @@ export default async function Page({
     }));
 
   const hasCategoryProducts = categoryProducts.length > 0;
-
-  const categoryCtaLink =
-    categoryProducts.find((product) => product.link)?.link ?? "";
 
   const ctaCategory = orderedCategories.find((cat) => {
     const meta = (cat?.meta as Record<string, unknown>) || {};
@@ -711,90 +709,9 @@ export default async function Page({
               </aside>
 
               <aside className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-[310px] translate-x-[calc(690px/2+3rem)] pt-8 min-[1360px]:block z-0">
-                <Card className="not-prose pointer-events-auto sticky top-[calc(6rem+2rem)] w-full rounded-2xl border border-border/60 bg-background shadow-[0_1px_0_rgba(255,255,255,0.7),0_18px_50px_-30px_rgba(15,23,42,0.35),0_0_40px_rgba(59,130,246,0.2)]">
-                  <CardContent className="space-y-4 p-5">
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="space-y-1">
-                        <p className="text-sm font-semibold text-foreground">
-                          For Business Shark
-                        </p>
-                        <p className="text-xs leading-relaxed text-muted-foreground">
-                          Here, I focus on a range of items and features that we use
-                          in life without them.
-                        </p>
-                      </div>
-                      <button
-                        type="button"
-                        className="rounded-full border border-border/70 px-2 py-1 text-xs text-muted-foreground"
-                      >
-                        •••
-                      </button>
-                    </div>
-
-                    <div className="space-y-2">
-                      <p className="text-sm font-semibold text-foreground">
-                        Choose a plan to get started
-                      </p>
-                      <div className="space-y-2">
-                        {(hasCategoryProducts
-                          ? categoryProducts.map((product, index) => ({
-                              label: product.name,
-                              price: product.price,
-                              checked: index === 0,
-                            }))
-                          : [
-                              { label: "Branding", price: "$60" },
-                              { label: "Marketing", price: "$120", checked: true },
-                              { label: "Web Development", price: "$250" },
-                              { label: "App Development", price: "$320" },
-                            ]
-                        ).map((plan) => (
-                          <label
-                            key={plan.label}
-                            className={cn(
-                              "flex cursor-pointer items-center justify-between rounded-lg border border-border/70 px-3 py-2 text-sm",
-                              plan.checked && "bg-muted/40 text-foreground",
-                            )}
-                          >
-                            <span className="flex items-center gap-2">
-                              <input
-                                type="radio"
-                                name="plan"
-                                defaultChecked={plan.checked}
-                                className="h-4 w-4 accent-foreground"
-                              />
-                              {plan.label}
-                            </span>
-                            <span className="rounded-full border border-border/70 bg-muted/30 px-2 py-0.5 text-xs font-semibold text-foreground">
-                              {plan.price}
-                            </span>
-                          </label>
-                        ))}
-                      </div>
-                    </div>
-
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center justify-between text-muted-foreground">
-                        <span>Taxes</span>
-                        <span>$32</span>
-                      </div>
-                      <div className="flex items-center justify-between font-semibold text-foreground">
-                        <span>Total amount</span>
-                        <span>$1</span>
-                      </div>
-                    </div>
-
-                    {hasCategoryProducts ? (
-                      categoryCtaLink ? (
-                        <Button asChild className="w-full rounded-full">
-                          <a href={categoryCtaLink}>Start Now</a>
-                        </Button>
-                      ) : null
-                    ) : (
-                      <Button className="w-full rounded-full">Pay now</Button>
-                    )}
-                  </CardContent>
-                </Card>
+                {hasCategoryProducts ? (
+                  <ProductSidebar products={categoryProducts} />
+                ) : null}
               </aside>
             </div>
           </Container>

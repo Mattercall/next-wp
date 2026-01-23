@@ -459,13 +459,10 @@ export default async function Page({
           </div>
         </div>
 
-        <div
-          className="relative w-full overflow-visible"
-          style={{ "--sticky-offset": "8rem" } as Record<string, string>}
-        >
+        <div className="relative w-full overflow-visible">
           {tocItems.length > 0 && (
             <aside className="absolute top-0 hidden w-[310px] pt-8 min-[1360px]:block [left:calc(50%-345px-310px-24px)]">
-              <Card className="not-prose sticky top-[var(--sticky-offset)] max-h-[calc(100vh-var(--sticky-offset))] overflow-auto border border-border/70 shadow-sm">
+              <Card className="not-prose sticky top-[calc(6rem+2rem)] border border-border/70 shadow-sm">
                 <CardContent className="space-y-3 p-5">
                   <p className="text-sm font-semibold text-foreground">
                     Table of Contents
@@ -488,7 +485,7 @@ export default async function Page({
           )}
 
           <aside className="absolute top-0 hidden w-[310px] pt-8 min-[1360px]:block [left:calc(50%+345px+24px)]">
-            <Card className="not-prose sticky top-[var(--sticky-offset)] max-h-[calc(100vh-var(--sticky-offset))] overflow-auto rounded-2xl border border-border/60 bg-background shadow-[0_1px_0_rgba(255,255,255,0.7),0_18px_50px_-30px_rgba(15,23,42,0.35),0_0_40px_rgba(59,130,246,0.2)]">
+            <Card className="not-prose sticky top-[calc(6rem+2rem)] rounded-2xl border border-border/60 bg-background shadow-[0_1px_0_rgba(255,255,255,0.7),0_18px_50px_-30px_rgba(15,23,42,0.35),0_0_40px_rgba(59,130,246,0.2)]">
               <CardContent className="space-y-4 p-5">
                 <div className="flex items-start justify-between gap-3">
                   <div className="space-y-1">

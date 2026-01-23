@@ -425,15 +425,21 @@ export default async function Page({
                     Teste Shopify noch heute kostenlos und nutze Ressourcen, die dich
                     Schritt für Schritt begleiten.
                   </p>
-                  <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
-                    <Link href="/" className={primaryButtonClass}>
+                  <div className="mt-5 flex w-full flex-col items-center gap-3 md:flex-row md:flex-wrap md:justify-center">
+                    <Link
+                      href="/"
+                      className={cn(
+                        primaryButtonClass,
+                        "inline-flex w-full items-center justify-center text-center md:w-auto",
+                      )}
+                    >
                       Kostenlos starten
                     </Link>
                     <Link
                       href="/"
                       className={cn(
                         secondaryButtonClass,
-                        "inline-flex items-center gap-2",
+                        "inline-flex w-full items-center justify-center gap-2 text-center md:w-auto",
                       )}
                     >
                       <Play className="h-4 w-4" />

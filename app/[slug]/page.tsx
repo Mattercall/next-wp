@@ -317,20 +317,9 @@ export default async function Page({
 
   const ctaMeta = (ctaCategory?.meta as Record<string, unknown>) || {};
 
-  const defaultCtaTitle = "Shopify Starter";
-  const defaultCtaText = "Noch heute mit Shopify verkaufen.";
-  const defaultCtaSubtext =
-    "Teste Shopify noch heute kostenlos und nutze Ressourcen, die dich Schritt für Schritt begleiten.";
-
-  const ctaTitle =
-    (ctaCategory ? sanitizeCtaValue(ctaMeta._next_cat_cta_title) : "") ||
-    defaultCtaTitle;
-  const ctaText =
-    (ctaCategory ? sanitizeCtaValue(ctaMeta._next_cat_cta_text) : "") ||
-    defaultCtaText;
-  const ctaSubtext =
-    (ctaCategory ? sanitizeCtaValue(ctaMeta._next_cat_cta_subtext) : "") ||
-    defaultCtaSubtext;
+  const ctaTitle = ctaCategory ? sanitizeCtaValue(ctaMeta._next_cat_cta_title) : "";
+  const ctaText = ctaCategory ? sanitizeCtaValue(ctaMeta._next_cat_cta_text) : "";
+  const ctaSubtext = ctaCategory ? sanitizeCtaValue(ctaMeta._next_cat_cta_subtext) : "";
 
   const ctaButtons = [
     {
@@ -343,12 +332,8 @@ export default async function Page({
     },
   ].filter((button) => button.label && button.href);
 
-  const defaultButtons = [
-    { label: "Kostenlos starten", href: "/" },
-    { label: "So funktioniert Shopify", href: "/" },
-  ];
-
-  const heroButtons = ctaCategory ? ctaButtons : defaultButtons;
+  const heroButtons = ctaCategory ? ctaButtons : [];
+  const hasHeroCta = Boolean(ctaTitle && ctaText && ctaSubtext && heroButtons.length > 0);
 
   const datePublishedIso = new Date(post.date).toISOString();
   const dateModifiedIso = new Date(post.modified || post.date).toISOString();
@@ -498,53 +483,55 @@ export default async function Page({
           />
         )}
 
-        <div className="relative w-full blog-hero-gradient">
-          <div className="relative left-1/2 right-1/2 h-[276px] w-screen -translate-x-1/2 overflow-hidden">
-            <div className="relative mx-auto flex h-full w-full max-w-[90rem] items-center px-6">
-              <div className="grid h-full w-full grid-cols-1 items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)_minmax(0,1fr)]">
-                <div className="relative hidden h-full items-end lg:flex" aria-hidden="true" />
+        {hasHeroCta && (
+          <div className="relative w-full blog-hero-gradient">
+            <div className="relative left-1/2 right-1/2 h-[276px] w-screen -translate-x-1/2 overflow-hidden">
+              <div className="relative mx-auto flex h-full w-full max-w-[90rem] items-center px-6">
+                <div className="grid h-full w-full grid-cols-1 items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)_minmax(0,1fr)]">
+                  <div className="relative hidden h-full items-end lg:flex" aria-hidden="true" />
 
-                <div className="mx-auto flex h-full max-w-xl flex-col items-center justify-center text-center">
-                  <p className={cn("mt-0", heroEyebrowClass)}>{ctaTitle}</p>
-                  <h2 className={cn("mt-3", heroHeadingClass)}>{ctaText}</h2>
-                  <p className={cn("mt-2", heroBodyClass)}>{ctaSubtext}</p>
-                  {heroButtons.length > 0 && (
-                    <div className="mt-5 flex w-full flex-col items-center gap-3 md:flex-row md:flex-wrap md:justify-center">
-                      {heroButtons[0] && (
-                        <Link
-                          href={heroButtons[0].href}
-                          className={cn(
-                            primaryButtonClass,
-                            "inline-flex w-full items-center justify-center text-center md:w-auto",
-                          )}
-                        >
-                          {heroButtons[0].label}
-                        </Link>
-                      )}
-                      {heroButtons[1] && (
-                        <Link
-                          href={heroButtons[1].href}
-                          className={cn(
-                            secondaryButtonClass,
-                            "inline-flex w-full items-center justify-center gap-2 text-center md:w-auto",
-                          )}
-                        >
-                          <Play className="h-4 w-4" />
-                          {heroButtons[1].label}
-                        </Link>
-                      )}
-                    </div>
-                  )}
+                  <div className="mx-auto flex h-full max-w-xl flex-col items-center justify-center text-center">
+                    <p className={cn("mt-0", heroEyebrowClass)}>{ctaTitle}</p>
+                    <h2 className={cn("mt-3", heroHeadingClass)}>{ctaText}</h2>
+                    <p className={cn("mt-2", heroBodyClass)}>{ctaSubtext}</p>
+                    {heroButtons.length > 0 && (
+                      <div className="mt-5 flex w-full flex-col items-center gap-3 md:flex-row md:flex-wrap md:justify-center">
+                        {heroButtons[0] && (
+                          <Link
+                            href={heroButtons[0].href}
+                            className={cn(
+                              primaryButtonClass,
+                              "inline-flex w-full items-center justify-center text-center md:w-auto",
+                            )}
+                          >
+                            {heroButtons[0].label}
+                          </Link>
+                        )}
+                        {heroButtons[1] && (
+                          <Link
+                            href={heroButtons[1].href}
+                            className={cn(
+                              secondaryButtonClass,
+                              "inline-flex w-full items-center justify-center gap-2 text-center md:w-auto",
+                            )}
+                          >
+                            <Play className="h-4 w-4" />
+                            {heroButtons[1].label}
+                          </Link>
+                        )}
+                      </div>
+                    )}
+                  </div>
+
+                  <div
+                    className="relative hidden h-full items-center justify-end lg:flex"
+                    aria-hidden="true"
+                  />
                 </div>
-
-                <div
-                  className="relative hidden h-full items-center justify-end lg:flex"
-                  aria-hidden="true"
-                />
               </div>
             </div>
           </div>
-        </div>
+        )}
 
         <div className="relative w-full overflow-visible">
           <Container className="pt-0">

@@ -10,11 +10,13 @@ import {
 } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-
-const primaryButtonClass =
-  "rounded-full bg-blue-600 px-5 py-2 text-sm font-medium text-white transition hover:bg-blue-700";
-const secondaryButtonClass =
-  "rounded-full border border-blue-600 px-5 py-2 text-sm font-medium text-blue-600 transition hover:bg-blue-50";
+import {
+  primaryButtonClass,
+  secondaryButtonClass,
+  heroEyebrowClass,
+  heroHeadingClass,
+  heroBodyClass,
+} from "@/components/marketing/cta-styles";
 
 const posterSlides = [
   {
@@ -185,13 +187,13 @@ export default function Home() {
       <section>
         <div className="mx-auto flex max-w-[1600px] flex-col items-center px-4 py-16 text-center">
           <AppleLogo className="h-6 w-6 text-black" />
-          <p className="mt-3 text-xs font-semibold uppercase tracking-[0.3em] text-neutral-900">
+          <p className={cn("mt-3", heroEyebrowClass)}>
             Watch Series 11
           </p>
-          <h1 className="mt-4 text-3xl font-semibold text-neutral-900 sm:text-4xl">
+          <h1 className={cn("mt-4", heroHeadingClass)}>
             Turn resolutions into routines.
           </h1>
-          <p className="mt-2 text-lg text-neutral-600">
+          <p className={cn("mt-2", heroBodyClass)}>
             Quit quitting your fitness goals.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">

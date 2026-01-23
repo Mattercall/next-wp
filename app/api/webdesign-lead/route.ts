@@ -30,7 +30,7 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         email,
-        source: "ads/webdesign",
+        source: "service/webdesign",
         timestamp: new Date().toISOString(),
       }),
     });

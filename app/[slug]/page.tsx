@@ -368,44 +368,53 @@ export default async function Page({
         </div>
 
         <Container className="pt-0">
-          <Prose>
-            <h1>
-              <span dangerouslySetInnerHTML={{ __html: post.title.rendered }}></span>
-            </h1>
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,3fr)_minmax(0,1fr)] lg:gap-12">
+            <div className="lg:col-start-2">
+              <Prose>
+                <h1>
+                  <span
+                    dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                  ></span>
+                </h1>
 
-            <div className="flex justify-between items-center gap-4 text-sm mb-4">
-              <h5>
-                Published {dateHuman} by{" "}
-                {author?.name && (
-                  <span>
-                    <a href={`/posts/?author=${author.id}`}>{author.name}</a>{" "}
-                  </span>
+                <div className="flex justify-between items-center gap-4 text-sm mb-4">
+                  <h5>
+                    Published {dateHuman} by{" "}
+                    {author?.name && (
+                      <span>
+                        <a href={`/posts/?author=${author.id}`}>{author.name}</a>{" "}
+                      </span>
+                    )}
+                  </h5>
+
+                  {category?.name && (
+                    <Link
+                      href={`/posts/?category=${category.id}`}
+                      className={cn(
+                        badgeVariants({ variant: "outline" }),
+                        "no-underline!",
+                      )}
+                    >
+                      {category.name}
+                    </Link>
+                  )}
+                </div>
+
+                {featuredMedia?.source_url && (
+                  <div className="h-96 my-12 md:h-[500px] overflow-hidden flex items-center justify-center border rounded-lg bg-accent/25">
+                    {/* eslint-disable-next-line */}
+                    <img
+                      className="w-full h-full object-cover"
+                      src={featuredMedia.source_url}
+                      alt={post.title.rendered}
+                    />
+                  </div>
                 )}
-              </h5>
+              </Prose>
 
-              {category?.name && (
-                <Link
-                  href={`/posts/?category=${category.id}`}
-                  className={cn(badgeVariants({ variant: "outline" }), "no-underline!")}
-                >
-                  {category.name}
-                </Link>
-              )}
+              <Article dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
             </div>
-
-            {featuredMedia?.source_url && (
-              <div className="h-96 my-12 md:h-[500px] overflow-hidden flex items-center justify-center border rounded-lg bg-accent/25">
-                {/* eslint-disable-next-line */}
-                <img
-                  className="w-full h-full object-cover"
-                  src={featuredMedia.source_url}
-                  alt={post.title.rendered}
-                />
-              </div>
-            )}
-          </Prose>
-
-          <Article dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+          </div>
         </Container>
       </Section>
 

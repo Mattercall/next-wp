@@ -3,6 +3,7 @@ import {
   getFeaturedMediaById,
   getAuthorById,
   getCategoryById,
+  getCategoriesByIds,
   getAllPostSlugs,
 } from "@/lib/wordpress";
 import { generateContentMetadata, stripHtml } from "@/lib/metadata";
@@ -132,6 +133,10 @@ function slugifyHeading(text: string) {
     .replace(/['"]/g, "")
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/^-+|-+$/g, "");
+}
+
+function sanitizeCtaValue(value: unknown) {
+  return stripHtml(String(value ?? "")).trim();
 }
 
 function extractLeadingMedia(html: string) {
@@ -281,7 +286,69 @@ export default async function Page({
 
   const author = await getAuthorById(post.author);
 
-  const category = await getCategoryById(post.categories[0]);
+  const rawPrimaryCategoryId = Number(meta._yoast_wpseo_primary_category);
+  const primaryCategoryId = Number.isFinite(rawPrimaryCategoryId)
+    ? rawPrimaryCategoryId
+    : null;
+
+  const categoryIds = Array.from(
+    new Set(
+      primaryCategoryId && post.categories.includes(primaryCategoryId)
+        ? [primaryCategoryId, ...post.categories]
+        : post.categories,
+    ),
+  );
+
+  const categories = categoryIds.length ? await getCategoriesByIds(categoryIds) : [];
+  const categoriesById = new Map(categories.map((cat) => [cat.id, cat]));
+  const orderedCategories = categoryIds
+    .map((id) => categoriesById.get(id))
+    .filter(Boolean);
+  const category =
+    orderedCategories[0] ??
+    (post.categories[0] ? await getCategoryById(post.categories[0]) : undefined);
+
+  const ctaCategory = orderedCategories.find((cat) => {
+    const meta = (cat?.meta as Record<string, unknown>) || {};
+    const title = sanitizeCtaValue(meta._next_cat_cta_title);
+    const text = sanitizeCtaValue(meta._next_cat_cta_text);
+    return Boolean(title || text);
+  });
+
+  const ctaMeta = (ctaCategory?.meta as Record<string, unknown>) || {};
+
+  const defaultCtaTitle = "Shopify Starter";
+  const defaultCtaText = "Noch heute mit Shopify verkaufen.";
+  const defaultCtaSubtext =
+    "Teste Shopify noch heute kostenlos und nutze Ressourcen, die dich Schritt für Schritt begleiten.";
+
+  const ctaTitle =
+    (ctaCategory ? sanitizeCtaValue(ctaMeta._next_cat_cta_title) : "") ||
+    defaultCtaTitle;
+  const ctaText =
+    (ctaCategory ? sanitizeCtaValue(ctaMeta._next_cat_cta_text) : "") ||
+    defaultCtaText;
+  const ctaSubtext =
+    (ctaCategory ? sanitizeCtaValue(ctaMeta._next_cat_cta_subtext) : "") ||
+    defaultCtaSubtext;
+
+  const ctaButtons = [
+    {
+      label: sanitizeCtaValue(ctaMeta._next_cat_cta_btn1_label),
+      href: sanitizeCtaValue(ctaMeta._next_cat_cta_btn1_url),
+    },
+    {
+      label: sanitizeCtaValue(ctaMeta._next_cat_cta_btn2_label),
+      href: sanitizeCtaValue(ctaMeta._next_cat_cta_btn2_url),
+    },
+  ].filter((button) => button.label && button.href);
+
+  const defaultButtons = [
+    { label: "Kostenlos starten", href: "/" },
+    { label: "So funktioniert Shopify", href: "/" },
+  ];
+
+  const heroButtons = ctaCategory ? ctaButtons : defaultButtons;
 
   const datePublishedIso = new Date(post.date).toISOString();
   const dateModifiedIso = new Date(post.modified || post.date).toISOString();
@@ -438,35 +505,36 @@ export default async function Page({
                 <div className="relative hidden h-full items-end lg:flex" aria-hidden="true" />
 
                 <div className="mx-auto flex h-full max-w-xl flex-col items-center justify-center text-center">
-                  <p className={cn("mt-0", heroEyebrowClass)}>Shopify Starter</p>
-                  <h2 className={cn("mt-3", heroHeadingClass)}>
-                    Noch heute mit Shopify verkaufen.
-                  </h2>
-                  <p className={cn("mt-2", heroBodyClass)}>
-                    Teste Shopify noch heute kostenlos und nutze Ressourcen, die dich
-                    Schritt für Schritt begleiten.
-                  </p>
-                  <div className="mt-5 flex w-full flex-col items-center gap-3 md:flex-row md:flex-wrap md:justify-center">
-                    <Link
-                      href="/"
-                      className={cn(
-                        primaryButtonClass,
-                        "inline-flex w-full items-center justify-center text-center md:w-auto",
+                  <p className={cn("mt-0", heroEyebrowClass)}>{ctaTitle}</p>
+                  <h2 className={cn("mt-3", heroHeadingClass)}>{ctaText}</h2>
+                  <p className={cn("mt-2", heroBodyClass)}>{ctaSubtext}</p>
+                  {heroButtons.length > 0 && (
+                    <div className="mt-5 flex w-full flex-col items-center gap-3 md:flex-row md:flex-wrap md:justify-center">
+                      {heroButtons[0] && (
+                        <Link
+                          href={heroButtons[0].href}
+                          className={cn(
+                            primaryButtonClass,
+                            "inline-flex w-full items-center justify-center text-center md:w-auto",
+                          )}
+                        >
+                          {heroButtons[0].label}
+                        </Link>
                       )}
-                    >
-                      Kostenlos starten
-                    </Link>
-                    <Link
-                      href="/"
-                      className={cn(
-                        secondaryButtonClass,
-                        "inline-flex w-full items-center justify-center gap-2 text-center md:w-auto",
+                      {heroButtons[1] && (
+                        <Link
+                          href={heroButtons[1].href}
+                          className={cn(
+                            secondaryButtonClass,
+                            "inline-flex w-full items-center justify-center gap-2 text-center md:w-auto",
+                          )}
+                        >
+                          <Play className="h-4 w-4" />
+                          {heroButtons[1].label}
+                        </Link>
                       )}
-                    >
-                      <Play className="h-4 w-4" />
-                      So funktioniert Shopify
-                    </Link>
-                  </div>
+                    </div>
+                  )}
                 </div>
 
                 <div

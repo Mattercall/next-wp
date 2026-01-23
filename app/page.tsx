@@ -8,7 +8,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
-import { Card, CardContent } from "@/components/ui/card";
+import {
+  FeaturedCard,
+  FeaturedCardsRow,
+} from "@/components/featured-cards/featured-cards";
 import { cn } from "@/lib/utils";
 import {
   primaryButtonClass,
@@ -206,61 +209,56 @@ export default function Home() {
                 Featured Cards
               </h3>
             </div>
-            <div className="flex w-full flex-nowrap gap-4 overflow-x-auto overflow-y-hidden pb-2 snap-x snap-mandatory scroll-smooth touch-pan-x [-webkit-overflow-scrolling:touch] sm:gap-6 sm:overflow-visible sm:snap-none">
+            <FeaturedCardsRow>
               {featuredCards.map((card) => (
-                <a
+                <FeaturedCard
                   key={card.title}
                   href="#"
                   className={cn(
-                    "group shrink-0 snap-start",
                     card.isVideo && "order-first sm:order-none"
                   )}
+                  media={
+                    card.isVideo ? (
+                      <video
+                        src="https://alidrives.b-cdn.net/alibacklink-main.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        controls={false}
+                        className="h-full w-full rounded-t-[24px] object-cover"
+                      />
+                    ) : (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={card.image}
+                        alt={card.title}
+                        className="h-full w-full rounded-t-[24px] object-cover"
+                      />
+                    )
+                  }
                 >
-                  <Card className="h-full w-[82vw] max-w-[260px] overflow-hidden border border-neutral-200/70 shadow-sm transition-all duration-200 group-hover:-translate-y-0.5 group-hover:shadow-md sm:w-[260px]">
-                    <div className="h-[150px] w-full overflow-hidden">
-                      {card.isVideo ? (
-                        <video
-                          src="https://alidrives.b-cdn.net/alibacklink-main.mp4"
-                          autoPlay
-                          muted
-                          loop
-                          playsInline
-                          preload="metadata"
-                          controls={false}
-                          className="h-full w-full rounded-t-[24px] object-cover"
-                        />
-                      ) : (
-                        <img
-                          src={card.image}
-                          alt={card.title}
-                          className="h-full w-full rounded-t-[24px] object-cover"
-                        />
-                      )}
-                    </div>
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-2 text-xs text-neutral-500">
-                        <img
-                          src={card.providerLogo}
-                          alt={`${card.provider} logo`}
-                          className="h-5 w-5 rounded-sm object-contain"
-                        />
-                        <span className="line-clamp-1">{card.provider}</span>
-                      </div>
-                      <h4 className="mt-3 line-clamp-2 text-sm font-semibold text-neutral-900">
-                        {card.title}
-                      </h4>
-                      <p className="mt-4 text-xs text-neutral-500">
-                        {card.metaLabel}
-                      </p>
-                      <div className="mt-3 flex items-center gap-1 text-xs text-neutral-600">
-                        <Star className="h-3 w-3 fill-current text-neutral-900" />
-                        <span>{card.rating}</span>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </a>
+                  <div className="flex items-center gap-2 text-xs text-neutral-500">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={card.providerLogo}
+                      alt={`${card.provider} logo`}
+                      className="h-5 w-5 rounded-sm object-contain"
+                    />
+                    <span className="line-clamp-1">{card.provider}</span>
+                  </div>
+                  <h4 className="mt-3 line-clamp-2 text-sm font-semibold text-neutral-900">
+                    {card.title}
+                  </h4>
+                  <p className="mt-4 text-xs text-neutral-500">{card.metaLabel}</p>
+                  <div className="mt-3 flex items-center gap-1 text-xs text-neutral-600">
+                    <Star className="h-3 w-3 fill-current text-neutral-900" />
+                    <span>{card.rating}</span>
+                  </div>
+                </FeaturedCard>
               ))}
-            </div>
+            </FeaturedCardsRow>
           </div>
         </div>
       </section>

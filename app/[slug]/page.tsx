@@ -21,10 +21,12 @@ import {
   primaryButtonClass,
   secondaryButtonClass,
 } from "@/components/marketing/cta-styles";
+import { ProductCardsStrip } from "@/components/featured-cards/product-cards-strip";
 import ProductSidebar from "./product-sidebar";
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Fragment } from "react";
 import type { Metadata } from "next";
 import Script from "next/script";
 import { Play } from "lucide-react";
@@ -234,6 +236,35 @@ function buildTocFromHtml(html: string) {
   return { toc, content };
 }
 
+type ContentSection = { html: string; insertAfter: boolean };
+
+function splitContentByEverySecondH2(html: string, maxInserts = 4): ContentSection[] {
+  if (!html) {
+    return [{ html: "", insertAfter: false }];
+  }
+
+  const sections: ContentSection[] = [];
+  const h2Regex = /<h2\b[^>]*>[\s\S]*?<\/h2>/gi;
+  let lastIndex = 0;
+  let h2Count = 0;
+  let insertCount = 0;
+  let match: RegExpExecArray | null;
+
+  while ((match = h2Regex.exec(html)) !== null) {
+    h2Count += 1;
+    if (h2Count % 2 === 0 && insertCount < maxInserts) {
+      const endIndex = match.index + match[0].length;
+      sections.push({ html: html.slice(lastIndex, endIndex), insertAfter: true });
+      lastIndex = endIndex;
+      insertCount += 1;
+    }
+  }
+
+  sections.push({ html: html.slice(lastIndex), insertAfter: false });
+
+  return sections.filter((section) => section.html || section.insertAfter);
+}
+
 export async function generateStaticParams() {
   return await getAllPostSlugs();
 }
@@ -332,26 +363,41 @@ export default async function Page({
     orderedCategories[0] ??
     (post.categories[0] ? await getCategoryById(post.categories[0]) : undefined);
 
-  const categoryWithProducts = orderedCategories.find((cat) => {
+  const categoryProducts = orderedCategories.flatMap((cat) => {
     const meta = (cat?.meta as Record<string, unknown>) || {};
-    const products = parseCategoryProducts(meta._next_cat_products);
-    return products.some((product) => Boolean(product?.name && product?.price));
+    return parseCategoryProducts(meta._next_cat_products ?? "[]");
   });
 
-  const categoryProductsMeta = (categoryWithProducts?.meta as Record<string, unknown>) || {};
-  const parsedCategoryProducts = parseCategoryProducts(
-    categoryProductsMeta._next_cat_products,
+  const normalizedCategoryProducts = categoryProducts
+    .map((product) => {
+      const name = String(product?.name ?? "").trim();
+      const price = String(product?.price ?? "").trim();
+      const image = String(product?.image ?? "").trim();
+      const link = String(product?.link ?? "").trim();
+
+      if (!name || !price) {
+        return null;
+      }
+
+      return { name, price, image, link };
+    })
+    .filter(
+      (
+        product,
+      ): product is {
+        name: string;
+        price: string;
+        image: string;
+        link: string;
+      } => Boolean(product),
+    );
+
+  const productCardItems = normalizedCategoryProducts.filter(
+    (product) => product.image && product.link,
   );
 
-  const categoryProducts = parsedCategoryProducts
-    .filter((product) => product?.name && product?.price)
-    .map((product) => ({
-      name: String(product.name),
-      price: String(product.price),
-      link: product?.link ? String(product.link) : "",
-    }));
-
-  const hasCategoryProducts = categoryProducts.length > 0;
+  const hasCategoryProducts = normalizedCategoryProducts.length > 0;
+  const hasProductCards = productCardItems.length > 0;
 
   const ctaCategory = orderedCategories.find((cat) => {
     const meta = (cat?.meta as Record<string, unknown>) || {};
@@ -427,6 +473,9 @@ export default async function Page({
   const { toc: tocItems, content: contentWithAnchors } =
     buildTocFromHtml(contentForToc);
   const contentWithFaqStyles = wrapFaqSection(contentWithAnchors);
+  const contentSections = hasProductCards
+    ? splitContentByEverySecondH2(contentWithFaqStyles, 4)
+    : [{ html: contentWithFaqStyles, insertAfter: false }];
 
   // BlogPosting schema
   const blogPostingSchema: any = {
@@ -643,6 +692,12 @@ export default async function Page({
                     )}
                   </div>
 
+                  {hasProductCards ? (
+                    <div className="not-prose mb-6">
+                      <ProductCardsStrip products={productCardItems} />
+                    </div>
+                  ) : null}
+
                   {tocItems.length > 0 && (
                     <details className="not-prose mb-6 lg:hidden">
                       <Button
@@ -680,8 +735,22 @@ export default async function Page({
                     blogHeadingTypography,
                     "max-w-none w-full [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_iframe]:rounded-lg [&_iframe]:border [&_iframe]:border-border/70 [&_iframe]:shadow-sm [&_img]:w-full [&_img]:rounded-lg [&_img]:border [&_img]:border-border/70 [&_img]:shadow-sm [&_video]:w-full [&_video]:rounded-lg [&_video]:border [&_video]:border-border/70 [&_video]:shadow-sm [&_p]:font-sans [&_p]:text-[14px] [&_p]:text-[color:var(--color-neutral-600)] [&_li]:font-sans [&_li]:text-[14px] [&_li]:text-[color:var(--color-neutral-600)] [&_blockquote]:font-sans [&_blockquote]:text-[14px] [&_blockquote]:text-[color:var(--color-neutral-600)]",
                   )}
-                  dangerouslySetInnerHTML={{ __html: contentWithFaqStyles }}
-                />
+                >
+                  {contentSections.map((section, index) => (
+                    <Fragment key={`section-${index}`}>
+                      {section.html ? (
+                        <div
+                          dangerouslySetInnerHTML={{ __html: section.html }}
+                        />
+                      ) : null}
+                      {section.insertAfter ? (
+                        <div className="not-prose my-6">
+                          <ProductCardsStrip products={productCardItems} />
+                        </div>
+                      ) : null}
+                    </Fragment>
+                  ))}
+                </Article>
               </div>
 
               <aside className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-[310px] -translate-x-[calc(690px/2+310px+3rem)] pt-8 min-[1360px]:block z-0">
@@ -710,7 +779,7 @@ export default async function Page({
 
               <aside className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-[310px] translate-x-[calc(690px/2+3rem)] pt-8 min-[1360px]:block z-0">
                 {hasCategoryProducts ? (
-                  <ProductSidebar products={categoryProducts} />
+                  <ProductSidebar products={normalizedCategoryProducts} />
                 ) : null}
               </aside>
             </div>

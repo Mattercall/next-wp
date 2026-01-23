@@ -1,17 +1,13 @@
 import {
-  getPostBySlug,
+  getPageBySlug,
   getFeaturedMediaById,
   getAuthorById,
-  getCategoryById,
-  getAllPostSlugs,
+  getAllPages,
 } from "@/lib/wordpress";
 import { generateContentMetadata, stripHtml } from "@/lib/metadata";
 
 import { Section, Container, Article, Prose } from "@/components/craft";
-import { badgeVariants } from "@/components/ui/badge";
-import { cn } from "@/lib/utils";
 
-import Link from "next/link";
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Script from "next/script";
@@ -104,7 +100,8 @@ function safeJsonLd(obj: any) {
 }
 
 export async function generateStaticParams() {
-  return await getAllPostSlugs();
+  const pages = await getAllPages();
+  return pages.map((page) => ({ slug: page.slug }));
 }
 
 export async function generateMetadata({
@@ -113,7 +110,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const post = await getPageBySlug(slug);
 
   if (!post) {
     return {};
@@ -183,7 +180,7 @@ export default async function Page({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const post = await getPageBySlug(slug);
 
   if (!post) {
     notFound();
@@ -200,8 +197,6 @@ export default async function Page({
     day: "numeric",
     year: "numeric",
   });
-
-  const category = await getCategoryById(post.categories[0]);
 
   // Extract FAQs from the rendered HTML content
   const faqs = extractFaqsFromHtml(post.content.rendered);
@@ -250,16 +245,6 @@ export default async function Page({
                 </span>
               )}
             </h5>
-
-            <Link
-              href={`/posts/?category=${category.id}`}
-              className={cn(
-                badgeVariants({ variant: "outline" }),
-                "no-underline!"
-              )}
-            >
-              {category.name}
-            </Link>
           </div>
 
           {featuredMedia?.source_url && (

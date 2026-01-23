@@ -22,6 +22,7 @@ import {
   secondaryButtonClass,
 } from "@/components/marketing/cta-styles";
 import { ProductCardsStrip } from "@/components/featured-cards/product-cards-strip";
+import { FeaturedCardsSection } from "@/components/featured-cards/featured-cards-section";
 import ProductSidebar from "./product-sidebar";
 
 import Link from "next/link";
@@ -694,7 +695,9 @@ export default async function Page({
 
                   {hasProductCards ? (
                     <div className="not-prose mb-6">
-                      <ProductCardsStrip products={productCardItems} />
+                      <FeaturedCardsSection>
+                        <ProductCardsStrip products={productCardItems} />
+                      </FeaturedCardsSection>
                     </div>
                   ) : null}
 
@@ -745,7 +748,9 @@ export default async function Page({
                       ) : null}
                       {section.insertAfter ? (
                         <div className="not-prose my-6">
-                          <ProductCardsStrip products={productCardItems} />
+                          <FeaturedCardsSection>
+                            <ProductCardsStrip products={productCardItems} />
+                          </FeaturedCardsSection>
                         </div>
                       ) : null}
                     </Fragment>

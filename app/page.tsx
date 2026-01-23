@@ -12,6 +12,7 @@ import {
   FeaturedCard,
   FeaturedCardsRow,
 } from "@/components/featured-cards/featured-cards";
+import { FeaturedCardsSection } from "@/components/featured-cards/featured-cards-section";
 import { cn } from "@/lib/utils";
 import {
   primaryButtonClass,
@@ -203,12 +204,7 @@ export default function Home() {
             <button className={primaryButtonClass}>Learn more</button>
             <button className={secondaryButtonClass}>Buy</button>
           </div>
-          <div className="mt-8 w-full rounded-[28px] bg-gradient-to-r from-[#d8f0ff] via-[#d8f5f2] to-[#c8f2ea] p-6 text-left sm:mx-auto sm:w-[calc(5*260px+4*24px+2*32px)] sm:p-8">
-            <div className="mb-6 flex items-center justify-between">
-              <h3 className="text-xl font-semibold text-neutral-900">
-                Featured Cards
-              </h3>
-            </div>
+          <FeaturedCardsSection>
             <FeaturedCardsRow>
               {featuredCards.map((card) => (
                 <FeaturedCard
@@ -259,7 +255,7 @@ export default function Home() {
                 </FeaturedCard>
               ))}
             </FeaturedCardsRow>
-          </div>
+          </FeaturedCardsSection>
         </div>
       </section>
 

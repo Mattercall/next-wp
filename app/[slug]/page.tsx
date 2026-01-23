@@ -10,6 +10,7 @@ import { generateContentMetadata, stripHtml } from "@/lib/metadata";
 import { Section, Container, Article, Prose } from "@/components/craft";
 import { badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
@@ -45,6 +46,7 @@ const PUBLISHER_LOGO_URL = process.env.NEXT_PUBLIC_PUBLISHER_LOGO_URL || ""; // 
  *  - answer content until next <h3> or end of FAQ block
  */
 type FaqItem = { question: string; answerText: string };
+type TocItem = { id: string; text: string };
 
 function decodeEntities(s: string) {
   return s
@@ -95,6 +97,53 @@ function extractFaqsFromHtml(html: string): FaqItem[] {
 
 function safeJsonLd(obj: any) {
   return JSON.stringify(obj).replace(/</g, "\\u003c");
+}
+
+function slugifyHeading(text: string) {
+  return text
+    .toLowerCase()
+    .trim()
+    .replace(/['"]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+}
+
+function buildTocFromHtml(html: string) {
+  const toc: TocItem[] = [];
+  const seen = new Map<string, number>();
+
+  const content = html.replace(
+    /<h2([^>]*)>([\s\S]*?)<\/h2>/gi,
+    (match, attrs, inner) => {
+      const text = decodeEntities(stripHtml(inner)).trim();
+      if (!text) return match;
+
+      const idMatch = String(attrs).match(/\sid=["']([^"']+)["']/i);
+      const existingId = idMatch?.[1];
+      let id = existingId || slugifyHeading(text) || "section";
+
+      if (!existingId) {
+        const count = seen.get(id) ?? 0;
+        if (count > 0) {
+          id = `${id}-${count + 1}`;
+        }
+        seen.set(id, count + 1);
+      }
+
+      toc.push({ id, text });
+
+      if (existingId) {
+        const count = seen.get(existingId) ?? 0;
+        seen.set(existingId, count + 1);
+        return match;
+      }
+
+      const spacer = attrs && String(attrs).trim().length > 0 ? " " : "";
+      return `<h2${attrs}${spacer}id="${id}">${inner}</h2>`;
+    },
+  );
+
+  return { toc, content };
 }
 
 export async function generateStaticParams() {
@@ -211,6 +260,10 @@ export default async function Page({
           })),
         }
       : null;
+
+  const { toc: tocItems, content: contentWithAnchors } = buildTocFromHtml(
+    post.content.rendered,
+  );
 
   // BlogPosting schema
   const blogPostingSchema: any = {
@@ -369,7 +422,7 @@ export default async function Page({
 
         <Container className="pt-0">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,3fr)_minmax(0,1fr)] lg:gap-12">
-            <div className="lg:col-start-2">
+            <div className="w-full lg:col-start-2 lg:w-[690px] lg:justify-self-center">
               <Prose>
                 <h1>
                   <span
@@ -400,6 +453,28 @@ export default async function Page({
                   )}
                 </div>
 
+                {tocItems.length > 0 && (
+                  <Card className="not-prose mb-6 border border-border/70 shadow-sm">
+                    <CardContent className="space-y-3 p-5">
+                      <p className="text-sm font-semibold text-foreground">
+                        Table of Contents
+                      </p>
+                      <ul className="space-y-2 text-sm text-muted-foreground">
+                        {tocItems.map((item) => (
+                          <li key={item.id}>
+                            <a
+                              href={`#${item.id}`}
+                              className="underline-offset-4 hover:text-foreground hover:underline"
+                            >
+                              {item.text}
+                            </a>
+                          </li>
+                        ))}
+                      </ul>
+                    </CardContent>
+                  </Card>
+                )}
+
                 {featuredMedia?.source_url && (
                   <div className="h-96 my-12 md:h-[500px] overflow-hidden flex items-center justify-center border rounded-lg bg-accent/25">
                     {/* eslint-disable-next-line */}
@@ -412,7 +487,10 @@ export default async function Page({
                 )}
               </Prose>
 
-              <Article dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+              <Article
+                className="max-w-none w-full"
+                dangerouslySetInnerHTML={{ __html: contentWithAnchors }}
+              />
             </div>
           </div>
         </Container>

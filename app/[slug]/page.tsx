@@ -278,8 +278,8 @@ export default async function Page({
   };
 
   return (
-    <Section>
-      <Container>
+    <Section className="pt-0">
+      <Container className="pt-0">
         {/* BlogPosting schema (always) */}
         <Script
           id="blogposting-schema"
@@ -304,50 +304,55 @@ export default async function Page({
         )}
 
         <div className="relative left-1/2 right-1/2 w-screen -translate-x-1/2 bg-[#f7f3ee]">
-          <div className="relative mx-auto max-w-6xl px-6 py-16 lg:py-24">
-            <div className="mx-auto max-w-3xl text-center">
-              <h2 className="text-3xl font-bold uppercase leading-tight text-neutral-900 sm:text-4xl lg:text-5xl">
-                NOCH HEUTE MIT SHOPIFY
-                <br />
-                VERKAUFEN
-              </h2>
-              <p className="mt-4 text-base text-neutral-700 sm:text-lg">
-                Teste Shopify noch heute kostenlos und nutze diese Ressourcen, die dich
-                Schritt für Schritt auf dem Weg zu deinem Ziel begleiten.
-              </p>
-              <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
-                <Link
-                  href="/"
-                  className="rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/90"
-                >
-                  Kostenlos starten
-                </Link>
-                <Link
-                  href="/"
-                  className="flex items-center gap-2 rounded-full border border-black px-6 py-3 text-sm font-semibold text-black transition hover:bg-black/5"
-                >
-                  <Play className="h-4 w-4" />
-                  So funktioniert Shopify
-                </Link>
+          <div className="relative mx-auto w-full max-w-[90rem] px-6 py-16 lg:py-24">
+            <div className="relative grid items-center lg:grid-cols-[minmax(0,1fr)_minmax(0,48rem)_minmax(0,1fr)]">
+              <div className="relative hidden lg:block">
+                <img
+                  className="absolute bottom-10 left-0 h-48 w-64 rounded-3xl object-cover shadow-lg"
+                  src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80"
+                  alt="Zwei Personen im Gespräch mit Laptop"
+                />
               </div>
-            </div>
 
-            <div className="pointer-events-none absolute inset-0 hidden lg:block">
-              <img
-                className="absolute bottom-10 left-6 h-48 w-64 rounded-3xl object-cover shadow-lg"
-                src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80"
-                alt="Zwei Personen im Gespräch mit Laptop"
-              />
-              <img
-                className="absolute right-10 top-8 h-32 w-40 rounded-2xl object-cover shadow-md"
-                src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=500&q=80"
-                alt="Händler im Gespräch"
-              />
-              <img
-                className="absolute bottom-8 right-6 h-56 w-72 rounded-3xl object-cover shadow-lg"
-                src="https://images.unsplash.com/photo-1515165562835-c4c9cc9719a9?auto=format&fit=crop&w=900&q=80"
-                alt="Hand mit Smartphone über Paket"
-              />
+              <div className="mx-auto max-w-3xl text-center">
+                <h2 className="text-3xl font-bold uppercase leading-tight text-neutral-900 sm:text-4xl lg:text-5xl">
+                  NOCH HEUTE MIT SHOPIFY
+                  <br />
+                  VERKAUFEN
+                </h2>
+                <p className="mt-4 text-base text-neutral-700 sm:text-lg">
+                  Teste Shopify noch heute kostenlos und nutze diese Ressourcen, die dich
+                  Schritt für Schritt auf dem Weg zu deinem Ziel begleiten.
+                </p>
+                <div className="mt-6 flex flex-wrap items-center justify-center gap-4">
+                  <Link
+                    href="/"
+                    className="rounded-full bg-black px-6 py-3 text-sm font-semibold text-white transition hover:bg-black/90"
+                  >
+                    Kostenlos starten
+                  </Link>
+                  <Link
+                    href="/"
+                    className="flex items-center gap-2 rounded-full border border-black px-6 py-3 text-sm font-semibold text-black transition hover:bg-black/5"
+                  >
+                    <Play className="h-4 w-4" />
+                    So funktioniert Shopify
+                  </Link>
+                </div>
+              </div>
+
+              <div className="relative hidden lg:block">
+                <img
+                  className="absolute right-0 top-8 h-32 w-40 rounded-2xl object-cover shadow-md"
+                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=500&q=80"
+                  alt="Händler im Gespräch"
+                />
+                <img
+                  className="absolute bottom-8 right-0 h-56 w-72 rounded-3xl object-cover shadow-lg"
+                  src="https://images.unsplash.com/photo-1515165562835-c4c9cc9719a9?auto=format&fit=crop&w=900&q=80"
+                  alt="Hand mit Smartphone über Paket"
+                />
+              </div>
             </div>
           </div>
         </div>

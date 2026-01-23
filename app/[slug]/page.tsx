@@ -631,7 +631,7 @@ export default async function Page({
         <div className="relative w-full overflow-visible">
           <Container className="pt-0">
             <div className="relative">
-              <div className="relative z-10 mx-auto w-full max-w-[690px]">
+              <div className="relative z-10 mx-auto w-full min-w-0 max-w-[690px]">
                 <Prose className={blogHeadingTypography}>
                   <h1>
                     <span
@@ -695,7 +695,7 @@ export default async function Page({
 
                   {hasProductCards ? (
                     <div className="not-prose mb-6">
-                      <FeaturedCardsSection>
+                      <FeaturedCardsSection embedded>
                         <ProductCardsStrip products={productCardItems} />
                       </FeaturedCardsSection>
                     </div>
@@ -748,7 +748,7 @@ export default async function Page({
                       ) : null}
                       {section.insertAfter ? (
                         <div className="not-prose my-6">
-                          <FeaturedCardsSection>
+                          <FeaturedCardsSection embedded>
                             <ProductCardsStrip products={productCardItems} />
                           </FeaturedCardsSection>
                         </div>

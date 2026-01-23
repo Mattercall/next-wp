@@ -285,7 +285,7 @@ export default async function Page({
   };
 
   return (
-    <Section className="pt-0 pb-8 md:pb-12">
+    <Section className="pt-0 pb-8 md:pt-0 md:pb-12">
       {/* BlogPosting schema (always) */}
       <Script
         id="blogposting-schema"
@@ -322,7 +322,7 @@ export default async function Page({
               </div>
 
               <div className="mx-auto flex h-full max-w-xl flex-col items-center justify-center text-center">
-                <p className={heroEyebrowClass}>Shopify Starter</p>
+                <p className={cn("mt-0", heroEyebrowClass)}>Shopify Starter</p>
                 <h2 className={cn("mt-3", heroHeadingClass)}>
                   Noch heute mit Shopify verkaufen.
                 </h2>

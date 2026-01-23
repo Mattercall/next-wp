@@ -108,7 +108,9 @@ const FaqList = ({
               }`}
             >
               <div className="overflow-hidden">
-                <p className="mt-3 text-sm text-neutral-500">{item.answer}</p>
+                <p className="mt-3 font-sans text-[14px] text-[color:var(--color-neutral-600)]">
+                  {item.answer}
+                </p>
               </div>
             </div>
           </div>
@@ -309,14 +311,14 @@ export default function ContactPage() {
         </Card>
       </section>
 
-      <section className="bg-white pb-12 sm:pb-16">
+      <section className="faq-section">
         <div className="mx-auto max-w-5xl px-4">
           <h2 className="text-3xl font-semibold text-neutral-900">FAQs</h2>
           <FaqList items={faqItems} />
         </div>
       </section>
 
-      <section className="bg-white pb-20 sm:pb-24">
+      <section className="faq-section">
         <div className="mx-auto max-w-5xl px-4">
           <h2 className="text-3xl font-semibold text-neutral-900">
             Common Questions

@@ -51,6 +51,12 @@ const PUBLISHER_LOGO_URL = process.env.NEXT_PUBLIC_PUBLISHER_LOGO_URL || ""; // 
  */
 type FaqItem = { question: string; answerText: string };
 type TocItem = { id: string; text: string };
+type CategoryProduct = {
+  name?: string;
+  price?: string;
+  image?: string;
+  link?: string;
+};
 
 function decodeEntities(s: string) {
   return s
@@ -137,6 +143,74 @@ function slugifyHeading(text: string) {
 
 function sanitizeCtaValue(value: unknown) {
   return stripHtml(String(value ?? "")).trim();
+}
+
+function parseCategoryProducts(value: unknown): CategoryProduct[] {
+  if (Array.isArray(value)) {
+    return value as CategoryProduct[];
+  }
+
+  if (typeof value !== "string" || !value.trim()) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed) ? (parsed as CategoryProduct[]) : [];
+  } catch {
+    return [];
+  }
+}
+
+function parsePriceString(value: string) {
+  const trimmed = value.trim();
+  if (!trimmed) {
+    return null;
+  }
+
+  const currencyMatch = trimmed.match(/[$€£]/);
+  const firstDigitIndex = trimmed.search(/\d/);
+  const currencyIndex = currencyMatch?.index ?? null;
+  const currencyPosition =
+    currencyIndex != null && firstDigitIndex >= 0
+      ? currencyIndex < firstDigitIndex
+        ? "prefix"
+        : "suffix"
+      : null;
+
+  const numericPart = trimmed.replace(/[^\d,.-]/g, "");
+  const normalized = numericPart.replace(",", ".");
+  const numberMatch = normalized.match(/-?\d+(\.\d+)?/);
+
+  if (!numberMatch) {
+    return null;
+  }
+
+  const amount = Number.parseFloat(numberMatch[0]);
+  if (Number.isNaN(amount)) {
+    return null;
+  }
+
+  return {
+    amount,
+    currency: currencyMatch?.[0] ?? null,
+    currencyPosition,
+  };
+}
+
+function formatTotalAmount(
+  amount: number,
+  currency: string | null,
+  currencyPosition: "prefix" | "suffix" | null,
+) {
+  const rounded = Math.round((amount + Number.EPSILON) * 100) / 100;
+  const formatted = Number.isInteger(rounded) ? rounded.toFixed(0) : rounded.toFixed(2);
+
+  if (!currency) {
+    return formatted;
+  }
+
+  return currencyPosition === "suffix" ? `${formatted}${currency}` : `${currency}${formatted}`;
 }
 
 function extractLeadingMedia(html: string) {
@@ -307,6 +381,57 @@ export default async function Page({
   const category =
     orderedCategories[0] ??
     (post.categories[0] ? await getCategoryById(post.categories[0]) : undefined);
+
+  const categoryWithProducts = orderedCategories.find((cat) => {
+    const meta = (cat?.meta as Record<string, unknown>) || {};
+    const products = parseCategoryProducts(meta._next_cat_products);
+    return products.some((product) => Boolean(product?.name && product?.price));
+  });
+
+  const categoryProductsMeta = (categoryWithProducts?.meta as Record<string, unknown>) || {};
+  const parsedCategoryProducts = parseCategoryProducts(
+    categoryProductsMeta._next_cat_products,
+  );
+
+  const categoryProducts = parsedCategoryProducts
+    .filter((product) => product?.name && product?.price)
+    .map((product) => ({
+      name: String(product.name),
+      price: String(product.price),
+      link: product?.link ? String(product.link) : "",
+    }));
+
+  const hasCategoryProducts = categoryProducts.length > 0;
+
+  const productPrices = categoryProducts
+    .map((product) => parsePriceString(product.price))
+    .filter((price): price is NonNullable<ReturnType<typeof parsePriceString>> =>
+      Boolean(price),
+    );
+
+  const totalAmount = productPrices.reduce((sum, price) => sum + price.amount, 0);
+
+  const currency = productPrices.length
+    ? productPrices.every(
+        (price) =>
+          price.currency &&
+          price.currency === productPrices[0]?.currency &&
+          price.currencyPosition === productPrices[0]?.currencyPosition,
+      )
+      ? (productPrices[0]?.currency ?? null)
+      : null
+    : null;
+
+  const currencyPosition =
+    productPrices.length &&
+    productPrices.every(
+      (price) => price.currencyPosition === productPrices[0]?.currencyPosition,
+    )
+      ? (productPrices[0]?.currencyPosition ?? null)
+      : null;
+
+  const categoryCtaLink =
+    categoryProducts.find((product) => product.link)?.link ?? "";
 
   const ctaCategory = orderedCategories.find((cat) => {
     const meta = (cat?.meta as Record<string, unknown>) || {};
@@ -689,12 +814,19 @@ export default async function Page({
                         Choose a plan to get started
                       </p>
                       <div className="space-y-2">
-                        {[
-                          { label: "Branding", price: "$60" },
-                          { label: "Marketing", price: "$120", checked: true },
-                          { label: "Web Development", price: "$250" },
-                          { label: "App Development", price: "$320" },
-                        ].map((plan) => (
+                        {(hasCategoryProducts
+                          ? categoryProducts.map((product, index) => ({
+                              label: product.name,
+                              price: product.price,
+                              checked: index === 0,
+                            }))
+                          : [
+                              { label: "Branding", price: "$60" },
+                              { label: "Marketing", price: "$120", checked: true },
+                              { label: "Web Development", price: "$250" },
+                              { label: "App Development", price: "$320" },
+                            ]
+                        ).map((plan) => (
                           <label
                             key={plan.label}
                             className={cn(
@@ -726,11 +858,23 @@ export default async function Page({
                       </div>
                       <div className="flex items-center justify-between font-semibold text-foreground">
                         <span>Total amount</span>
-                        <span>$152</span>
+                        <span>
+                          {hasCategoryProducts
+                            ? formatTotalAmount(totalAmount, currency, currencyPosition)
+                            : "$152"}
+                        </span>
                       </div>
                     </div>
 
-                    <Button className="w-full rounded-full">Pay now</Button>
+                    {hasCategoryProducts ? (
+                      categoryCtaLink ? (
+                        <Button asChild className="w-full rounded-full">
+                          <a href={categoryCtaLink}>Start Now</a>
+                        </Button>
+                      ) : null
+                    ) : (
+                      <Button className="w-full rounded-full">Pay now</Button>
+                    )}
                   </CardContent>
                 </Card>
               </aside>

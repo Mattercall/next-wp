@@ -162,57 +162,6 @@ function parseCategoryProducts(value: unknown): CategoryProduct[] {
   }
 }
 
-function parsePriceString(value: string) {
-  const trimmed = value.trim();
-  if (!trimmed) {
-    return null;
-  }
-
-  const currencyMatch = trimmed.match(/[$€£]/);
-  const firstDigitIndex = trimmed.search(/\d/);
-  const currencyIndex = currencyMatch?.index ?? null;
-  const currencyPosition =
-    currencyIndex != null && firstDigitIndex >= 0
-      ? currencyIndex < firstDigitIndex
-        ? "prefix"
-        : "suffix"
-      : null;
-
-  const numericPart = trimmed.replace(/[^\d,.-]/g, "");
-  const normalized = numericPart.replace(",", ".");
-  const numberMatch = normalized.match(/-?\d+(\.\d+)?/);
-
-  if (!numberMatch) {
-    return null;
-  }
-
-  const amount = Number.parseFloat(numberMatch[0]);
-  if (Number.isNaN(amount)) {
-    return null;
-  }
-
-  return {
-    amount,
-    currency: currencyMatch?.[0] ?? null,
-    currencyPosition,
-  };
-}
-
-function formatTotalAmount(
-  amount: number,
-  currency: string | null,
-  currencyPosition: "prefix" | "suffix" | null,
-) {
-  const rounded = Math.round((amount + Number.EPSILON) * 100) / 100;
-  const formatted = Number.isInteger(rounded) ? rounded.toFixed(0) : rounded.toFixed(2);
-
-  if (!currency) {
-    return formatted;
-  }
-
-  return currencyPosition === "suffix" ? `${formatted}${currency}` : `${currency}${formatted}`;
-}
-
 function extractLeadingMedia(html: string) {
   if (!html) return { mediaHtml: null, contentHtml: html };
 
@@ -402,33 +351,6 @@ export default async function Page({
     }));
 
   const hasCategoryProducts = categoryProducts.length > 0;
-
-  const productPrices = categoryProducts
-    .map((product) => parsePriceString(product.price))
-    .filter((price): price is NonNullable<ReturnType<typeof parsePriceString>> =>
-      Boolean(price),
-    );
-
-  const totalAmount = productPrices.reduce((sum, price) => sum + price.amount, 0);
-
-  const currency = productPrices.length
-    ? productPrices.every(
-        (price) =>
-          price.currency &&
-          price.currency === productPrices[0]?.currency &&
-          price.currencyPosition === productPrices[0]?.currencyPosition,
-      )
-      ? (productPrices[0]?.currency ?? null)
-      : null
-    : null;
-
-  const currencyPosition =
-    productPrices.length &&
-    productPrices.every(
-      (price) => price.currencyPosition === productPrices[0]?.currencyPosition,
-    )
-      ? (productPrices[0]?.currencyPosition ?? null)
-      : null;
 
   const categoryCtaLink =
     categoryProducts.find((product) => product.link)?.link ?? "";
@@ -858,11 +780,7 @@ export default async function Page({
                       </div>
                       <div className="flex items-center justify-between font-semibold text-foreground">
                         <span>Total amount</span>
-                        <span>
-                          {hasCategoryProducts
-                            ? formatTotalAmount(totalAmount, currency, currencyPosition)
-                            : "$152"}
-                        </span>
+                        <span>$1</span>
                       </div>
                     </div>
 

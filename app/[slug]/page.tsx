@@ -140,6 +140,20 @@ function buildTocFromHtml(html: string) {
   const slugCounts = new Map<string, number>();
   const usedIds = new Set<string>();
 
+  const getUniqueId = (baseSlug: string) => {
+    let count = slugCounts.get(baseSlug) ?? 0;
+    let candidate = baseSlug;
+
+    do {
+      count += 1;
+      candidate = count === 1 ? baseSlug : `${baseSlug}-${count}`;
+    } while (usedIds.has(candidate));
+
+    slugCounts.set(baseSlug, count);
+    usedIds.add(candidate);
+    return candidate;
+  };
+
   const content = html.replace(
     /<h2([^>]*)>([\s\S]*?)<\/h2>/gi,
     (match, attrs, inner) => {
@@ -148,28 +162,12 @@ function buildTocFromHtml(html: string) {
 
       const idMatch = String(attrs).match(/\sid=["']([^"']+)["']/i);
       const existingId = idMatch?.[1];
-      let id = existingId || slugifyHeading(text) || "section";
-
-      if (existingId) {
-        usedIds.add(existingId);
-      } else {
-        const baseSlug = id;
-        let count = slugCounts.get(baseSlug) ?? 0;
-        let candidate = baseSlug;
-
-        do {
-          count += 1;
-          candidate = count === 1 ? baseSlug : `${baseSlug}-${count}`;
-        } while (usedIds.has(candidate));
-
-        slugCounts.set(baseSlug, count);
-        usedIds.add(candidate);
-        id = candidate;
-      }
+      const baseSlug = existingId || slugifyHeading(text) || "section";
+      const id = getUniqueId(baseSlug);
 
       toc.push({ id, text });
 
-      if (existingId) {
+      if (existingId && existingId === id) {
         return match;
       }
 
@@ -300,6 +298,8 @@ export default async function Page({
     featuredMedia?.source_url
       ? { mediaHtml: null, contentHtml: post.content.rendered }
       : extractLeadingMedia(post.content.rendered);
+
+  const isLeadingIframe = Boolean(leadingMediaHtml?.match(/<iframe/i));
 
   const { toc: tocItems, content: contentWithAnchors } =
     buildTocFromHtml(contentForToc);
@@ -460,8 +460,8 @@ export default async function Page({
         </div>
 
         <Container className="pt-0">
-          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,3fr)_minmax(0,1fr)] lg:gap-12">
-            <aside className="hidden lg:block">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_690px_minmax(0,1fr)] lg:gap-12">
+            <aside className="hidden lg:block lg:justify-self-end">
               {tocItems.length > 0 && (
                 <Card className="not-prose sticky top-24 border border-border/70 shadow-sm">
                   <CardContent className="space-y-3 p-5">
@@ -494,7 +494,7 @@ export default async function Page({
                 </h1>
 
                 {featuredMedia?.source_url ? (
-                  <Card className="not-prose my-6 overflow-hidden">
+                  <Card className="not-prose my-6 overflow-hidden border border-border/70 shadow-sm">
                     <CardContent className="p-0">
                       {/* eslint-disable-next-line */}
                       <img
@@ -506,10 +506,15 @@ export default async function Page({
                   </Card>
                 ) : (
                   leadingMediaHtml && (
-                    <Card className="not-prose my-6 overflow-hidden">
-                      <CardContent className="p-4">
+                    <Card className="not-prose my-6 overflow-hidden border border-border/70 shadow-sm">
+                      <CardContent className="p-0">
                         <div
-                          className="overflow-hidden rounded-lg"
+                          className={cn(
+                            "w-full overflow-hidden rounded-lg",
+                            isLeadingIframe
+                              ? "relative aspect-video [&_iframe]:absolute [&_iframe]:inset-0 [&_iframe]:h-full [&_iframe]:w-full"
+                              : "[&_img]:h-auto [&_img]:w-full [&_video]:h-auto [&_video]:w-full",
+                          )}
                           dangerouslySetInnerHTML={{ __html: leadingMediaHtml }}
                         />
                       </CardContent>
@@ -573,7 +578,7 @@ export default async function Page({
               </Prose>
 
               <Article
-                className="max-w-none w-full"
+                className="max-w-none w-full [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_iframe]:rounded-lg [&_iframe]:border [&_iframe]:border-border/70 [&_iframe]:shadow-sm [&_img]:w-full [&_img]:rounded-lg [&_img]:border [&_img]:border-border/70 [&_img]:shadow-sm [&_video]:w-full [&_video]:rounded-lg [&_video]:border [&_video]:border-border/70 [&_video]:shadow-sm"
                 dangerouslySetInnerHTML={{ __html: contentWithAnchors }}
               />
             </div>

@@ -453,32 +453,8 @@ export default async function Page({
 
         <div className="relative w-full overflow-visible">
           <Container className="pt-0">
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_690px_minmax(0,1fr)] lg:gap-12 min-[1360px]:grid-cols-[310px_690px_310px] min-[1360px]:gap-12">
-              <aside className="hidden w-[310px] pt-8 min-[1360px]:block">
-                {tocItems.length > 0 && (
-                  <Card className="not-prose sticky top-[calc(6rem+2rem)] border border-border/70 shadow-sm">
-                    <CardContent className="space-y-3 p-5">
-                      <p className="text-sm font-semibold text-foreground">
-                        Table of Contents
-                      </p>
-                      <ol className="list-inside list-decimal space-y-2 text-sm text-muted-foreground">
-                        {tocItems.map((item) => (
-                          <li key={item.id}>
-                            <a
-                              href={`#${item.id}`}
-                              className="underline-offset-4 hover:text-foreground hover:underline"
-                            >
-                              {item.text}
-                            </a>
-                          </li>
-                        ))}
-                      </ol>
-                    </CardContent>
-                  </Card>
-                )}
-              </aside>
-
-              <div className="w-full lg:col-start-2 lg:w-[690px] lg:justify-self-center min-[1360px]:col-start-2 min-[1360px]:w-[690px] min-[1360px]:justify-self-center">
+            <div className="relative">
+              <div className="relative z-10 mx-auto w-full max-w-[690px]">
                 <Prose>
                   <h1>
                     <span
@@ -578,8 +554,32 @@ export default async function Page({
                 />
               </div>
 
-              <aside className="hidden w-[310px] pt-8 min-[1360px]:col-start-3 min-[1360px]:block">
-                <Card className="not-prose sticky top-[calc(6rem+2rem)] rounded-2xl border border-border/60 bg-background shadow-[0_1px_0_rgba(255,255,255,0.7),0_18px_50px_-30px_rgba(15,23,42,0.35),0_0_40px_rgba(59,130,246,0.2)]">
+              <aside className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-[310px] -translate-x-[calc(690px/2+310px+3rem)] pt-8 min-[1360px]:block z-0">
+                {tocItems.length > 0 && (
+                  <Card className="not-prose pointer-events-auto sticky top-[calc(6rem+2rem)] w-full border border-border/70 shadow-sm">
+                    <CardContent className="space-y-3 p-5">
+                      <p className="text-sm font-semibold text-foreground">
+                        Table of Contents
+                      </p>
+                      <ol className="list-inside list-decimal space-y-2 text-sm text-muted-foreground">
+                        {tocItems.map((item) => (
+                          <li key={item.id}>
+                            <a
+                              href={`#${item.id}`}
+                              className="underline-offset-4 hover:text-foreground hover:underline"
+                            >
+                              {item.text}
+                            </a>
+                          </li>
+                        ))}
+                      </ol>
+                    </CardContent>
+                  </Card>
+                )}
+              </aside>
+
+              <aside className="pointer-events-none absolute inset-y-0 left-1/2 hidden w-[310px] translate-x-[calc(690px/2+3rem)] pt-8 min-[1360px]:block z-0">
+                <Card className="not-prose pointer-events-auto sticky top-[calc(6rem+2rem)] w-full rounded-2xl border border-border/60 bg-background shadow-[0_1px_0_rgba(255,255,255,0.7),0_18px_50px_-30px_rgba(15,23,42,0.35),0_0_40px_rgba(59,130,246,0.2)]">
                   <CardContent className="space-y-4 p-5">
                     <div className="flex items-start justify-between gap-3">
                       <div className="space-y-1">

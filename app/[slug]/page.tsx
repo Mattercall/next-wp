@@ -9,6 +9,8 @@ import { generateContentMetadata, stripHtml } from "@/lib/metadata";
 
 import { Section, Container, Article, Prose } from "@/components/craft";
 import { badgeVariants } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
   heroBodyClass,
@@ -285,125 +287,198 @@ export default async function Page({
   };
 
   return (
-    <Section className="pt-0 pb-8 md:pt-0 md:pb-12">
-      {/* BlogPosting schema (always) */}
-      <Script
-        id="blogposting-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(blogPostingSchema) }}
-      />
-
-      {/* Breadcrumb schema (optional but recommended) */}
-      <Script
-        id="breadcrumb-schema"
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
-      />
-
-      {/* FAQ schema only if FAQs exist */}
-      {faqSchema && (
+    <>
+      <Section className="pt-0 pb-8 md:pt-0 md:pb-12">
+        {/* BlogPosting schema (always) */}
         <Script
-          id="faq-schema"
+          id="blogposting-schema"
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(blogPostingSchema) }}
         />
-      )}
 
-      <div className="relative w-full bg-[#f7f3ee]">
-        <div className="relative left-1/2 right-1/2 h-[276px] w-screen -translate-x-1/2 overflow-hidden">
-          <div className="relative mx-auto flex h-full w-full max-w-[90rem] items-center px-6">
-            <div className="grid h-full w-full grid-cols-1 items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)_minmax(0,1fr)]">
-              <div className="relative hidden h-full items-end lg:flex">
-                <img
-                  className="h-[180px] w-[240px] rounded-3xl object-cover shadow-lg"
-                  src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80"
-                  alt="Zwei Personen im Gespräch mit Laptop"
-                />
-              </div>
+        {/* Breadcrumb schema (optional but recommended) */}
+        <Script
+          id="breadcrumb-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
+        />
 
-              <div className="mx-auto flex h-full max-w-xl flex-col items-center justify-center text-center">
-                <p className={cn("mt-0", heroEyebrowClass)}>Shopify Starter</p>
-                <h2 className={cn("mt-3", heroHeadingClass)}>
-                  Noch heute mit Shopify verkaufen.
-                </h2>
-                <p className={cn("mt-2", heroBodyClass)}>
-                  Teste Shopify noch heute kostenlos und nutze Ressourcen, die dich
-                  Schritt für Schritt begleiten.
-                </p>
-                <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
-                  <Link href="/" className={primaryButtonClass}>
-                    Kostenlos starten
-                  </Link>
-                  <Link
-                    href="/"
-                    className={cn(
-                      secondaryButtonClass,
-                      "inline-flex items-center gap-2",
-                    )}
-                  >
-                    <Play className="h-4 w-4" />
-                    So funktioniert Shopify
-                  </Link>
+        {/* FAQ schema only if FAQs exist */}
+        {faqSchema && (
+          <Script
+            id="faq-schema"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
+          />
+        )}
+
+        <div className="relative w-full bg-[#f7f3ee]">
+          <div className="relative left-1/2 right-1/2 h-[276px] w-screen -translate-x-1/2 overflow-hidden">
+            <div className="relative mx-auto flex h-full w-full max-w-[90rem] items-center px-6">
+              <div className="grid h-full w-full grid-cols-1 items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)_minmax(0,1fr)]">
+                <div className="relative hidden h-full items-end lg:flex">
+                  <img
+                    className="h-[180px] w-[240px] rounded-3xl object-cover shadow-lg"
+                    src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80"
+                    alt="Zwei Personen im Gespräch mit Laptop"
+                  />
                 </div>
-              </div>
 
-              <div className="relative hidden h-full items-center justify-end lg:flex">
-                <img
-                  className="absolute right-0 top-6 h-[110px] w-[140px] rounded-2xl object-cover shadow-md"
-                  src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=500&q=80"
-                  alt="Händler im Gespräch"
-                />
-                <img
-                  className="absolute bottom-6 right-0 h-[190px] w-[250px] rounded-3xl object-cover shadow-lg"
-                  src="https://images.unsplash.com/photo-1515165562835-c4c9cc9719a9?auto=format&fit=crop&w=900&q=80"
-                  alt="Hand mit Smartphone über Paket"
-                />
+                <div className="mx-auto flex h-full max-w-xl flex-col items-center justify-center text-center">
+                  <p className={cn("mt-0", heroEyebrowClass)}>Shopify Starter</p>
+                  <h2 className={cn("mt-3", heroHeadingClass)}>
+                    Noch heute mit Shopify verkaufen.
+                  </h2>
+                  <p className={cn("mt-2", heroBodyClass)}>
+                    Teste Shopify noch heute kostenlos und nutze Ressourcen, die dich
+                    Schritt für Schritt begleiten.
+                  </p>
+                  <div className="mt-5 flex flex-wrap items-center justify-center gap-3">
+                    <Link href="/" className={primaryButtonClass}>
+                      Kostenlos starten
+                    </Link>
+                    <Link
+                      href="/"
+                      className={cn(
+                        secondaryButtonClass,
+                        "inline-flex items-center gap-2",
+                      )}
+                    >
+                      <Play className="h-4 w-4" />
+                      So funktioniert Shopify
+                    </Link>
+                  </div>
+                </div>
+
+                <div className="relative hidden h-full items-center justify-end lg:flex">
+                  <img
+                    className="absolute right-0 top-6 h-[110px] w-[140px] rounded-2xl object-cover shadow-md"
+                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=500&q=80"
+                    alt="Händler im Gespräch"
+                  />
+                  <img
+                    className="absolute bottom-6 right-0 h-[190px] w-[250px] rounded-3xl object-cover shadow-lg"
+                    src="https://images.unsplash.com/photo-1515165562835-c4c9cc9719a9?auto=format&fit=crop&w=900&q=80"
+                    alt="Hand mit Smartphone über Paket"
+                  />
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <Container className="pt-0">
-        <Prose>
-          <h1>
-            <span dangerouslySetInnerHTML={{ __html: post.title.rendered }}></span>
-          </h1>
+        <Container className="pt-0">
+          <Prose>
+            <h1>
+              <span dangerouslySetInnerHTML={{ __html: post.title.rendered }}></span>
+            </h1>
 
-          <div className="flex justify-between items-center gap-4 text-sm mb-4">
-            <h5>
-              Published {dateHuman} by{" "}
-              {author?.name && (
-                <span>
-                  <a href={`/posts/?author=${author.id}`}>{author.name}</a>{" "}
-                </span>
+            <div className="flex justify-between items-center gap-4 text-sm mb-4">
+              <h5>
+                Published {dateHuman} by{" "}
+                {author?.name && (
+                  <span>
+                    <a href={`/posts/?author=${author.id}`}>{author.name}</a>{" "}
+                  </span>
+                )}
+              </h5>
+
+              {category?.name && (
+                <Link
+                  href={`/posts/?category=${category.id}`}
+                  className={cn(badgeVariants({ variant: "outline" }), "no-underline!")}
+                >
+                  {category.name}
+                </Link>
               )}
-            </h5>
+            </div>
 
-            {category?.name && (
-              <Link
-                href={`/posts/?category=${category.id}`}
-                className={cn(badgeVariants({ variant: "outline" }), "no-underline!")}
-              >
-                {category.name}
-              </Link>
+            {featuredMedia?.source_url && (
+              <div className="h-96 my-12 md:h-[500px] overflow-hidden flex items-center justify-center border rounded-lg bg-accent/25">
+                {/* eslint-disable-next-line */}
+                <img
+                  className="w-full h-full object-cover"
+                  src={featuredMedia.source_url}
+                  alt={post.title.rendered}
+                />
+              </div>
             )}
-          </div>
+          </Prose>
 
-          {featuredMedia?.source_url && (
-            <div className="h-96 my-12 md:h-[500px] overflow-hidden flex items-center justify-center border rounded-lg bg-accent/25">
-              {/* eslint-disable-next-line */}
+          <Article dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
+        </Container>
+      </Section>
+
+      <section className="py-0">
+        <div className="bg-foreground text-background">
+          <div className="mx-auto grid w-full max-w-5xl lg:grid-cols-2">
+            <div className="h-64 w-full sm:h-80 lg:h-full">
               <img
-                className="w-full h-full object-cover"
-                src={featuredMedia.source_url}
-                alt={post.title.rendered}
+                className="h-full w-full object-cover"
+                src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80"
+                alt="Person nutzt Smartphone für den Versand"
               />
             </div>
-          )}
-        </Prose>
+            <div className="flex flex-col justify-center gap-4 p-6 sm:p-8 lg:p-12">
+              <div className="space-y-3">
+                <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
+                  Aktuelle Neuigkeiten von Shopify erfahren
+                </h2>
+                <p className="text-sm text-muted-foreground sm:text-base">
+                  Abonniere unseren Blog und erhalte kostenlose E-Commerce-Tipps,
+                  Inspiration und Ressourcen direkt in deinem Posteingang.
+                </p>
+              </div>
+              <form className="space-y-3" aria-label="Newsletter anmelden">
+                <label htmlFor="newsletter-email" className="sr-only">
+                  E-Mail-Adresse
+                </label>
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Input
+                    id="newsletter-email"
+                    name="email"
+                    type="email"
+                    autoComplete="email"
+                    placeholder="E-Mail-Adresse hier eingeben"
+                    className="rounded-full bg-background text-foreground"
+                  />
+                  <Button
+                    type="submit"
+                    className="h-10 rounded-full bg-emerald-400 px-6 text-sm font-semibold text-foreground hover:bg-emerald-500"
+                  >
+                    Abonnieren
+                  </Button>
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  Du kannst dich jederzeit abmelden. Mit der Eingabe deiner
+                  E-Mail-Adresse stimmst du dem Erhalt von Marketing-E-Mails zu.
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
 
-        <Article dangerouslySetInnerHTML={{ __html: post.content.rendered }} />
-      </Container>
-    </Section>
+        <div className="bg-emerald-400 text-foreground">
+          <div className="mx-auto flex max-w-5xl flex-col items-center justify-center px-6 py-12 text-center sm:px-8 lg:py-16">
+            <h2 className="text-3xl font-semibold uppercase tracking-tight sm:text-4xl lg:text-5xl">
+              <span className="block">MIT SHOPIFY</span>
+              <span className="block">ÜBERALL</span>
+              <span className="block">VERKAUFEN</span>
+            </h2>
+            <p className="mt-4 max-w-2xl text-sm text-foreground/80 sm:text-base">
+              Learning by Doing: Teste Shopify kostenlos und entdecke alle Tools, die
+              du für die Gründung, den Betrieb und den Ausbau deines Business
+              benötigst.
+            </p>
+            <Button className="mt-6 rounded-full px-6" size="lg">
+              Kostenlos starten
+            </Button>
+            <p className="mt-3 text-xs text-foreground/80">
+              Kostenlos einsteigen und 3 Monate nur 1 €/Monat zahlen
+            </p>
+          </div>
+        </div>
+      </section>
+    </>
   );
 }

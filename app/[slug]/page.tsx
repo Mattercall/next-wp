@@ -177,19 +177,42 @@ function extractYoutubeId(url: string) {
   return null;
 }
 
+function escapeHtmlAttribute(value: string) {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+}
+
 function renderYoutubeEmbeds(html: string) {
   if (!html) return html;
 
-  const buildIframe = (videoId: string) =>
-    `<iframe src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
-  const wrapIframe = (videoId: string) =>
-    `<div class="wp-block-embed__wrapper">${buildIframe(videoId)}</div>`;
+  const buildEmbed = (videoId: string, title?: string) => {
+    const safeTitle = escapeHtmlAttribute(
+      title?.trim() || "YouTube video player",
+    );
+
+    return `<figure class="wp-block-embed is-type-video is-provider-youtube wp-block-embed-youtube wp-embed-aspect-16-9 wp-has-aspect-ratio">
+  <div class="wp-block-embed__wrapper">
+    <iframe loading="lazy"
+            title="${safeTitle}"
+            src="https://www.youtube.com/embed/${videoId}?feature=oembed"
+            width="500"
+            height="281"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            referrerpolicy="strict-origin-when-cross-origin"
+            allowfullscreen></iframe>
+  </div>
+</figure>`;
+  };
 
   const withOembed = html.replace(
     /<oembed\s+url=["']([^"']+)["']\s*><\/oembed>/gi,
     (match, url) => {
       const videoId = extractYoutubeId(String(url));
-      return videoId ? buildIframe(videoId) : match;
+      return videoId ? buildEmbed(videoId) : match;
     },
   );
 
@@ -197,7 +220,7 @@ function renderYoutubeEmbeds(html: string) {
     /<div class="wp-block-embed__wrapper">\s*(https?:\/\/[^\s<]+)\s*<\/div>/gi,
     (match, url) => {
       const videoId = extractYoutubeId(String(url));
-      return videoId ? wrapIframe(videoId) : match;
+      return videoId ? buildEmbed(videoId) : match;
     },
   );
 
@@ -205,7 +228,7 @@ function renderYoutubeEmbeds(html: string) {
     /<p>\s*(https?:\/\/[^\s<]+)\s*<\/p>/gi,
     (match, url) => {
       const videoId = extractYoutubeId(String(url));
-      return videoId ? wrapIframe(videoId) : match;
+      return videoId ? buildEmbed(videoId) : match;
     },
   );
 
@@ -213,7 +236,7 @@ function renderYoutubeEmbeds(html: string) {
     /<p>\s*<a[^>]+href=["']([^"']+)["'][^>]*>[^<]*<\/a>\s*<\/p>/gi,
     (match, url) => {
       const videoId = extractYoutubeId(String(url));
-      return videoId ? wrapIframe(videoId) : match;
+      return videoId ? buildEmbed(videoId) : match;
     },
   );
 
@@ -221,7 +244,7 @@ function renderYoutubeEmbeds(html: string) {
     /<p>\s*\[embed\]\s*(https?:\/\/[^\s<\]]+)\s*\[\/embed\]\s*<\/p>/gi,
     (match, url) => {
       const videoId = extractYoutubeId(String(url));
-      return videoId ? wrapIframe(videoId) : match;
+      return videoId ? buildEmbed(videoId) : match;
     },
   );
 }

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowUpRight, Star } from "lucide-react";
+import { Star } from "lucide-react";
 
 import { Post } from "@/lib/wordpress.d";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,15 @@ type TrendingColumn = {
 
 const getProviderLabel = (post: Post) =>
   post._embedded?.author?.[0]?.name ?? "Unknown provider";
+
+const getInitials = (value: string) => {
+  const cleaned = value.replace(/<[^>]*>/g, "").trim();
+  if (!cleaned) return "NA";
+  const words = cleaned.split(/\s+/);
+  const first = words[0]?.[0] ?? "";
+  const second = words[1]?.[0] ?? words[0]?.[1] ?? "";
+  return `${first}${second}`.toUpperCase();
+};
 
 const getTypeLabel = (post: Post) => {
   const tag = post._embedded?.["wp:term"]?.[1]?.[0]?.name;
@@ -34,21 +43,22 @@ export function TrendingColumns({ columns }: { columns: TrendingColumn[] }) {
   return (
     <section className="space-y-4">
       <div className="flex items-center justify-between">
-        <h3 className="text-lg font-semibold">Trending courses</h3>
+        <h3 className="text-xl font-semibold">Trending courses</h3>
       </div>
-      <div className="grid gap-4 lg:grid-cols-3">
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {columns.map((column) => (
           <div
             key={column.title}
-            className="rounded-3xl border bg-muted/20 p-4 shadow-sm"
+            className="rounded-2xl border border-transparent bg-primary/10 p-4"
           >
-            <div className="flex items-center justify-between pb-3 text-sm font-semibold">
-              <span>{column.title}</span>
-              <ArrowUpRight className="h-4 w-4 text-muted-foreground" />
+            <div className="pb-3 text-sm font-semibold text-foreground">
+              <span>
+                {column.title} <span aria-hidden="true">→</span>
+              </span>
             </div>
-            <div className="divide-y rounded-2xl border bg-background">
+            <div className="space-y-3">
               {column.posts.length === 0 ? (
-                <div className="px-4 py-6 text-sm text-muted-foreground">
+                <div className="rounded-xl border bg-background px-4 py-6 text-sm text-muted-foreground">
                   No posts available yet.
                 </div>
               ) : (
@@ -58,14 +68,25 @@ export function TrendingColumns({ columns }: { columns: TrendingColumn[] }) {
                   const provider = getProviderLabel(post);
                   const typeLabel = getTypeLabel(post);
                   const rating = getRatingLabel(post);
+                  const initials = getInitials(
+                    post.title?.rendered || provider
+                  );
+                  const avatarClasses = [
+                    "bg-primary/15 text-primary",
+                    "bg-accent/30 text-foreground",
+                    "bg-secondary/30 text-secondary-foreground",
+                    "bg-muted text-foreground",
+                  ];
+                  const avatarClass =
+                    avatarClasses[post.id % avatarClasses.length];
 
                   return (
                     <Link
                       key={post.id}
                       href={`/${post.slug}`}
                       className={cn(
-                        "flex gap-3 px-4 py-3 text-sm transition",
-                        "hover:bg-muted/40"
+                        "flex gap-3 rounded-xl border bg-background px-3 py-2.5 text-sm transition",
+                        "hover:bg-muted/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
                       )}
                     >
                       <div className="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg border bg-muted">
@@ -78,34 +99,39 @@ export function TrendingColumns({ columns }: { columns: TrendingColumn[] }) {
                             className="h-full w-full object-cover"
                           />
                         ) : (
-                          <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
-                            N/A
+                          <div
+                            className={cn(
+                              "flex h-full w-full items-center justify-center text-xs font-semibold",
+                              avatarClass
+                            )}
+                          >
+                            {initials}
                           </div>
                         )}
                       </div>
                       <div className="flex-1 space-y-1">
-                        <p className="text-xs text-muted-foreground">
-                          {provider}
-                        </p>
+                        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
+                          <span className="flex h-4 w-4 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-foreground">
+                            {getInitials(provider).slice(0, 1)}
+                          </span>
+                          <span className="truncate">{provider}</span>
+                        </div>
                         <div
-                          className="line-clamp-2 font-medium text-foreground"
+                          className="line-clamp-1 font-semibold text-foreground"
                           dangerouslySetInnerHTML={{
                             __html: post.title?.rendered || "Untitled",
                           }}
                         />
-                        <p className="text-xs text-muted-foreground">
-                          {typeLabel}
-                        </p>
-                      </div>
-                      <div className="flex min-w-[60px] items-center justify-end gap-1 text-xs text-muted-foreground">
-                        {rating ? (
-                          <>
-                            <Star className="h-3 w-3 fill-current text-amber-500" />
-                            <span className="text-foreground">{rating}</span>
-                          </>
-                        ) : (
-                          <span>—</span>
-                        )}
+                        <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                          <span className="truncate">{typeLabel}</span>
+                          {rating && (
+                            <>
+                              <span aria-hidden="true">·</span>
+                              <Star className="h-3 w-3 fill-current text-foreground" />
+                              <span className="text-foreground">{rating}</span>
+                            </>
+                          )}
+                        </div>
                       </div>
                     </Link>
                   );

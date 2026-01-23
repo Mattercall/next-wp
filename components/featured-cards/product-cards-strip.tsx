@@ -13,14 +13,19 @@ type ProductCard = {
 type ProductCardsStripProps = {
   products: ProductCard[];
   className?: string;
+  rowClassName?: string;
 };
 
-export function ProductCardsStrip({ products, className }: ProductCardsStripProps) {
+export function ProductCardsStrip({
+  products,
+  className,
+  rowClassName,
+}: ProductCardsStripProps) {
   if (products.length === 0) return null;
 
   return (
     <div className={cn("w-full", className)}>
-      <FeaturedCardsRow>
+      <FeaturedCardsRow className={rowClassName}>
         {products.map((product) => (
           <FeaturedCard
             key={`${product.name}-${product.link}`}

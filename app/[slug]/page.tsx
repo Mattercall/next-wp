@@ -12,7 +12,6 @@ import { Section, Container, Article, Prose } from "@/components/craft";
 import { badgeVariants } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import {
   heroBodyClass,
@@ -23,6 +22,7 @@ import {
 } from "@/components/marketing/cta-styles";
 import { ProductCardsStrip } from "@/components/featured-cards/product-cards-strip";
 import { FeaturedCardsSection } from "@/components/featured-cards/featured-cards-section";
+import { BlogCtaEmail } from "@/components/blog/BlogCtaEmail";
 import ProductSidebar from "./product-sidebar";
 
 import Link from "next/link";
@@ -900,75 +900,120 @@ export default async function Page({
         </div>
       </Section>
 
-      <section className="py-0">
-        <div className="bg-foreground text-background">
-          <div className="mx-auto grid w-full max-w-5xl lg:grid-cols-2">
-            <div className="h-64 w-full sm:h-80 lg:h-full">
-              <img
-                className="h-full w-full object-cover"
-                src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80"
-                alt="Person nutzt Smartphone für den Versand"
-              />
+      <section className="space-y-12 py-0">
+        {[
+          {
+            id: "A",
+            label: "Variation A",
+            email: {
+              headline: "Get MatterCall insights for faster-growth marketing",
+              valueProp:
+                "Weekly playbooks on AI-powered lead qualification, follow-ups, and reporting that turn more visitors into booked meetings.",
+              emailLabel: "Email address",
+              emailPlaceholder: "Enter your work email",
+              ctaText: "Send me the playbook",
+              consentText:
+                "Unsubscribe anytime. By entering your email you agree to receive marketing emails from MatterCall.",
+            },
+            benefit: {
+              headline: ["Turn every lead into", "a booked meeting"],
+              valueProp:
+                "MatterCall blends digital marketing with AI automation so every inquiry is qualified, followed up, and pushed into your CRM without manual work.",
+              ctaText: "See how it works",
+              offerLine: "[Insert your trial/offer here]",
+            },
+          },
+          {
+            id: "B",
+            label: "Variation B",
+            email: {
+              headline: "Stay ahead with practical AI growth insights",
+              valueProp:
+                "Short, actionable lessons on automating lead scoring, follow-ups, booking, and CRM workflows so your team closes faster.",
+              emailLabel: "Email address",
+              emailPlaceholder: "you@company.com",
+              ctaText: "Get the updates",
+              consentText:
+                "Unsubscribe anytime. By entering your email you agree to receive marketing emails from MatterCall.",
+            },
+            benefit: {
+              headline: ["Less manual work.", "More qualified leads."],
+              valueProp:
+                "We build automated journeys that qualify leads, trigger instant responses, schedule meetings, and deliver clear performance reporting.",
+              ctaText: "Get a growth audit",
+              offerLine: "[Insert your trial/offer here]",
+            },
+          },
+          {
+            id: "C",
+            label: "Variation C",
+            email: {
+              headline: "Marketing + AI automation, simplified",
+              valueProp:
+                "Join founders and marketing leaders who use MatterCall to drive higher conversion rates with automated follow-ups and CRM-ready data.",
+              emailLabel: "Email address",
+              emailPlaceholder: "Enter your email",
+              ctaText: "Join the newsletter",
+              consentText:
+                "Unsubscribe anytime. By entering your email you agree to receive marketing emails from MatterCall.",
+            },
+            benefit: {
+              headline: ["Automate the handoff", "from click to close"],
+              valueProp:
+                "From lead qualification to reporting, MatterCall AI keeps pipelines moving so sales teams follow up faster and win more deals.",
+              ctaText: "Book a strategy call",
+              offerLine: "[Insert your trial/offer here]",
+            },
+          },
+        ].map((variant) => (
+          <div key={variant.id} className="space-y-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-muted-foreground">
+              {variant.label}
+            </p>
+            <div className="bg-foreground text-background">
+              <div className="mx-auto grid w-full max-w-5xl lg:grid-cols-2">
+                <div className="h-64 w-full sm:h-80 lg:h-full">
+                  <img
+                    className="h-full w-full object-cover"
+                    src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1200&q=80"
+                    alt="Professional reviewing marketing automation metrics"
+                  />
+                </div>
+                <div className="flex flex-col justify-center gap-4 p-6 sm:p-8 lg:p-12">
+                  <BlogCtaEmail
+                    headline={variant.email.headline}
+                    valueProp={variant.email.valueProp}
+                    emailLabel={variant.email.emailLabel}
+                    emailPlaceholder={variant.email.emailPlaceholder}
+                    ctaText={variant.email.ctaText}
+                    consentText={variant.email.consentText}
+                  />
+                </div>
+              </div>
             </div>
-            <div className="flex flex-col justify-center gap-4 p-6 sm:p-8 lg:p-12">
-              <div className="space-y-3">
-                <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-                  Aktuelle Neuigkeiten von Shopify erfahren
+
+            <div className="bg-emerald-400 text-foreground">
+              <div className="mx-auto flex max-w-5xl flex-col items-center justify-center px-6 py-12 text-center sm:px-8 lg:py-16">
+                <h2 className="text-3xl font-semibold uppercase tracking-tight sm:text-4xl lg:text-5xl">
+                  {variant.benefit.headline.map((line) => (
+                    <span key={line} className="block">
+                      {line}
+                    </span>
+                  ))}
                 </h2>
-                <p className="text-sm text-muted-foreground sm:text-base">
-                  Abonniere unseren Blog und erhalte kostenlose E-Commerce-Tipps,
-                  Inspiration und Ressourcen direkt in deinem Posteingang.
+                <p className="mt-4 max-w-2xl text-sm text-foreground/80 sm:text-base">
+                  {variant.benefit.valueProp}
+                </p>
+                <Button className="mt-6 rounded-full px-6" size="lg">
+                  {variant.benefit.ctaText}
+                </Button>
+                <p className="mt-3 text-xs text-foreground/80">
+                  {variant.benefit.offerLine}
                 </p>
               </div>
-              <form className="space-y-3" aria-label="Newsletter anmelden">
-                <label htmlFor="newsletter-email" className="sr-only">
-                  E-Mail-Adresse
-                </label>
-                <div className="flex flex-col gap-3 sm:flex-row">
-                  <Input
-                    id="newsletter-email"
-                    name="email"
-                    type="email"
-                    autoComplete="email"
-                    placeholder="E-Mail-Adresse hier eingeben"
-                    className="rounded-full bg-background text-foreground"
-                  />
-                  <Button
-                    type="submit"
-                    className="h-10 rounded-full bg-emerald-400 px-6 text-sm font-semibold text-foreground hover:bg-emerald-500"
-                  >
-                    Abonnieren
-                  </Button>
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Du kannst dich jederzeit abmelden. Mit der Eingabe deiner
-                  E-Mail-Adresse stimmst du dem Erhalt von Marketing-E-Mails zu.
-                </p>
-              </form>
             </div>
           </div>
-        </div>
-
-        <div className="bg-emerald-400 text-foreground">
-          <div className="mx-auto flex max-w-5xl flex-col items-center justify-center px-6 py-12 text-center sm:px-8 lg:py-16">
-            <h2 className="text-3xl font-semibold uppercase tracking-tight sm:text-4xl lg:text-5xl">
-              <span className="block">MIT SHOPIFY</span>
-              <span className="block">ÜBERALL</span>
-              <span className="block">VERKAUFEN</span>
-            </h2>
-            <p className="mt-4 max-w-2xl text-sm text-foreground/80 sm:text-base">
-              Learning by Doing: Teste Shopify kostenlos und entdecke alle Tools, die
-              du für die Gründung, den Betrieb und den Ausbau deines Business
-              benötigst.
-            </p>
-            <Button className="mt-6 rounded-full px-6" size="lg">
-              Kostenlos starten
-            </Button>
-            <p className="mt-3 text-xs text-foreground/80">
-              Kostenlos einsteigen und 3 Monate nur 1 €/Monat zahlen
-            </p>
-          </div>
-        </div>
+        ))}
       </section>
     </>
   );

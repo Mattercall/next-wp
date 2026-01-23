@@ -108,9 +108,37 @@ function slugifyHeading(text: string) {
     .replace(/^-+|-+$/g, "");
 }
 
+function extractLeadingMedia(html: string) {
+  if (!html) return { mediaHtml: null, contentHtml: html };
+
+  const figureRe = /<figure[\s\S]*?(<img|<iframe|<video)[\s\S]*?<\/figure>/i;
+  const mediaRe = /<(img|iframe|video)\b[\s\S]*?(?:<\/\1>)?/i;
+
+  const figureMatch = figureRe.exec(html);
+  const mediaMatch = mediaRe.exec(html);
+
+  let match: RegExpExecArray | null = null;
+
+  if (figureMatch && (mediaMatch == null || figureMatch.index <= mediaMatch.index)) {
+    match = figureMatch;
+  } else if (mediaMatch) {
+    match = mediaMatch;
+  }
+
+  if (!match || match.index == null) {
+    return { mediaHtml: null, contentHtml: html };
+  }
+
+  const before = html.slice(0, match.index);
+  const after = html.slice(match.index + match[0].length);
+
+  return { mediaHtml: match[0], contentHtml: `${before}${after}` };
+}
+
 function buildTocFromHtml(html: string) {
   const toc: TocItem[] = [];
-  const seen = new Map<string, number>();
+  const slugCounts = new Map<string, number>();
+  const usedIds = new Set<string>();
 
   const content = html.replace(
     /<h2([^>]*)>([\s\S]*?)<\/h2>/gi,
@@ -122,19 +150,26 @@ function buildTocFromHtml(html: string) {
       const existingId = idMatch?.[1];
       let id = existingId || slugifyHeading(text) || "section";
 
-      if (!existingId) {
-        const count = seen.get(id) ?? 0;
-        if (count > 0) {
-          id = `${id}-${count + 1}`;
-        }
-        seen.set(id, count + 1);
+      if (existingId) {
+        usedIds.add(existingId);
+      } else {
+        const baseSlug = id;
+        let count = slugCounts.get(baseSlug) ?? 0;
+        let candidate = baseSlug;
+
+        do {
+          count += 1;
+          candidate = count === 1 ? baseSlug : `${baseSlug}-${count}`;
+        } while (usedIds.has(candidate));
+
+        slugCounts.set(baseSlug, count);
+        usedIds.add(candidate);
+        id = candidate;
       }
 
       toc.push({ id, text });
 
       if (existingId) {
-        const count = seen.get(existingId) ?? 0;
-        seen.set(existingId, count + 1);
         return match;
       }
 
@@ -261,9 +296,13 @@ export default async function Page({
         }
       : null;
 
-  const { toc: tocItems, content: contentWithAnchors } = buildTocFromHtml(
-    post.content.rendered,
-  );
+  const { mediaHtml: leadingMediaHtml, contentHtml: contentForToc } =
+    featuredMedia?.source_url
+      ? { mediaHtml: null, contentHtml: post.content.rendered }
+      : extractLeadingMedia(post.content.rendered);
+
+  const { toc: tocItems, content: contentWithAnchors } =
+    buildTocFromHtml(contentForToc);
 
   // BlogPosting schema
   const blogPostingSchema: any = {
@@ -422,6 +461,30 @@ export default async function Page({
 
         <Container className="pt-0">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,3fr)_minmax(0,1fr)] lg:gap-12">
+            <aside className="hidden lg:block">
+              {tocItems.length > 0 && (
+                <Card className="not-prose sticky top-24 border border-border/70 shadow-sm">
+                  <CardContent className="space-y-3 p-5">
+                    <p className="text-sm font-semibold text-foreground">
+                      Table of Contents
+                    </p>
+                    <ol className="space-y-2 text-sm text-muted-foreground list-decimal list-inside">
+                      {tocItems.map((item) => (
+                        <li key={item.id}>
+                          <a
+                            href={`#${item.id}`}
+                            className="underline-offset-4 hover:text-foreground hover:underline"
+                          >
+                            {item.text}
+                          </a>
+                        </li>
+                      ))}
+                    </ol>
+                  </CardContent>
+                </Card>
+              )}
+            </aside>
+
             <div className="w-full lg:col-start-2 lg:w-[690px] lg:justify-self-center">
               <Prose>
                 <h1>
@@ -430,7 +493,31 @@ export default async function Page({
                   ></span>
                 </h1>
 
-                <div className="flex justify-between items-center gap-4 text-sm mb-4">
+                {featuredMedia?.source_url ? (
+                  <Card className="not-prose my-6 overflow-hidden">
+                    <CardContent className="p-0">
+                      {/* eslint-disable-next-line */}
+                      <img
+                        className="h-96 w-full object-cover md:h-[500px]"
+                        src={featuredMedia.source_url}
+                        alt={post.title.rendered}
+                      />
+                    </CardContent>
+                  </Card>
+                ) : (
+                  leadingMediaHtml && (
+                    <Card className="not-prose my-6 overflow-hidden">
+                      <CardContent className="p-4">
+                        <div
+                          className="overflow-hidden rounded-lg"
+                          dangerouslySetInnerHTML={{ __html: leadingMediaHtml }}
+                        />
+                      </CardContent>
+                    </Card>
+                  )
+                )}
+
+                <div className="mb-4 flex items-center justify-between gap-4 text-sm">
                   <h5>
                     Published {dateHuman} by{" "}
                     {author?.name && (
@@ -454,36 +541,34 @@ export default async function Page({
                 </div>
 
                 {tocItems.length > 0 && (
-                  <Card className="not-prose mb-6 border border-border/70 shadow-sm">
-                    <CardContent className="space-y-3 p-5">
-                      <p className="text-sm font-semibold text-foreground">
+                  <details className="not-prose mb-6 lg:hidden">
+                    <Button
+                      asChild
+                      variant="outline"
+                      size="sm"
+                      className="w-full justify-between"
+                    >
+                      <summary className="list-none cursor-pointer">
                         Table of Contents
-                      </p>
-                      <ul className="space-y-2 text-sm text-muted-foreground">
-                        {tocItems.map((item) => (
-                          <li key={item.id}>
-                            <a
-                              href={`#${item.id}`}
-                              className="underline-offset-4 hover:text-foreground hover:underline"
-                            >
-                              {item.text}
-                            </a>
-                          </li>
-                        ))}
-                      </ul>
-                    </CardContent>
-                  </Card>
-                )}
-
-                {featuredMedia?.source_url && (
-                  <div className="h-96 my-12 md:h-[500px] overflow-hidden flex items-center justify-center border rounded-lg bg-accent/25">
-                    {/* eslint-disable-next-line */}
-                    <img
-                      className="w-full h-full object-cover"
-                      src={featuredMedia.source_url}
-                      alt={post.title.rendered}
-                    />
-                  </div>
+                      </summary>
+                    </Button>
+                    <Card className="mt-3 border border-border/70 shadow-sm">
+                      <CardContent className="space-y-3 p-5">
+                        <ol className="space-y-2 text-sm text-muted-foreground list-decimal list-inside">
+                          {tocItems.map((item) => (
+                            <li key={item.id}>
+                              <a
+                                href={`#${item.id}`}
+                                className="underline-offset-4 hover:text-foreground hover:underline"
+                              >
+                                {item.text}
+                              </a>
+                            </li>
+                          ))}
+                        </ol>
+                      </CardContent>
+                    </Card>
+                  </details>
                 )}
               </Prose>
 

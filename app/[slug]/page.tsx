@@ -182,6 +182,8 @@ function renderYoutubeEmbeds(html: string) {
 
   const buildIframe = (videoId: string) =>
     `<iframe src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
+  const wrapIframe = (videoId: string) =>
+    `<div class="wp-block-embed__wrapper">${buildIframe(videoId)}</div>`;
 
   const withOembed = html.replace(
     /<oembed\s+url=["']([^"']+)["']\s*><\/oembed>/gi,
@@ -191,11 +193,35 @@ function renderYoutubeEmbeds(html: string) {
     },
   );
 
-  return withOembed.replace(
+  const withBlockWrapper = withOembed.replace(
     /<div class="wp-block-embed__wrapper">\s*(https?:\/\/[^\s<]+)\s*<\/div>/gi,
     (match, url) => {
       const videoId = extractYoutubeId(String(url));
-      return videoId ? `<div class="wp-block-embed__wrapper">${buildIframe(videoId)}</div>` : match;
+      return videoId ? wrapIframe(videoId) : match;
+    },
+  );
+
+  const withParagraphUrl = withBlockWrapper.replace(
+    /<p>\s*(https?:\/\/[^\s<]+)\s*<\/p>/gi,
+    (match, url) => {
+      const videoId = extractYoutubeId(String(url));
+      return videoId ? wrapIframe(videoId) : match;
+    },
+  );
+
+  const withParagraphAnchor = withParagraphUrl.replace(
+    /<p>\s*<a[^>]+href=["']([^"']+)["'][^>]*>[^<]*<\/a>\s*<\/p>/gi,
+    (match, url) => {
+      const videoId = extractYoutubeId(String(url));
+      return videoId ? wrapIframe(videoId) : match;
+    },
+  );
+
+  return withParagraphAnchor.replace(
+    /<p>\s*\[embed\]\s*(https?:\/\/[^\s<\]]+)\s*\[\/embed\]\s*<\/p>/gi,
+    (match, url) => {
+      const videoId = extractYoutubeId(String(url));
+      return videoId ? wrapIframe(videoId) : match;
     },
   );
 }

@@ -25,7 +25,11 @@ import { SearchInput } from "@/components/posts/search-input";
 import { HeroCarousel } from "@/components/posts/hero-carousel";
 import { QuickActions } from "@/components/posts/quick-actions";
 import { LogoChipsRow } from "@/components/posts/logo-chips-row";
-import { TrendingColumns } from "@/components/posts/trending-columns";
+import {
+  CategorySpotlightGrid,
+  CategorySpotlightSection,
+  getSpotlightAccent,
+} from "@/components/posts/category-spotlight";
 import { CategoryChips } from "@/components/posts/category-chips";
 
 import type { Metadata } from "next";
@@ -96,11 +100,6 @@ export default async function Page({
     )
   );
 
-  const trendingColumns = resolvedTrending.map((item, index) => ({
-    title: item.title,
-    posts: trendingResponses[index].data,
-  }));
-
   // Create pagination URL helper
   const createPaginationUrl = (newPage: number) => {
     const params = new URLSearchParams();
@@ -121,6 +120,24 @@ export default async function Page({
     return `/posts${params.toString() ? `?${params.toString()}` : ""}`;
   };
 
+  const trendingSections = resolvedTrending.map((item, index) => ({
+    label: item.title,
+    href: item.category ? createCategoryUrl(item.category.id) : "/posts",
+    accent: getSpotlightAccent(item.category?.slug ?? item.slug),
+    posts: trendingResponses[index].data,
+  }));
+
+  const categorySpotlightResponses = await Promise.all(
+    categories.map((item) => getPostsByCategoryPaginated(item.id, 1, 3))
+  );
+
+  const categorySpotlights = categories.map((item, index) => ({
+    label: item.name,
+    href: createCategoryUrl(item.id),
+    accent: getSpotlightAccent(item.slug),
+    posts: categorySpotlightResponses[index].data,
+  }));
+
   return (
     <Section>
       <Container>
@@ -131,7 +148,12 @@ export default async function Page({
 
           <LogoChipsRow />
 
-          <TrendingColumns columns={trendingColumns} />
+          <CategorySpotlightSection
+            title="Trending courses"
+            sections={trendingSections}
+          />
+
+          <CategorySpotlightGrid sections={categorySpotlights} />
 
           <CategoryChips
             categories={categories}

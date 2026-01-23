@@ -460,11 +460,11 @@ export default async function Page({
         </div>
 
         <Container className="pt-0">
-          <div className="grid gap-10 lg:grid-cols-[minmax(240px,1fr)_690px_minmax(0,1fr)] lg:gap-12">
-            <aside className="hidden lg:block lg:w-full lg:justify-self-stretch">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_690px_minmax(0,1fr)] lg:gap-12">
+            <aside className="hidden lg:block lg:justify-self-end">
               {tocItems.length > 0 && (
-                <Card className="not-prose sticky top-24 w-full border border-border/70 shadow-sm">
-                  <CardContent className="space-y-3 p-6">
+                <Card className="not-prose sticky top-24 border border-border/70 shadow-sm">
+                  <CardContent className="space-y-3 p-5">
                     <p className="text-sm font-semibold text-foreground">
                       Table of Contents
                     </p>
@@ -487,6 +487,12 @@ export default async function Page({
 
             <div className="w-full lg:col-start-2 lg:w-[690px] lg:justify-self-center">
               <Prose>
+                <h1>
+                  <span
+                    dangerouslySetInnerHTML={{ __html: post.title.rendered }}
+                  ></span>
+                </h1>
+
                 {featuredMedia?.source_url ? (
                   <Card className="not-prose my-6 overflow-hidden border border-border/70 shadow-sm">
                     <CardContent className="p-0">
@@ -515,12 +521,6 @@ export default async function Page({
                     </Card>
                   )
                 )}
-
-                <h1>
-                  <span
-                    dangerouslySetInnerHTML={{ __html: post.title.rendered }}
-                  ></span>
-                </h1>
 
                 <div className="mb-4 flex items-center justify-between gap-4 text-sm">
                   <h5>

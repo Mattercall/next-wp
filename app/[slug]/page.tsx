@@ -155,20 +155,15 @@ function extractYoutubeId(url: string) {
     const host = parsed.hostname.toLowerCase();
 
     if (host.includes("youtu.be")) {
-      const videoId = parsed.pathname.split("/").filter(Boolean)[0];
-      return videoId ? videoId.trim() : null;
+      return parsed.pathname.replace("/", "").trim() || null;
     }
 
-    if (host.includes("youtube.com") || host.includes("youtube-nocookie.com")) {
+    if (host.includes("youtube.com")) {
       if (parsed.pathname.startsWith("/embed/")) {
         return parsed.pathname.split("/")[2] || null;
       }
 
       if (parsed.pathname.startsWith("/shorts/")) {
-        return parsed.pathname.split("/")[2] || null;
-      }
-
-      if (parsed.pathname.startsWith("/live/")) {
         return parsed.pathname.split("/")[2] || null;
       }
 
@@ -186,17 +181,15 @@ function renderYoutubeEmbeds(html: string) {
   if (!html) return html;
 
   const buildIframe = (videoId: string) =>
-    `<iframe src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>`;
+    `<iframe src="https://www.youtube.com/embed/${videoId}" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>`;
   const wrapIframe = (videoId: string) =>
-    `<div class="responsive-embed">${buildIframe(videoId)}</div>`;
-  const wrapExistingIframe = (iframeHtml: string) =>
-    `<div class="responsive-embed">${iframeHtml}</div>`;
+    `<div class="wp-block-embed__wrapper">${buildIframe(videoId)}</div>`;
 
   const withOembed = html.replace(
     /<oembed\s+url=["']([^"']+)["']\s*><\/oembed>/gi,
     (match, url) => {
       const videoId = extractYoutubeId(String(url));
-      return videoId ? wrapIframe(videoId) : match;
+      return videoId ? buildIframe(videoId) : match;
     },
   );
 
@@ -224,19 +217,11 @@ function renderYoutubeEmbeds(html: string) {
     },
   );
 
-  const withShortcode = withParagraphAnchor.replace(
+  return withParagraphAnchor.replace(
     /<p>\s*\[embed\]\s*(https?:\/\/[^\s<\]]+)\s*\[\/embed\]\s*<\/p>/gi,
     (match, url) => {
       const videoId = extractYoutubeId(String(url));
       return videoId ? wrapIframe(videoId) : match;
-    },
-  );
-
-  return withShortcode.replace(
-    /<iframe\b[^>]*src=["']([^"']+)["'][^>]*><\/iframe>/gi,
-    (match, src) => {
-      const videoId = extractYoutubeId(String(src));
-      return videoId ? wrapExistingIframe(match) : match;
     },
   );
 }

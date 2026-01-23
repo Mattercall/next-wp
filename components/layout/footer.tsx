@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 
 import { Container, Section } from "@/components/craft";
+import { ThemeToggle } from "@/components/theme/theme-toggle";
 
 const footerColumns = [
   {
@@ -122,6 +123,9 @@ export function Footer() {
                   </Link>
                 ))}
               </div>
+              <div className="flex items-center">
+                <ThemeToggle />
+              </div>
             </div>
           </div>
 
@@ -196,17 +200,22 @@ export function Footer() {
                 />
               </button>
               {openSections["Follow Us"] ? (
-                <div className="mt-4 flex flex-wrap gap-3">
-                  {socialLinks.map(({ label, href, Icon }) => (
-                    <Link
-                      key={label}
-                      href={href}
-                      aria-label={label}
-                      className="flex h-9 w-9 items-center justify-center rounded-md bg-background/10 text-secondary transition hover:bg-background/20 hover:text-secondary dark:bg-foreground/10 dark:text-foreground dark:hover:bg-foreground/20"
-                    >
-                      <Icon className="h-4 w-4" aria-hidden="true" />
-                    </Link>
-                  ))}
+                <div className="mt-4 space-y-3">
+                  <div className="flex flex-wrap gap-3">
+                    {socialLinks.map(({ label, href, Icon }) => (
+                      <Link
+                        key={label}
+                        href={href}
+                        aria-label={label}
+                        className="flex h-9 w-9 items-center justify-center rounded-md bg-background/10 text-secondary transition hover:bg-background/20 hover:text-secondary dark:bg-foreground/10 dark:text-foreground dark:hover:bg-foreground/20"
+                      >
+                        <Icon className="h-4 w-4" aria-hidden="true" />
+                      </Link>
+                    ))}
+                  </div>
+                  <div className="flex items-center">
+                    <ThemeToggle />
+                  </div>
                 </div>
               ) : null}
             </div>

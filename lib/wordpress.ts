@@ -243,6 +243,22 @@ export async function getCategoryById(id: number): Promise<Category> {
   return wordpressFetch<Category>(`/wp-json/wp/v2/categories/${id}`);
 }
 
+export async function getCategoriesByIds(ids: number[]): Promise<Category[]> {
+  const uniqueIds = Array.from(new Set(ids)).filter((id) => Number.isFinite(id));
+
+  if (uniqueIds.length === 0) return [];
+
+  return wordpressFetchGraceful<Category[]>(
+    "/wp-json/wp/v2/categories",
+    [],
+    {
+      include: uniqueIds.join(","),
+      per_page: uniqueIds.length,
+    },
+    ["wordpress", "categories"]
+  );
+}
+
 export async function getCategoryBySlug(slug: string): Promise<Category> {
   return wordpressFetch<Category[]>("/wp-json/wp/v2/categories", { slug }).then(
     (categories) => categories[0]

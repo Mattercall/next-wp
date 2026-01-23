@@ -1,0 +1,8 @@
+<svg width="86" height="32" viewBox="0 0 86 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="86" height="32" rx="4" fill="#F8FAFC"/>
+  <rect x="1" y="1" width="84" height="30" rx="3" stroke="#E2E8F0" stroke-width="1"/>
+  <path d="M10 12h10v10H10z" fill="#DC2626"/>
+  <path d="M15 12l5 5-5 5-5-5 5-5z" fill="#F8FAFC"/>
+  <text x="54" y="15" text-anchor="middle" font-size="8" font-family="Arial, sans-serif" font-weight="700" fill="#0F172A">SSL</text>
+  <text x="54" y="23" text-anchor="middle" font-size="7" font-family="Arial, sans-serif" fill="#475569">SECURE</text>
+</svg>

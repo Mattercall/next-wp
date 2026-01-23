@@ -27,6 +27,9 @@ import type { Metadata } from "next";
 import Script from "next/script";
 import { Play } from "lucide-react";
 
+const blogHeadingTypography =
+  "[&_h1]:text-[30px] [&_h2]:text-[24px] [&_h3]:text-[18px] [&_h5]:text-[12px]";
+
 /**
  * ===== Site config (set via env if you want) =====
  * Make sure NEXT_PUBLIC_SITE_URL is your real domain (not next-wp.com).
@@ -479,7 +482,7 @@ export default async function Page({
           <Container className="pt-0">
             <div className="relative">
               <div className="relative z-10 mx-auto w-full max-w-[690px]">
-                <Prose>
+                <Prose className={blogHeadingTypography}>
                   <h1>
                     <span
                       dangerouslySetInnerHTML={{ __html: post.title.rendered }}
@@ -573,7 +576,10 @@ export default async function Page({
                 </Prose>
 
                 <Article
-                  className="max-w-none w-full [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_iframe]:rounded-lg [&_iframe]:border [&_iframe]:border-border/70 [&_iframe]:shadow-sm [&_img]:w-full [&_img]:rounded-lg [&_img]:border [&_img]:border-border/70 [&_img]:shadow-sm [&_video]:w-full [&_video]:rounded-lg [&_video]:border [&_video]:border-border/70 [&_video]:shadow-sm [&_p]:font-sans [&_p]:text-[14px] [&_p]:text-[color:var(--color-neutral-600)] [&_li]:font-sans [&_li]:text-[14px] [&_li]:text-[color:var(--color-neutral-600)] [&_blockquote]:font-sans [&_blockquote]:text-[14px] [&_blockquote]:text-[color:var(--color-neutral-600)]"
+                  className={cn(
+                    blogHeadingTypography,
+                    "max-w-none w-full [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_iframe]:rounded-lg [&_iframe]:border [&_iframe]:border-border/70 [&_iframe]:shadow-sm [&_img]:w-full [&_img]:rounded-lg [&_img]:border [&_img]:border-border/70 [&_img]:shadow-sm [&_video]:w-full [&_video]:rounded-lg [&_video]:border [&_video]:border-border/70 [&_video]:shadow-sm [&_p]:font-sans [&_p]:text-[14px] [&_p]:text-[color:var(--color-neutral-600)] [&_li]:font-sans [&_li]:text-[14px] [&_li]:text-[color:var(--color-neutral-600)] [&_blockquote]:font-sans [&_blockquote]:text-[14px] [&_blockquote]:text-[color:var(--color-neutral-600)]",
+                  )}
                   dangerouslySetInnerHTML={{ __html: contentWithFaqStyles }}
                 />
               </div>

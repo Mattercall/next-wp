@@ -404,17 +404,11 @@ export default async function Page({
           />
         )}
 
-        <div className="relative w-full bg-[#f7f3ee]">
+        <div className="relative w-full blog-hero-gradient">
           <div className="relative left-1/2 right-1/2 h-[276px] w-screen -translate-x-1/2 overflow-hidden">
             <div className="relative mx-auto flex h-full w-full max-w-[90rem] items-center px-6">
               <div className="grid h-full w-full grid-cols-1 items-center gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,36rem)_minmax(0,1fr)]">
-                <div className="relative hidden h-full items-end lg:flex">
-                  <img
-                    className="h-[180px] w-[240px] rounded-3xl object-cover shadow-lg"
-                    src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80"
-                    alt="Zwei Personen im Gespräch mit Laptop"
-                  />
-                </div>
+                <div className="relative hidden h-full items-end lg:flex" aria-hidden="true" />
 
                 <div className="mx-auto flex h-full max-w-xl flex-col items-center justify-center text-center">
                   <p className={cn("mt-0", heroEyebrowClass)}>Shopify Starter</p>
@@ -448,123 +442,43 @@ export default async function Page({
                   </div>
                 </div>
 
-                <div className="relative hidden h-full items-center justify-end lg:flex">
-                  <img
-                    className="absolute right-0 top-6 h-[110px] w-[140px] rounded-2xl object-cover shadow-md"
-                    src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=500&q=80"
-                    alt="Händler im Gespräch"
-                  />
-                  <img
-                    className="absolute bottom-6 right-0 h-[190px] w-[250px] rounded-3xl object-cover shadow-lg"
-                    src="https://images.unsplash.com/photo-1515165562835-c4c9cc9719a9?auto=format&fit=crop&w=900&q=80"
-                    alt="Hand mit Smartphone über Paket"
-                  />
-                </div>
+                <div
+                  className="relative hidden h-full items-center justify-end lg:flex"
+                  aria-hidden="true"
+                />
               </div>
             </div>
           </div>
         </div>
 
         <div className="relative w-full overflow-visible">
-          {tocItems.length > 0 && (
-            <aside className="absolute top-0 hidden w-[310px] pt-8 min-[1360px]:block [left:calc(50%-345px-310px-24px)]">
-              <Card className="not-prose sticky top-[calc(6rem+2rem)] border border-border/70 shadow-sm">
-                <CardContent className="space-y-3 p-5">
-                  <p className="text-sm font-semibold text-foreground">
-                    Table of Contents
-                  </p>
-                  <ol className="list-inside list-decimal space-y-2 text-sm text-muted-foreground">
-                    {tocItems.map((item) => (
-                      <li key={item.id}>
-                        <a
-                          href={`#${item.id}`}
-                          className="underline-offset-4 hover:text-foreground hover:underline"
-                        >
-                          {item.text}
-                        </a>
-                      </li>
-                    ))}
-                  </ol>
-                </CardContent>
-              </Card>
-            </aside>
-          )}
-
-          <aside className="absolute top-0 hidden w-[310px] pt-8 min-[1360px]:block [left:calc(50%+345px+24px)]">
-            <Card className="not-prose sticky top-[calc(6rem+2rem)] rounded-2xl border border-border/60 bg-background shadow-[0_1px_0_rgba(255,255,255,0.7),0_18px_50px_-30px_rgba(15,23,42,0.35),0_0_40px_rgba(59,130,246,0.2)]">
-              <CardContent className="space-y-4 p-5">
-                <div className="flex items-start justify-between gap-3">
-                  <div className="space-y-1">
-                    <p className="text-sm font-semibold text-foreground">
-                      For Business Shark
-                    </p>
-                    <p className="text-xs leading-relaxed text-muted-foreground">
-                      Here, I focus on a range of items and features that we use
-                      in life without them.
-                    </p>
-                  </div>
-                  <button
-                    type="button"
-                    className="rounded-full border border-border/70 px-2 py-1 text-xs text-muted-foreground"
-                  >
-                    •••
-                  </button>
-                </div>
-
-                <div className="space-y-2">
-                  <p className="text-sm font-semibold text-foreground">
-                    Choose a plan to get started
-                  </p>
-                  <div className="space-y-2">
-                    {[
-                      { label: "Branding", price: "$60" },
-                      { label: "Marketing", price: "$120", checked: true },
-                      { label: "Web Development", price: "$250" },
-                      { label: "App Development", price: "$320" },
-                    ].map((plan) => (
-                      <label
-                        key={plan.label}
-                        className={cn(
-                          "flex cursor-pointer items-center justify-between rounded-lg border border-border/70 px-3 py-2 text-sm",
-                          plan.checked && "bg-muted/40 text-foreground",
-                        )}
-                      >
-                        <span className="flex items-center gap-2">
-                          <input
-                            type="radio"
-                            name="plan"
-                            defaultChecked={plan.checked}
-                            className="h-4 w-4 accent-foreground"
-                          />
-                          {plan.label}
-                        </span>
-                        <span className="rounded-full border border-border/70 bg-muted/30 px-2 py-0.5 text-xs font-semibold text-foreground">
-                          {plan.price}
-                        </span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                <div className="space-y-2 text-sm">
-                  <div className="flex items-center justify-between text-muted-foreground">
-                    <span>Taxes</span>
-                    <span>$32</span>
-                  </div>
-                  <div className="flex items-center justify-between font-semibold text-foreground">
-                    <span>Total amount</span>
-                    <span>$152</span>
-                  </div>
-                </div>
-
-                <Button className="w-full rounded-full">Pay now</Button>
-              </CardContent>
-            </Card>
-          </aside>
-
           <Container className="pt-0">
-            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_690px_minmax(0,1fr)] lg:gap-12">
-              <div className="w-full lg:col-start-2 lg:w-[690px] lg:justify-self-center">
+            <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_690px_minmax(0,1fr)] lg:gap-12 min-[1360px]:grid-cols-[310px_690px_310px] min-[1360px]:gap-12">
+              <aside className="hidden w-[310px] pt-8 min-[1360px]:block">
+                {tocItems.length > 0 && (
+                  <Card className="not-prose sticky top-[calc(6rem+2rem)] border border-border/70 shadow-sm">
+                    <CardContent className="space-y-3 p-5">
+                      <p className="text-sm font-semibold text-foreground">
+                        Table of Contents
+                      </p>
+                      <ol className="list-inside list-decimal space-y-2 text-sm text-muted-foreground">
+                        {tocItems.map((item) => (
+                          <li key={item.id}>
+                            <a
+                              href={`#${item.id}`}
+                              className="underline-offset-4 hover:text-foreground hover:underline"
+                            >
+                              {item.text}
+                            </a>
+                          </li>
+                        ))}
+                      </ol>
+                    </CardContent>
+                  </Card>
+                )}
+              </aside>
+
+              <div className="w-full lg:col-start-2 lg:w-[690px] lg:justify-self-center min-[1360px]:col-start-2 min-[1360px]:w-[690px] min-[1360px]:justify-self-center">
                 <Prose>
                   <h1>
                     <span
@@ -663,6 +577,78 @@ export default async function Page({
                   dangerouslySetInnerHTML={{ __html: contentWithAnchors }}
                 />
               </div>
+
+              <aside className="hidden w-[310px] pt-8 min-[1360px]:col-start-3 min-[1360px]:block">
+                <Card className="not-prose sticky top-[calc(6rem+2rem)] rounded-2xl border border-border/60 bg-background shadow-[0_1px_0_rgba(255,255,255,0.7),0_18px_50px_-30px_rgba(15,23,42,0.35),0_0_40px_rgba(59,130,246,0.2)]">
+                  <CardContent className="space-y-4 p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="space-y-1">
+                        <p className="text-sm font-semibold text-foreground">
+                          For Business Shark
+                        </p>
+                        <p className="text-xs leading-relaxed text-muted-foreground">
+                          Here, I focus on a range of items and features that we use
+                          in life without them.
+                        </p>
+                      </div>
+                      <button
+                        type="button"
+                        className="rounded-full border border-border/70 px-2 py-1 text-xs text-muted-foreground"
+                      >
+                        •••
+                      </button>
+                    </div>
+
+                    <div className="space-y-2">
+                      <p className="text-sm font-semibold text-foreground">
+                        Choose a plan to get started
+                      </p>
+                      <div className="space-y-2">
+                        {[
+                          { label: "Branding", price: "$60" },
+                          { label: "Marketing", price: "$120", checked: true },
+                          { label: "Web Development", price: "$250" },
+                          { label: "App Development", price: "$320" },
+                        ].map((plan) => (
+                          <label
+                            key={plan.label}
+                            className={cn(
+                              "flex cursor-pointer items-center justify-between rounded-lg border border-border/70 px-3 py-2 text-sm",
+                              plan.checked && "bg-muted/40 text-foreground",
+                            )}
+                          >
+                            <span className="flex items-center gap-2">
+                              <input
+                                type="radio"
+                                name="plan"
+                                defaultChecked={plan.checked}
+                                className="h-4 w-4 accent-foreground"
+                              />
+                              {plan.label}
+                            </span>
+                            <span className="rounded-full border border-border/70 bg-muted/30 px-2 py-0.5 text-xs font-semibold text-foreground">
+                              {plan.price}
+                            </span>
+                          </label>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="space-y-2 text-sm">
+                      <div className="flex items-center justify-between text-muted-foreground">
+                        <span>Taxes</span>
+                        <span>$32</span>
+                      </div>
+                      <div className="flex items-center justify-between font-semibold text-foreground">
+                        <span>Total amount</span>
+                        <span>$152</span>
+                      </div>
+                    </div>
+
+                    <Button className="w-full rounded-full">Pay now</Button>
+                  </CardContent>
+                </Card>
+              </aside>
             </div>
           </Container>
         </div>

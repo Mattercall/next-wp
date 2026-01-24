@@ -1,43 +1,43 @@
 // Define the menu items
 export const mainMenu = {
   home: "/",
-  about: "https://github.com/9d8dev/next-wp",
-  blog: "/posts",
+  about: "/about",
+  contact: "/contact",
 };
 
 export const serviceMenu = [
   {
-    name: "SEO Strategy",
+    name: "SEO & Authority",
     href: "/service/seo",
-    description: "Technical audits, content, and authority building.",
-    accent: "Popular",
+    description: "Search visibility, content, and technical foundations.",
+    accent: "Core",
     fallback: "SEO",
   },
   {
-    name: "Paid Media",
-    href: "/service/paid-media",
-    description: "High-intent campaigns with clear ROI reporting.",
-    accent: "Growth",
-    fallback: "PPC",
+    name: "Paid Ads",
+    href: "/service/advertising",
+    description: "Google + Meta campaigns built for efficient acquisition.",
+    accent: "Scale",
+    fallback: "ADS",
   },
   {
-    name: "Content Studio",
-    href: "/service/content",
-    description: "Editorial systems, design, and production ops.",
-    accent: "Premium",
-    fallback: "CNT",
+    name: "Shopify Web Design",
+    href: "/service/webdesign",
+    description: "Conversion-first storefronts that lift AOV and repeat.",
+    accent: "Shopify",
+    fallback: "UX",
   },
   {
-    name: "Analytics & CRO",
-    href: "/service/analytics",
-    description: "Conversion experiments with full-funnel insights.",
-    accent: "Insight",
-    fallback: "CRO",
+    name: "Backlink Growth",
+    href: "/service/seo-backlink",
+    description: "Authority placements that build trust and rankings.",
+    accent: "Authority",
+    fallback: "PR",
   },
 ];
 
 export const contentMenu = {
-  categories: "/posts/categories",
-  tags: "/posts/tags",
-  authors: "/posts/authors",
+  about: "/about",
+  contact: "/contact",
+  legal: "/legal",
 };

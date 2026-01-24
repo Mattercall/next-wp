@@ -4,6 +4,7 @@ import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
+import { CookieConsent } from "@/components/cookie-consent";
 import { Analytics } from "@vercel/analytics/react";
 
 import { siteConfig } from "@/site.config";
@@ -44,6 +45,7 @@ export default function RootLayout({
           <Nav />
           {children}
           <Footer />
+          <CookieConsent />
         </ThemeProvider>
         <Analytics />
       </body>

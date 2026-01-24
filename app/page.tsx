@@ -358,27 +358,27 @@ export default function Home() {
       <section>
         <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
           <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
-            SEO Backlinks that build authority fast
+            SEO backlinks that build authority and revenue fast
           </h2>
           <p className="mt-3 text-base text-neutral-600">
-            Get premium placements on real, trusted sites that move rankings
-            and keep compounding traffic.
+            Earn premium placements on real, trusted sites that lift rankings,
+            strengthen trust, and keep compounding traffic.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <button className={primaryButtonClass}>Get backlink plan</button>
-            <button className={secondaryButtonClass}>See case studies</button>
+            <button className={primaryButtonClass}>Get my backlink plan</button>
+            <button className={secondaryButtonClass}>View SEO wins</button>
           </div>
           <div className="mt-12 w-full">
             <div className="mx-auto flex max-w-[1080px] flex-wrap items-center justify-center gap-4 rounded-full bg-[#F3F8FF] px-6 py-4 text-left">
               <p className="text-base font-semibold text-neutral-900">
-                What brings you to Coursera today?
+                What backlink goal brings you here today?
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">
                 {[
-                  { label: "Start my career" },
-                  { label: "Change my career" },
-                  { label: "Grow in my current role" },
-                  { label: "Explore topics outside of work" },
+                  { label: "Launch my SEO campaign" },
+                  { label: "Improve rankings fast" },
+                  { label: "Grow authority in my niche" },
+                  { label: "Scale link building safely" },
                 ].map((item) => (
                   <button
                     key={item.label}
@@ -406,52 +406,51 @@ export default function Home() {
             <div className="mx-auto mt-10 flex w-full max-w-[1075px] flex-col gap-6 rounded-[22px] bg-gradient-to-r from-[#C12BA8] via-[#7c3aed] to-[#2F80FF] px-8 py-8 md:flex-row md:items-center">
               <div className="flex w-full flex-col items-start gap-4 text-left md:w-[32%]">
                 <h3 className="text-lg font-semibold text-white">
-                  Prepare for an industry
+                  Prepare for an industry SEO
                   <br />
-                  certification exam
+                  certification
                 </h3>
                 <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0056D2]">
-                  Explore courses →
+                  Explore SEO courses →
                 </button>
               </div>
               <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 md:w-[68%]">
                 {[
                   {
-                    provider: "Microsoft",
-                    title:
-                      "Microsoft Project Management: Build Job-Ready Skills",
+                    provider: "Moz Academy",
+                    title: "SEO Foundations: Build Ranking-Ready Skills",
                     type: "Professional Certificate",
-                    rating: "★ 4.7",
+                    rating: "★ 4.9",
                     imageClass:
                       "bg-gradient-to-br from-green-400 via-blue-500 to-yellow-400",
-                    imageLabel: "Microsoft",
+                    imageLabel: "Moz",
                   },
                   {
-                    provider: "Amazon Web Services",
-                    title: "AWS Cloud Solutions Architect",
+                    provider: "Ahrefs",
+                    title: "Backlink Strategy & Outreach",
                     type: "Professional Certificate",
                     rating: "★ 4.8",
                     imageClass:
                       "bg-[url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80')] bg-cover bg-center",
-                    imageLabel: "AWS",
+                    imageLabel: "Ahrefs",
                     popular: true,
                   },
                   {
-                    provider: "National Academy of Sports…",
-                    title: "NASM Personal Fitness Trainer",
+                    provider: "Semrush Academy",
+                    title: "Technical SEO Site Audits",
                     type: "Professional Certificate",
                     rating: "★ 4.7",
                     imageClass: "bg-[#0b2b55]",
-                    imageLabel: "NASM",
+                    imageLabel: "SEO",
                   },
                   {
-                    provider: "LearnKartS",
-                    title: "PMP Exam Preparation",
+                    provider: "HubSpot",
+                    title: "Content-Led Link Building",
                     type: "Specialization",
                     rating: "★ 4.6",
                     imageClass:
                       "bg-[url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80')] bg-cover bg-center",
-                    imageLabel: "PMP",
+                    imageLabel: "SEO",
                   },
                 ].map((card) => (
                   <div

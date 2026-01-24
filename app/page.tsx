@@ -165,100 +165,148 @@ const featuredCards = [
   },
 ];
 
-const popularCategoryPanels = [
+const courseraQuickTiles = [
   {
-    title: "Popular in Automation →",
+    label: "Launch a new career",
+    icon: (
+      <svg
+        className="h-7 w-7 text-[#5960f2]"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M4 20h16" />
+        <path d="M6 20V7l6-3 6 3v13" />
+        <path d="M9 12h6" />
+        <path d="M9 16h6" />
+      </svg>
+    ),
+  },
+  {
+    label: "Gain in-demand skills",
+    icon: (
+      <svg
+        className="h-7 w-7 text-[#5960f2]"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M4 6h16v12H4z" />
+        <path d="M7 9h5" />
+        <path d="M7 13h7" />
+        <path d="M16 8l3 3-3 3" />
+      </svg>
+    ),
+  },
+  {
+    label: "Earn a degree",
+    icon: (
+      <svg
+        className="h-7 w-7 text-[#5960f2]"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        aria-hidden="true"
+      >
+        <path d="M3 7l9-4 9 4-9 4-9-4z" />
+        <path d="M7 10v5c0 2 10 2 10 0v-5" />
+        <path d="M19 12v4" />
+      </svg>
+    ),
+  },
+];
+
+const courseraPartnerChips = [
+  { name: "Google", logo: "G", color: "text-[#4285F4]" },
+  { name: "IBM", logo: "IBM", color: "text-[#1F70C1]" },
+  { name: "Microsoft", logo: "MS", color: "text-[#F25022]" },
+  { name: "University of Illinois", logo: "I", color: "text-[#E84A27]" },
+  { name: "OpenAI", logo: "◎", color: "text-neutral-900" },
+  { name: "Anthropic", logo: "A", color: "text-neutral-900" },
+  { name: "DeepLearning.AI", logo: "DL", color: "text-[#EF4444]" },
+  { name: "Stanford University", logo: "S", color: "text-[#8C1515]" },
+  { name: "University of Pennsylvania", logo: "UP", color: "text-[#011F5B]" },
+  { name: "University of Michigan", logo: "M", color: "text-[#00274C]" },
+];
+
+const trendingCoursePanels = [
+  {
+    title: "Most popular →",
     items: [
       {
-        provider: "WhatsApp",
-        providerLogo:
-          "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
-        title: "WhatsApp Client Automation",
-        meta: "Workflow • ★ 4.9",
-        image:
-          "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=120&q=80",
+        provider: "Google",
+        providerLogo: "G",
+        title: "Google Cybersecurity",
+        meta: "Professional Certificate • ★ 4.8",
       },
       {
-        provider: "Zapier",
-        providerLogo:
-          "https://upload.wikimedia.org/wikipedia/commons/a/aa/Zapier_logo_2021.svg",
-        title: "AI-Driven Lead Routing",
-        meta: "Automation • ★ 4.8",
-        image:
-          "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=120&q=80",
+        provider: "Google",
+        providerLogo: "G",
+        title: "Foundations of Cybersecurity",
+        meta: "Course • ★ 4.8",
       },
       {
-        provider: "HubSpot",
-        providerLogo:
-          "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg",
-        title: "CRM Follow-up Autopilot",
-        meta: "Playbook • ★ 4.7",
-        image:
-          "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=120&q=80",
+        provider: "Google",
+        providerLogo: "G",
+        title: "Google IT Support",
+        meta: "Professional Certificate • ★ 4.8",
       },
     ],
   },
   {
-    title: "Popular in AI Ops →",
+    title: "Weekly spotlight →",
     items: [
       {
-        provider: "OpenAI",
-        providerLogo:
-          "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg",
-        title: "AI Support Inbox Triage",
-        meta: "Workflow • ★ 4.9",
-        image:
-          "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=120&q=80",
+        provider: "Duke University",
+        providerLogo: "DU",
+        title: "Financial Management",
+        meta: "Specialization • ★ 4.8",
       },
       {
-        provider: "Make",
-        providerLogo:
-          "https://upload.wikimedia.org/wikipedia/commons/8/8d/Make_logo.svg",
-        title: "No-Code AI Task Orchestration",
-        meta: "Automation • ★ 4.8",
-        image:
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=120&q=80",
+        provider: "Automatic Data Processing, Inc. (ADP)",
+        providerLogo: "ADP",
+        title: "ADP Entry-Level Payroll Specialist",
+        meta: "Professional Certificate • ★ 4.7",
       },
       {
-        provider: "Notion",
-        providerLogo:
-          "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",
-        title: "AI Knowledge Base Updates",
-        meta: "Automation • ★ 4.7",
-        image:
-          "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=120&q=80",
+        provider: "University of Illinois Urbana-Champaign",
+        providerLogo: "UI",
+        title: "Financial Analysis - Skills for Success",
+        meta: "Specialization • ★ 4.7",
       },
     ],
   },
   {
-    title: "Popular in AI Growth →",
+    title: "In-demand AI skills →",
     items: [
       {
-        provider: "Twilio",
-        providerLogo:
-          "https://upload.wikimedia.org/wikipedia/commons/7/7e/Twilio-logo-red.svg",
-        title: "Conversational SMS Automation",
-        meta: "Messaging • ★ 4.8",
-        image:
-          "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=120&q=80",
+        provider: "Multiple educators",
+        providerLogo: "ME",
+        title: "Generative AI for Growth Marketing",
+        meta: "Specialization • ★ 4.7",
       },
       {
-        provider: "Shopify",
-        providerLogo:
-          "https://upload.wikimedia.org/wikipedia/commons/5/5d/Shopify_logo_2018.svg",
-        title: "AI Cart Recovery Journeys",
-        meta: "Workflow • ★ 4.7",
-        image:
-          "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=120&q=80",
+        provider: "Vanderbilt University",
+        providerLogo: "VU",
+        title: "Generative AI Software Entry-Level Engineering",
+        meta: "Specialization • ★ 4.8",
       },
       {
-        provider: "Slack",
-        providerLogo:
-          "https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg",
-        title: "AI Ops Alerting",
-        meta: "Automation • ★ 4.6",
-        image:
-          "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=120&q=80",
+        provider: "Google Cloud",
+        providerLogo: "GC",
+        title: "Generative AI Leader",
+        meta: "Professional Certificate • ★ 4.7",
       },
     ],
   },
@@ -501,60 +549,179 @@ export default function Home() {
       </section>
 
       <section className="bg-white">
-        <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
+        <div className="mx-auto flex max-w-[1200px] flex-col px-4 py-16">
           <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
             AI automation that never sleeps
           </h2>
-          <p className="mt-3 text-base text-neutral-700">
-            Automate lead capture, follow-ups, and reporting with intelligent
-            workflows tailored to your stack.
-          </p>
-          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <button className={primaryButtonClass}>Build my workflow</button>
-            <button className={secondaryButtonClass}>See automation demos</button>
-          </div>
-          <div className="mt-10 w-full max-w-[1200px]">
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-              {popularCategoryPanels.map((panel) => (
-                <div
-                  key={panel.title}
-                  className="rounded-xl bg-[#eef5ff] p-4 text-left"
-                >
-                  <p className="text-sm font-semibold text-neutral-900">
-                    {panel.title}
-                  </p>
-                  <div className="mt-3 space-y-3">
-                    {panel.items.map((item) => (
-                      <div
-                        key={item.title}
-                        className="flex items-center gap-3 rounded-lg bg-white px-3 py-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.08)]"
-                      >
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="h-12 w-12 rounded-md object-cover"
-                        />
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-2 text-[11px] text-neutral-600">
-                            <img
-                              src={item.providerLogo}
-                              alt={item.provider}
-                              className="h-4 w-4 rounded-sm"
-                            />
-                            <span>{item.provider}</span>
-                          </div>
-                          <p className="mt-1 truncate text-[13px] font-semibold text-neutral-900">
-                            {item.title}
-                          </p>
-                          <p className="mt-1 text-[11px] text-neutral-500">
-                            {item.meta}
-                          </p>
-                        </div>
-                      </div>
-                    ))}
+          <div className="mt-10 space-y-8">
+            <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
+              <div className="relative overflow-hidden rounded-3xl bg-[#062B57] p-8 text-white">
+                <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
+                  <span className="text-white">coursera</span>
+                  <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold">
+                    PLUS
+                  </span>
+                </div>
+                <h3 className="mt-4 text-2xl font-semibold leading-snug sm:text-3xl">
+                  Ends soon! Next level skills. New Year savings.
+                </h3>
+                <p className="mt-3 max-w-sm text-sm text-white/80">
+                  Unlock 10,000+ programs with your subscription and earn as
+                  many career certificates as you like.
+                </p>
+                <button className="mt-6 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#1b4fbf]">
+                  Save 50% on Coursera Plus →
+                </button>
+                <div className="absolute right-10 top-10 flex h-20 w-20 items-center justify-center rounded-full bg-[#f6d6ff] text-center text-sm font-semibold text-[#1c1c1c]">
+                  <span className="leading-tight">
+                    <span className="block text-[10px] text-neutral-500 line-through">
+                      €342
+                    </span>
+                    €171
+                  </span>
+                </div>
+                <div className="absolute right-4 top-24 h-10 w-10 rounded-full border border-pink-200/70 bg-white/10" />
+                <div className="absolute right-24 top-16 h-12 w-12 rounded-full border border-purple-300/70 bg-white/5" />
+                <div className="absolute right-16 bottom-6 flex items-center gap-2">
+                  {["G", "IBM", "M", "MS"].map((logo) => (
+                    <span
+                      key={logo}
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[11px] font-semibold text-[#0f1f3a] shadow"
+                    >
+                      {logo}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0a5ad6] via-[#1a6fe0] to-[#0c54c4] p-8 text-white">
+                <p className="text-sm font-semibold uppercase tracking-wide text-white/80">
+                  coursera for teams
+                </p>
+                <h3 className="mt-3 text-2xl font-semibold leading-snug sm:text-3xl">
+                  Train your team in top skills and join 3,700+ teams worldwide
+                </h3>
+                <button className="mt-5 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#0b5bd3]">
+                  Save 50% on Teams →
+                </button>
+                <div className="absolute right-0 top-0 h-full w-1/2">
+                  <div className="absolute bottom-0 right-0 h-40 w-40 rounded-tl-[80px] bg-gradient-to-br from-[#8ef0ff] via-[#d2f7ff] to-white/80" />
+                  <div className="absolute bottom-6 right-6 h-32 w-32 rounded-tl-[70px] bg-gradient-to-br from-white/90 via-[#d0f2ff] to-[#9cd7ff]" />
+                  <div className="absolute bottom-0 right-10 h-52 w-52 rounded-tl-[120px] bg-gradient-to-br from-[#a0ffe2] via-[#d2f7ff] to-[#cfe0ff]" />
+                </div>
+                <div className="absolute bottom-6 right-6 flex items-center gap-3 rounded-2xl bg-white/10 p-2 backdrop-blur">
+                  <img
+                    src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=500&q=80"
+                    alt="Team meeting"
+                    className="h-24 w-32 rounded-2xl object-cover"
+                  />
+                  <div className="rounded-xl bg-[#0b4cc0] px-3 py-2 text-center text-xs font-semibold">
+                    50% off team training
+                    <span className="block text-[10px] font-normal text-white/80">
+                      up to 125 licenses
+                    </span>
                   </div>
                 </div>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {[0, 1, 2, 3].map((dot) => (
+                <span
+                  key={dot}
+                  className={cn(
+                    "h-2 w-2 rounded-full",
+                    dot === 0 ? "bg-[#6b7280]" : "bg-[#d1d5db]"
+                  )}
+                />
               ))}
+            </div>
+
+            <div className="grid gap-4 md:grid-cols-3">
+              {courseraQuickTiles.map((tile) => (
+                <div
+                  key={tile.label}
+                  className="flex h-[76px] items-center justify-between rounded-2xl bg-[#f4f3ff] px-6"
+                >
+                  <p className="text-sm font-semibold text-neutral-900">
+                    {tile.label}
+                  </p>
+                  {tile.icon}
+                </div>
+              ))}
+            </div>
+
+            <div className="space-y-4">
+              <p className="text-base font-semibold text-neutral-900">
+                Learn from 350+ leading universities and companies
+              </p>
+              <div className="flex items-center gap-3 overflow-hidden">
+                <div className="flex flex-wrap gap-3">
+                  {courseraPartnerChips.map((chip) => (
+                    <div
+                      key={chip.name}
+                      className="flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-2 text-xs font-semibold text-neutral-700 shadow-sm"
+                    >
+                      <span
+                        className={cn(
+                          "flex h-6 min-w-[24px] items-center justify-center rounded-full bg-neutral-100 text-[10px] font-semibold",
+                          chip.color
+                        )}
+                      >
+                        {chip.logo}
+                      </span>
+                      <span className="whitespace-nowrap">{chip.name}</span>
+                    </div>
+                  ))}
+                </div>
+                <button
+                  className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-200 text-sm text-neutral-600 shadow-sm"
+                  aria-label="Scroll partners"
+                >
+                  →
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <h3 className="text-lg font-semibold text-neutral-900">
+                Trending courses
+              </h3>
+              <div className="grid gap-6 lg:grid-cols-3">
+                {trendingCoursePanels.map((panel) => (
+                  <div
+                    key={panel.title}
+                    className="rounded-2xl bg-[#eaf2ff] p-4"
+                  >
+                    <p className="text-sm font-semibold text-neutral-900">
+                      {panel.title}
+                    </p>
+                    <div className="mt-4 space-y-3">
+                      {panel.items.map((item) => (
+                        <div
+                          key={item.title}
+                          className="flex items-center gap-3 rounded-xl border border-white/60 bg-white px-3 py-2 shadow-[0_1px_2px_rgba(15,23,42,0.08)]"
+                        >
+                          <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#dbe7ff] text-xs font-semibold text-[#1f4bb8]">
+                            {item.providerLogo}
+                          </div>
+                          <div className="min-w-0 flex-1">
+                            <p className="text-[11px] text-neutral-500">
+                              {item.provider}
+                            </p>
+                            <p className="mt-1 truncate text-[13px] font-semibold text-neutral-900">
+                              {item.title}
+                            </p>
+                            <p className="mt-1 text-[11px] text-neutral-500">
+                              {item.meta}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

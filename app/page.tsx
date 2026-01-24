@@ -167,87 +167,96 @@ const featuredCards = [
 
 const popularCategoryPanels = [
   {
-    title: "Popular in Business →",
+    title: "Popular in Automation →",
     items: [
       {
-        provider: "Google",
-        providerLogo: "https://logo.clearbit.com/google.com",
-        title: "Google Project Management",
-        meta: "Professional Certificate • ★ 4.8",
+        provider: "WhatsApp",
+        providerLogo:
+          "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
+        title: "WhatsApp Client Automation",
+        meta: "Workflow • ★ 4.9",
         image:
-          "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=120&q=80",
+          "https://images.unsplash.com/photo-1556740749-887f6717d7e4?auto=format&fit=crop&w=120&q=80",
       },
       {
-        provider: "Google",
-        providerLogo: "https://logo.clearbit.com/google.com",
-        title: "Foundations of Project Management",
-        meta: "Course • ★ 4.9",
-        image:
-          "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=120&q=80",
-      },
-      {
-        provider: "Yale University",
-        providerLogo: "https://logo.clearbit.com/yale.edu",
-        title: "Financial Markets",
-        meta: "Course • ★ 4.8",
+        provider: "Zapier",
+        providerLogo:
+          "https://upload.wikimedia.org/wikipedia/commons/a/aa/Zapier_logo_2021.svg",
+        title: "AI-Driven Lead Routing",
+        meta: "Automation • ★ 4.8",
         image:
           "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=120&q=80",
+      },
+      {
+        provider: "HubSpot",
+        providerLogo:
+          "https://upload.wikimedia.org/wikipedia/commons/3/3f/HubSpot_Logo.svg",
+        title: "CRM Follow-up Autopilot",
+        meta: "Playbook • ★ 4.7",
+        image:
+          "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=120&q=80",
       },
     ],
   },
   {
-    title: "Popular in Data →",
+    title: "Popular in AI Ops →",
     items: [
       {
-        provider: "IBM",
-        providerLogo: "https://logo.clearbit.com/ibm.com",
-        title: "Introduction to Artificial Intelligence (AI)",
-        meta: "Course • ★ 4.7",
+        provider: "OpenAI",
+        providerLogo:
+          "https://upload.wikimedia.org/wikipedia/commons/4/4d/OpenAI_Logo.svg",
+        title: "AI Support Inbox Triage",
+        meta: "Workflow • ★ 4.9",
         image:
           "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=120&q=80",
       },
       {
-        provider: "IBM",
-        providerLogo: "https://logo.clearbit.com/ibm.com",
-        title: "Intro for Data Science, AI & Development",
-        meta: "Course • ★ 4.6",
+        provider: "Make",
+        providerLogo:
+          "https://upload.wikimedia.org/wikipedia/commons/8/8d/Make_logo.svg",
+        title: "No-Code AI Task Orchestration",
+        meta: "Automation • ★ 4.8",
         image:
           "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=120&q=80",
       },
       {
-        provider: "Google",
-        providerLogo: "https://logo.clearbit.com/google.com",
-        title: "Google Data Analytics",
-        meta: "Professional Certificate • ★ 4.8",
+        provider: "Notion",
+        providerLogo:
+          "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",
+        title: "AI Knowledge Base Updates",
+        meta: "Automation • ★ 4.7",
         image:
           "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=120&q=80",
       },
     ],
   },
   {
-    title: "Popular in Tech →",
+    title: "Popular in AI Growth →",
     items: [
       {
-        provider: "University of Michigan",
-        providerLogo: "https://logo.clearbit.com/umich.edu",
-        title: "Python for Everybody",
-        meta: "Specialization • ★ 4.8",
+        provider: "Twilio",
+        providerLogo:
+          "https://upload.wikimedia.org/wikipedia/commons/7/7e/Twilio-logo-red.svg",
+        title: "Conversational SMS Automation",
+        meta: "Messaging • ★ 4.8",
         image:
           "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=120&q=80",
       },
       {
-        provider: "University of Michigan",
-        providerLogo: "https://logo.clearbit.com/umich.edu",
-        title: "Programming for Everybody (Getting Started with Python)",
-        meta: "Course • ★ 4.8",
+        provider: "Shopify",
+        providerLogo:
+          "https://upload.wikimedia.org/wikipedia/commons/5/5d/Shopify_logo_2018.svg",
+        title: "AI Cart Recovery Journeys",
+        meta: "Workflow • ★ 4.7",
         image:
           "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=120&q=80",
       },
       {
-        provider: "IBM",
-        providerLogo: "https://logo.clearbit.com/ibm.com",
-        title: "IBM AI Developer",
-        meta: "Professional Certificate • ★ 4.6",
+        provider: "Slack",
+        providerLogo:
+          "https://upload.wikimedia.org/wikipedia/commons/d/d5/Slack_icon_2019.svg",
+        title: "AI Ops Alerting",
+        meta: "Automation • ★ 4.6",
         image:
           "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=120&q=80",
       },

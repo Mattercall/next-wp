@@ -83,14 +83,12 @@ export function BookCallPage() {
               <iframe
                 title="FluentBooking calendar"
                 src={bookingUrlCheck.url}
-                className="h-[900px] w-full sm:h-[1000px] lg:h-[1100px]"
+                className="h-[1050px] w-full border-0 sm:h-[1020px] md:h-[780px] lg:h-[720px] xl:h-[680px]"
                 onLoad={() => setIsLoading(false)}
               />
             </div>
-            <div className="flex flex-col items-start gap-2 text-sm text-neutral-600">
-              <span>
-                Trouble seeing the calendar? Open it in a new tab.
-              </span>
+            <div className="text-sm text-neutral-600">
+              <span>Trouble seeing the calendar? </span>
               <a
                 href={bookingUrlCheck.url}
                 target="_blank"
@@ -98,7 +96,7 @@ export function BookCallPage() {
                 className="font-semibold text-blue-600 hover:text-blue-700"
                 onClick={handleOpenNewTab}
               >
-                Open in new tab
+                Open in a new tab
               </a>
             </div>
           </div>

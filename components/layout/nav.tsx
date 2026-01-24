@@ -1,11 +1,21 @@
 import { Button } from "@/components/ui/button";
 import { MobileNav } from "@/components/nav/mobile-nav";
-import { mainMenu } from "@/menu.config";
+import { serviceMenu } from "@/menu.config";
 import { siteConfig } from "@/site.config";
 import { cn } from "@/lib/utils";
 import Logo from "@/public/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { ChevronDown } from "lucide-react";
 
 interface NavProps {
   className?: string;
@@ -40,15 +50,55 @@ export function Nav({ className, children, id }: NavProps) {
         {children}
         <div className="flex items-center gap-2">
           <div className="mx-2 hidden md:flex">
-            {Object.entries(mainMenu).map(([key, href]) => (
-              <Button key={href} asChild variant="ghost" size="sm">
-                <Link href={href}>
-                  {key.charAt(0).toUpperCase() + key.slice(1)}
-                </Link>
-              </Button>
-            ))}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="gap-1">
+                  Service
+                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="w-[360px] rounded-2xl border border-muted/70 bg-background/95 p-2 shadow-xl backdrop-blur">
+                <DropdownMenuLabel className="px-2 text-xs uppercase tracking-[0.2em] text-muted-foreground">
+                  Services
+                </DropdownMenuLabel>
+                <DropdownMenuGroup className="space-y-1">
+                  {serviceMenu.map((item) => (
+                    <DropdownMenuItem
+                      key={item.href}
+                      className="flex items-start gap-3 rounded-xl p-3 focus:bg-muted/60"
+                      asChild
+                    >
+                      <Link
+                        href={item.href}
+                        className="flex w-full items-start gap-3"
+                      >
+                        <div className="flex h-10 w-10 items-center justify-center rounded-full border border-muted/60 bg-muted/30 text-xs font-semibold text-muted-foreground">
+                          {item.fallback}
+                        </div>
+                        <div className="flex flex-1 flex-col">
+                          <div className="flex items-center justify-between">
+                            <span className="text-sm font-semibold text-foreground">
+                              {item.name}
+                            </span>
+                            <Badge className="rounded-full bg-blue-600 px-2 text-[10px] font-semibold text-white">
+                              {item.accent}
+                            </Badge>
+                          </div>
+                          <span className="text-xs text-muted-foreground">
+                            {item.description}
+                          </span>
+                        </div>
+                      </Link>
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
-          <Button asChild className="hidden sm:flex">
+          <Button
+            asChild
+            className="hidden rounded-full px-5 sm:flex"
+          >
             <Link href="https://github.com/9d8dev/next-wp">Get Started</Link>
           </Button>
           <MobileNav />

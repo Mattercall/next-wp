@@ -49,7 +49,14 @@ const posterSlides = [
   },
 ];
 
-const promoTiles = [
+const promoTiles: {
+  title: string;
+  description: string[];
+  image: string;
+  className: string;
+  isDark?: boolean;
+  singleCta?: string;
+}[] = [
   {
     title: "Shopify Web Design",
     description: [

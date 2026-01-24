@@ -165,6 +165,96 @@ const featuredCards = [
   },
 ];
 
+const popularCategoryPanels = [
+  {
+    title: "Popular in Business →",
+    items: [
+      {
+        provider: "Google",
+        providerLogo: "https://logo.clearbit.com/google.com",
+        title: "Google Project Management",
+        meta: "Professional Certificate • ★ 4.8",
+        image:
+          "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=120&q=80",
+      },
+      {
+        provider: "Google",
+        providerLogo: "https://logo.clearbit.com/google.com",
+        title: "Foundations of Project Management",
+        meta: "Course • ★ 4.9",
+        image:
+          "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=120&q=80",
+      },
+      {
+        provider: "Yale University",
+        providerLogo: "https://logo.clearbit.com/yale.edu",
+        title: "Financial Markets",
+        meta: "Course • ★ 4.8",
+        image:
+          "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=120&q=80",
+      },
+    ],
+  },
+  {
+    title: "Popular in Data →",
+    items: [
+      {
+        provider: "IBM",
+        providerLogo: "https://logo.clearbit.com/ibm.com",
+        title: "Introduction to Artificial Intelligence (AI)",
+        meta: "Course • ★ 4.7",
+        image:
+          "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=120&q=80",
+      },
+      {
+        provider: "IBM",
+        providerLogo: "https://logo.clearbit.com/ibm.com",
+        title: "Intro for Data Science, AI & Development",
+        meta: "Course • ★ 4.6",
+        image:
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=120&q=80",
+      },
+      {
+        provider: "Google",
+        providerLogo: "https://logo.clearbit.com/google.com",
+        title: "Google Data Analytics",
+        meta: "Professional Certificate • ★ 4.8",
+        image:
+          "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=120&q=80",
+      },
+    ],
+  },
+  {
+    title: "Popular in Tech →",
+    items: [
+      {
+        provider: "University of Michigan",
+        providerLogo: "https://logo.clearbit.com/umich.edu",
+        title: "Python for Everybody",
+        meta: "Specialization • ★ 4.8",
+        image:
+          "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=120&q=80",
+      },
+      {
+        provider: "University of Michigan",
+        providerLogo: "https://logo.clearbit.com/umich.edu",
+        title: "Programming for Everybody (Getting Started with Python)",
+        meta: "Course • ★ 4.8",
+        image:
+          "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=120&q=80",
+      },
+      {
+        provider: "IBM",
+        providerLogo: "https://logo.clearbit.com/ibm.com",
+        title: "IBM AI Developer",
+        meta: "Professional Certificate • ★ 4.6",
+        image:
+          "https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=120&q=80",
+      },
+    ],
+  },
+];
+
 const AppleLogo = ({ className }: { className?: string }) => (
   <svg
     aria-hidden
@@ -402,7 +492,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="bg-gradient-to-b from-[#cfe6f7] via-[#e7f2fb] to-white">
+      <section className="bg-white">
         <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
           <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
             AI automation that never sleeps
@@ -415,11 +505,50 @@ export default function Home() {
             <button className={primaryButtonClass}>Build my workflow</button>
             <button className={secondaryButtonClass}>See automation demos</button>
           </div>
-          <img
-            src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=1400&q=80"
-            alt="AI automation visualization"
-            className="mt-8 w-full max-w-3xl object-contain"
-          />
+          <div className="mt-10 w-full max-w-[1200px]">
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
+              {popularCategoryPanels.map((panel) => (
+                <div
+                  key={panel.title}
+                  className="rounded-xl bg-[#eef5ff] p-4 text-left"
+                >
+                  <p className="text-sm font-semibold text-neutral-900">
+                    {panel.title}
+                  </p>
+                  <div className="mt-3 space-y-3">
+                    {panel.items.map((item) => (
+                      <div
+                        key={item.title}
+                        className="flex items-center gap-3 rounded-lg bg-white px-3 py-2.5 shadow-[0_1px_2px_rgba(15,23,42,0.08)]"
+                      >
+                        <img
+                          src={item.image}
+                          alt={item.title}
+                          className="h-12 w-12 rounded-md object-cover"
+                        />
+                        <div className="min-w-0 flex-1">
+                          <div className="flex items-center gap-2 text-[11px] text-neutral-600">
+                            <img
+                              src={item.providerLogo}
+                              alt={item.provider}
+                              className="h-4 w-4 rounded-sm"
+                            />
+                            <span>{item.provider}</span>
+                          </div>
+                          <p className="mt-1 truncate text-[13px] font-semibold text-neutral-900">
+                            {item.title}
+                          </p>
+                          <p className="mt-1 text-[11px] text-neutral-500">
+                            {item.meta}
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 

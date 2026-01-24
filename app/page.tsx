@@ -531,7 +531,7 @@ export default function Home() {
       <section className="bg-white">
         <div className="mx-auto flex max-w-[1200px] flex-col px-4 py-16">
           <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
-            AI automation that never sleeps
+            Automation that turns leads into orders and bookings — automatically.
           </h2>
           <div className="mt-10 space-y-8">
             <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
@@ -543,21 +543,20 @@ export default function Home() {
                   </span>
                 </div>
                 <h3 className="mt-4 text-2xl font-semibold leading-snug sm:text-3xl">
-                  Ends soon! Next level skills. New Year savings.
+                  Ends soon! New Year onboarding slots are almost full.
                 </h3>
                 <p className="mt-3 max-w-sm text-sm text-white/80">
-                  Unlock 10,000+ programs with your subscription and earn as
-                  many career certificates as you like.
+                  Unlock always-on AI automations that capture leads, recover carts, and follow up instantly—so you get more orders and bookings without extra work.
                 </p>
                 <button className="mt-6 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#1b4fbf]">
-                  Save 50% on Coursera Plus →
+                  Get a free automation audit →
                 </button>
                 <div className="absolute right-10 top-10 flex h-20 w-20 items-center justify-center rounded-full bg-[#f6d6ff] text-center text-sm font-semibold text-[#1c1c1c]">
                   <span className="leading-tight">
                     <span className="block text-[10px] text-neutral-500 line-through">
-                      €342
+                      $99
                     </span>
-                    €171
+                    $59
                   </span>
                 </div>
                 <div className="absolute right-4 top-24 h-10 w-10 rounded-full border border-pink-200/70 bg-white/10" />
@@ -576,13 +575,13 @@ export default function Home() {
 
               <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0a5ad6] via-[#1a6fe0] to-[#0c54c4] p-8 text-white">
                 <p className="text-sm font-semibold uppercase tracking-wide text-white/80">
-                  coursera for teams
+                  Automation for teams
                 </p>
                 <h3 className="mt-3 text-2xl font-semibold leading-snug sm:text-3xl">
-                  Train your team in top skills and join 3,700+ teams worldwide
+                  Train your business to run on autopilot and join teams worldwide using automated follow-up and workflow systems.
                 </h3>
                 <button className="mt-5 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#0b5bd3]">
-                  Save 50% on Teams →
+                  Save 50% on Team Automation →
                 </button>
                 <div className="absolute right-0 top-0 h-full w-1/2">
                   <div className="absolute bottom-0 right-0 h-40 w-40 rounded-tl-[80px] bg-gradient-to-br from-[#8ef0ff] via-[#d2f7ff] to-white/80" />
@@ -596,9 +595,9 @@ export default function Home() {
                     className="h-24 w-32 rounded-2xl object-cover"
                   />
                   <div className="rounded-xl bg-[#0b4cc0] px-3 py-2 text-center text-xs font-semibold">
-                    50% off team training
+                    50% off automation setup
                     <span className="block text-[10px] font-normal text-white/80">
-                      up to 125 licenses
+                      up to 1000 workflows
                     </span>
                   </div>
                 </div>
@@ -633,7 +632,7 @@ export default function Home() {
 
             <div className="space-y-4">
               <p className="text-base font-semibold text-neutral-900">
-                Learn from 350+ leading universities and companies
+                Get more orders & bookings
               </p>
               <div className="flex items-center gap-3 overflow-hidden">
                 <div className="flex flex-wrap gap-3">

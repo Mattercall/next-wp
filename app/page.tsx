@@ -51,26 +51,6 @@ const posterSlides = [
 
 const promoTiles = [
   {
-    title: "SEO Backlinks",
-    description: [
-      "Dominate search with high-authority placements",
-      "that push rankings, traffic, and trust.",
-    ],
-    image:
-      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80",
-    className: "bg-gradient-to-b from-[#eff6ff] to-white",
-  },
-  {
-    title: "AI Automation",
-    description: [
-      "Replace manual work with smart AI flows",
-      "that close deals, answer customers, and scale.",
-    ],
-    image:
-      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=80",
-    className: "bg-[#f5f7ff]",
-  },
-  {
     title: "Ecommerce Web Design",
     description: ["Storefronts built to convert and retain."],
     image:

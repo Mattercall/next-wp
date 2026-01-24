@@ -25,25 +25,25 @@ import {
 const posterSlides = [
   {
     title: "Velocity Growth Playbook",
-    meta: "Paid Media • Conversion Scale",
+    meta: "Paid Media • ROAS Growth",
     image:
       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=80",
   },
   {
     title: "Shopfront Redefined",
-    meta: "Ecommerce • UX Design",
+    meta: "Shopify • Conversion UX",
     image:
       "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1600&q=80",
   },
   {
     title: "Automation Engine",
-    meta: "AI Workflow • Ops Efficiency",
+    meta: "AI Workflow • Response Time",
     image:
       "https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=1600&q=80",
   },
   {
     title: "Authority Link Network",
-    meta: "SEO • Backlinks",
+    meta: "SEO • Demand Capture",
     image:
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
   },
@@ -52,7 +52,7 @@ const posterSlides = [
 const promoTiles = [
   {
     title: "Ecommerce Web Design",
-    description: ["Storefronts built to convert and retain."],
+    description: ["Shopify storefronts engineered for AOV and repeat orders."],
     image:
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
     className: "bg-[#0f172a] text-white",
@@ -61,8 +61,8 @@ const promoTiles = [
   {
     title: "Facebook Ads",
     description: [
-      "Full-funnel campaigns that turn attention",
-      "into revenue at scale.",
+      "Scroll-stopping creatives and funnels",
+      "that turn clicks into purchases and bookings.",
     ],
     image:
       "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80",
@@ -71,8 +71,8 @@ const promoTiles = [
   {
     title: "Google Ads",
     description: [
-      "Precision search campaigns",
-      "that capture demand and lower CAC.",
+      "High-intent search coverage",
+      "that captures demand and lowers CAC.",
     ],
     image:
       "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
@@ -82,8 +82,8 @@ const promoTiles = [
   {
     title: "Growth Strategy",
     description: [
-      "Unified messaging, creative, and analytics",
-      "that unlock predictable growth.",
+      "Unified offer, messaging, and analytics",
+      "that drives predictable growth.",
     ],
     image:
       "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80",
@@ -94,10 +94,10 @@ const promoTiles = [
 const featuredCards = [
   {
     title: "Enterprise SEO Backlinks",
-    provider: "Link Authority Team",
+    provider: "Authority Growth Team",
     providerLogo:
       "https://upload.wikimedia.org/wikipedia/commons/0/0b/Black_circle.svg",
-    metaLabel: "High-Authority Placement",
+    metaLabel: "Authority Lift",
     rating: "5.0",
     image:
       "https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=800&q=80",
@@ -107,7 +107,7 @@ const featuredCards = [
     provider: "Automation Lab",
     providerLogo:
       "https://upload.wikimedia.org/wikipedia/commons/3/36/Logo.min.svg",
-    metaLabel: "Workflow Acceleration",
+    metaLabel: "Response Velocity",
     rating: "4.9",
     image:
       "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
@@ -117,7 +117,7 @@ const featuredCards = [
     provider: "Conversion Studio",
     providerLogo:
       "https://upload.wikimedia.org/wikipedia/commons/3/3f/Font_Awesome_5_solid_store.svg",
-    metaLabel: "Conversion Architecture",
+    metaLabel: "Checkout Lift",
     rating: "4.8",
     image:
       "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&q=80",
@@ -128,7 +128,7 @@ const featuredCards = [
     provider: "Paid Social Squad",
     providerLogo:
       "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
-    metaLabel: "Paid Social Mastery",
+    metaLabel: "ROAS Expansion",
     rating: "4.9",
     image:
       "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80",
@@ -138,7 +138,7 @@ const featuredCards = [
     provider: "Performance Team",
     providerLogo:
       "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
-    metaLabel: "Demand Capture",
+    metaLabel: "High-Intent Capture",
     rating: "5.0",
     image:
       "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
@@ -147,7 +147,7 @@ const featuredCards = [
 
 const courseraQuickTiles = [
   {
-    label: "Launch a new career",
+    label: "Launch a new revenue stream",
     icon: (
       <svg
         className="h-7 w-7 text-[#5960f2]"
@@ -167,7 +167,7 @@ const courseraQuickTiles = [
     ),
   },
   {
-    label: "Gain in-demand skills",
+    label: "Capture demand faster",
     icon: (
       <svg
         className="h-7 w-7 text-[#5960f2]"
@@ -187,7 +187,7 @@ const courseraQuickTiles = [
     ),
   },
   {
-    label: "Earn a degree",
+    label: "Automate follow-up",
     icon: (
       <svg
         className="h-7 w-7 text-[#5960f2]"
@@ -208,16 +208,16 @@ const courseraQuickTiles = [
 ];
 
 const courseraPartnerChips = [
+  { name: "Shopify", logo: "S", color: "text-[#95BF47]" },
+  { name: "Meta", logo: "M", color: "text-[#1877F2]" },
   { name: "Google", logo: "G", color: "text-[#4285F4]" },
-  { name: "IBM", logo: "IBM", color: "text-[#1F70C1]" },
-  { name: "Microsoft", logo: "MS", color: "text-[#F25022]" },
-  { name: "University of Illinois", logo: "I", color: "text-[#E84A27]" },
-  { name: "OpenAI", logo: "◎", color: "text-neutral-900" },
-  { name: "Anthropic", logo: "A", color: "text-neutral-900" },
-  { name: "DeepLearning.AI", logo: "DL", color: "text-[#EF4444]" },
-  { name: "Stanford University", logo: "S", color: "text-[#8C1515]" },
-  { name: "University of Pennsylvania", logo: "UP", color: "text-[#011F5B]" },
-  { name: "University of Michigan", logo: "M", color: "text-[#00274C]" },
+  { name: "Klaviyo", logo: "K", color: "text-[#1B1F23]" },
+  { name: "Zapier", logo: "Z", color: "text-[#FF4F00]" },
+  { name: "HubSpot", logo: "H", color: "text-[#FF7A59]" },
+  { name: "GA4", logo: "GA", color: "text-[#F9AB00]" },
+  { name: "Twilio", logo: "T", color: "text-[#E11D48]" },
+  { name: "Stripe", logo: "S", color: "text-[#635BFF]" },
+  { name: "Make", logo: "M", color: "text-[#0F172A]" },
 ];
 
 const trendingCoursePanels = [
@@ -225,22 +225,22 @@ const trendingCoursePanels = [
     title: "Most popular →",
     items: [
       {
-        provider: "Google",
-        providerLogo: "G",
-        title: "Google Cybersecurity",
-        meta: "Professional Certificate • ★ 4.8",
+        provider: "Shopify + Meta",
+        providerLogo: "S",
+        title: "Shopify Demand Capture Sprint",
+        meta: "Growth Package • ★ 4.9",
       },
       {
-        provider: "Google",
-        providerLogo: "G",
-        title: "Foundations of Cybersecurity",
-        meta: "Course • ★ 4.8",
+        provider: "Local Growth",
+        providerLogo: "L",
+        title: "Local Leads Accelerator",
+        meta: "Done-for-you • ★ 4.8",
       },
       {
-        provider: "Google",
-        providerLogo: "G",
-        title: "Google IT Support",
-        meta: "Professional Certificate • ★ 4.8",
+        provider: "Automation Lab",
+        providerLogo: "A",
+        title: "Instant Follow-Up Automation",
+        meta: "Workflow Build • ★ 4.8",
       },
     ],
   },
@@ -248,22 +248,22 @@ const trendingCoursePanels = [
     title: "Weekly spotlight →",
     items: [
       {
-        provider: "Duke University",
-        providerLogo: "DU",
-        title: "Financial Management",
-        meta: "Specialization • ★ 4.8",
+        provider: "Ecommerce UX",
+        providerLogo: "E",
+        title: "Conversion-First Shopify Redesign",
+        meta: "Design Sprint • ★ 4.9",
       },
       {
-        provider: "Automatic Data Processing, Inc. (ADP)",
-        providerLogo: "ADP",
-        title: "ADP Entry-Level Payroll Specialist",
-        meta: "Professional Certificate • ★ 4.7",
+        provider: "Paid Search",
+        providerLogo: "P",
+        title: "Google Ads Profit Map",
+        meta: "Campaign System • ★ 4.7",
       },
       {
-        provider: "University of Illinois Urbana-Champaign",
-        providerLogo: "UI",
-        title: "Financial Analysis - Skills for Success",
-        meta: "Specialization • ★ 4.7",
+        provider: "Backlink Authority",
+        providerLogo: "B",
+        title: "Authority Placement Program",
+        meta: "SEO Engine • ★ 4.8",
       },
     ],
   },
@@ -271,22 +271,22 @@ const trendingCoursePanels = [
     title: "In-demand AI skills →",
     items: [
       {
-        provider: "Multiple educators",
-        providerLogo: "ME",
-        title: "Generative AI for Growth Marketing",
-        meta: "Specialization • ★ 4.7",
+        provider: "AI Ops",
+        providerLogo: "AI",
+        title: "AI Lead Qualification Pipeline",
+        meta: "Automation Stack • ★ 4.8",
       },
       {
-        provider: "Vanderbilt University",
-        providerLogo: "VU",
-        title: "Generative AI Software Entry-Level Engineering",
-        meta: "Specialization • ★ 4.8",
+        provider: "Retention",
+        providerLogo: "R",
+        title: "Lifecycle Email + SMS Flow Pack",
+        meta: "Retention Build • ★ 4.9",
       },
       {
-        provider: "Google Cloud",
-        providerLogo: "GC",
-        title: "Generative AI Leader",
-        meta: "Professional Certificate • ★ 4.7",
+        provider: "Local Teams",
+        providerLogo: "LT",
+        title: "Booking & Review Automation",
+        meta: "Workflow System • ★ 4.8",
       },
     ],
   },
@@ -317,7 +317,7 @@ export default function Home() {
   return (
     <main className="bg-white text-neutral-900">
       <div className="w-full border-b border-neutral-200 bg-white px-4 py-2 text-center text-xs text-[#6e6e73]">
-        Precision marketing for brands that want unstoppable growth.
+        Growth systems for Shopify brands and local businesses that demand results.
       </div>
 
       <section>
@@ -327,11 +327,12 @@ export default function Home() {
             Growth Marketing Company
           </p>
           <h1 className={cn("mt-4", heroHeadingClass)}>
-            Sell more with relentless, revenue-first marketing.
+            Done-for-you growth systems for Shopify and local businesses.
           </h1>
           <p className={cn("mt-2", heroBodyClass)}>
-            SEO backlinks, AI automation, ecommerce web design, and high-impact
-            Facebook + Google ads built to scale.
+            We build conversion-ready storefronts, run profitable Facebook + Google
+            ads, scale SEO + backlinks, and automate follow-up to turn clicks into
+            orders, bookings, and leads.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <button className={primaryButtonClass}>Book a growth call</button>
@@ -395,11 +396,11 @@ export default function Home() {
       <section>
         <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
           <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
-            SEO backlinks that build authority and revenue fast
+            SEO backlinks that lift rankings, trust, and revenue fast
           </h2>
           <p className="mt-3 text-base text-neutral-600">
-            Earn premium placements on real, trusted sites that lift rankings,
-            strengthen trust, and keep compounding traffic.
+            Secure premium placements on real sites to boost rankings, earn
+            buyer trust, and compound qualified traffic.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <button className={primaryButtonClass}>Get my backlink plan</button>
@@ -412,9 +413,9 @@ export default function Home() {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">
                 {[
-                  { label: "Launch my SEO campaign" },
-                  { label: "Improve rankings fast" },
-                  { label: "Grow authority in my niche" },
+                  { label: "Launch my backlink growth plan" },
+                  { label: "Improve rankings in 90 days" },
+                  { label: "Build authority in my niche" },
                   { label: "Scale link building safely" },
                 ].map((item) => (
                   <button
@@ -443,51 +444,51 @@ export default function Home() {
             <div className="mx-auto mt-10 flex w-full max-w-[1075px] flex-col gap-6 rounded-[22px] bg-gradient-to-r from-[#C12BA8] via-[#7c3aed] to-[#2F80FF] px-8 py-8 md:flex-row md:items-center">
               <div className="flex w-full flex-col items-start gap-4 text-left md:w-[32%]">
                 <h3 className="text-lg font-semibold text-white">
-                  Prepare for an industry SEO
+                  Prepare for an authority-driven
                   <br />
-                  certification
+                  SEO benchmark
                 </h3>
                 <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0056D2]">
-                  Explore SEO courses →
+                  Explore SEO playbooks →
                 </button>
               </div>
               <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 md:w-[68%]">
                 {[
                   {
-                    provider: "Moz Academy",
-                    title: "SEO Foundations: Build Ranking-Ready Skills",
-                    type: "Professional Certificate",
+                    provider: "Authority Lab",
+                    title: "Backlink Foundations: Build Ranking Momentum",
+                    type: "Growth Blueprint",
                     rating: "★ 4.9",
                     imageClass:
                       "bg-gradient-to-br from-green-400 via-blue-500 to-yellow-400",
-                    imageLabel: "Moz",
-                  },
-                  {
-                    provider: "Ahrefs",
-                    title: "Backlink Strategy & Outreach",
-                    type: "Professional Certificate",
-                    rating: "★ 4.8",
-                    imageClass:
-                      "bg-[url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80')] bg-cover bg-center",
-                    imageLabel: "Ahrefs",
-                    popular: true,
-                  },
-                  {
-                    provider: "Semrush Academy",
-                    title: "Technical SEO Site Audits",
-                    type: "Professional Certificate",
-                    rating: "★ 4.7",
-                    imageClass: "bg-[#0b2b55]",
                     imageLabel: "SEO",
                   },
                   {
-                    provider: "HubSpot",
-                    title: "Content-Led Link Building",
+                    provider: "Shopify Growth",
+                    title: "Authority Outreach & PR Placements",
+                    type: "Growth Sprint",
+                    rating: "★ 4.8",
+                    imageClass:
+                      "bg-[url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80')] bg-cover bg-center",
+                    imageLabel: "Shopify",
+                    popular: true,
+                  },
+                  {
+                    provider: "Local SEO",
+                    title: "Local Authority & Map Pack Boost",
+                    type: "Performance Kit",
+                    rating: "★ 4.7",
+                    imageClass: "bg-[#0b2b55]",
+                    imageLabel: "Local",
+                  },
+                  {
+                    provider: "Digital PR",
+                    title: "Content-Led Link Velocity",
                     type: "Specialization",
                     rating: "★ 4.6",
                     imageClass:
                       "bg-[url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80')] bg-cover bg-center",
-                    imageLabel: "SEO",
+                    imageLabel: "PR",
                   },
                 ].map((card) => (
                   <div
@@ -537,16 +538,18 @@ export default function Home() {
             <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
               <div className="relative overflow-hidden rounded-3xl bg-[#062B57] p-8 text-white">
                 <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide">
-                  <span className="text-white">coursera</span>
+                  <span className="text-white">automation lab</span>
                   <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px] font-semibold">
                     PLUS
                   </span>
                 </div>
                 <h3 className="mt-4 text-2xl font-semibold leading-snug sm:text-3xl">
-                  Ends soon! New Year onboarding slots are almost full.
+                  Ends soon! Q4 automation onboarding slots are almost full.
                 </h3>
                 <p className="mt-3 max-w-sm text-sm text-white/80">
-                  Unlock always-on AI automations that capture leads, recover carts, and follow up instantly—so you get more orders and bookings without extra work.
+                  Launch always-on AI workflows that capture leads, recover carts,
+                  and follow up instantly—so you win more orders and bookings
+                  without extra headcount.
                 </p>
                 <button className="mt-6 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#1b4fbf]">
                   Get a free automation audit →
@@ -554,15 +557,15 @@ export default function Home() {
                 <div className="absolute right-10 top-10 flex h-20 w-20 items-center justify-center rounded-full bg-[#f6d6ff] text-center text-sm font-semibold text-[#1c1c1c]">
                   <span className="leading-tight">
                     <span className="block text-[10px] text-neutral-500 line-through">
-                      $99
+                      €299
                     </span>
-                    $59
+                    €149
                   </span>
                 </div>
                 <div className="absolute right-4 top-24 h-10 w-10 rounded-full border border-pink-200/70 bg-white/10" />
                 <div className="absolute right-24 top-16 h-12 w-12 rounded-full border border-purple-300/70 bg-white/5" />
                 <div className="absolute right-16 bottom-6 flex items-center gap-2">
-                  {["G", "IBM", "M", "MS"].map((logo) => (
+                  {["S", "M", "G", "K"].map((logo) => (
                     <span
                       key={logo}
                       className="flex h-9 w-9 items-center justify-center rounded-full bg-white text-[11px] font-semibold text-[#0f1f3a] shadow"
@@ -578,7 +581,8 @@ export default function Home() {
                   Automation for teams
                 </p>
                 <h3 className="mt-3 text-2xl font-semibold leading-snug sm:text-3xl">
-                  Train your business to run on autopilot and join teams worldwide using automated follow-up and workflow systems.
+                  Put your business on autopilot with automated follow-up,
+                  booking confirmations, and revenue-critical workflows.
                 </h3>
                 <button className="mt-5 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#0b5bd3]">
                   Save 50% on Team Automation →
@@ -664,7 +668,7 @@ export default function Home() {
 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-neutral-900">
-                Trending courses
+                Trending workflows
               </h3>
               <div className="grid gap-6 lg:grid-cols-3">
                 {trendingCoursePanels.map((panel) => (

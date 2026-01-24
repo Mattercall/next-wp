@@ -278,12 +278,126 @@ export default function Home() {
             <button className={primaryButtonClass}>Get backlink plan</button>
             <button className={secondaryButtonClass}>See case studies</button>
           </div>
-          <div className="mt-8 w-full max-w-4xl overflow-hidden">
-            <img
-              src="https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=1400&q=80"
-              alt="SEO growth analytics"
-              className="w-full object-cover"
-            />
+          <div className="mt-12 w-full">
+            <div className="mx-auto flex max-w-[1080px] flex-wrap items-center justify-center gap-4 rounded-full bg-[#F3F8FF] px-6 py-4 text-left">
+              <p className="text-base font-semibold text-neutral-900">
+                What brings you to Coursera today?
+              </p>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                {[
+                  { label: "Start my career" },
+                  { label: "Change my career" },
+                  { label: "Grow in my current role" },
+                  { label: "Explore topics outside of work" },
+                ].map((item) => (
+                  <button
+                    key={item.label}
+                    className="flex items-center gap-3 rounded-full border border-[#dbe5f4] bg-white px-4 py-2 text-xs font-semibold text-neutral-900 shadow-sm"
+                  >
+                    <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#0056D2] text-white">
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4"
+                      >
+                        <path d="M5 12l5 5L19 7" />
+                      </svg>
+                    </span>
+                    <span>{item.label}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="mx-auto mt-10 flex w-full max-w-[1075px] flex-col gap-6 rounded-[22px] bg-gradient-to-r from-[#C12BA8] via-[#7c3aed] to-[#2F80FF] px-8 py-8 md:flex-row md:items-center">
+              <div className="flex w-full flex-col items-start gap-4 text-left md:w-[32%]">
+                <h3 className="text-lg font-semibold text-white">
+                  Prepare for an industry
+                  <br />
+                  certification exam
+                </h3>
+                <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0056D2]">
+                  Explore courses →
+                </button>
+              </div>
+              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 md:w-[68%]">
+                {[
+                  {
+                    provider: "Microsoft",
+                    title:
+                      "Microsoft Project Management: Build Job-Ready Skills",
+                    type: "Professional Certificate",
+                    rating: "★ 4.7",
+                    imageClass:
+                      "bg-gradient-to-br from-green-400 via-blue-500 to-yellow-400",
+                    imageLabel: "Microsoft",
+                  },
+                  {
+                    provider: "Amazon Web Services",
+                    title: "AWS Cloud Solutions Architect",
+                    type: "Professional Certificate",
+                    rating: "★ 4.8",
+                    imageClass:
+                      "bg-[url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80')] bg-cover bg-center",
+                    imageLabel: "AWS",
+                    popular: true,
+                  },
+                  {
+                    provider: "National Academy of Sports…",
+                    title: "NASM Personal Fitness Trainer",
+                    type: "Professional Certificate",
+                    rating: "★ 4.7",
+                    imageClass: "bg-[#0b2b55]",
+                    imageLabel: "NASM",
+                  },
+                  {
+                    provider: "LearnKartS",
+                    title: "PMP Exam Preparation",
+                    type: "Specialization",
+                    rating: "★ 4.6",
+                    imageClass:
+                      "bg-[url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80')] bg-cover bg-center",
+                    imageLabel: "PMP",
+                  },
+                ].map((card) => (
+                  <div
+                    key={card.title}
+                    className="flex min-h-[210px] flex-col overflow-hidden rounded-xl bg-white shadow-sm"
+                  >
+                    <div
+                      className={`relative h-24 ${card.imageClass}`}
+                    >
+                      <div className="absolute left-3 top-3 rounded-md bg-white/90 px-2 py-0.5 text-[10px] font-semibold text-neutral-800">
+                        {card.imageLabel}
+                      </div>
+                      {card.popular ? (
+                        <div className="absolute left-3 top-10 rounded-full bg-[#e2554b] px-2 py-0.5 text-[10px] font-semibold text-white">
+                          POPULAR
+                        </div>
+                      ) : null}
+                    </div>
+                    <div className="flex flex-1 flex-col px-3 py-3 text-left">
+                      <p className="text-xs font-semibold text-neutral-500">
+                        {card.provider}
+                      </p>
+                      <p className="mt-2 text-xs font-semibold text-neutral-900">
+                        {card.title}
+                      </p>
+                      <p className="mt-3 text-[11px] text-neutral-500">
+                        {card.type}
+                      </p>
+                      <p className="mt-2 text-[11px] text-neutral-700">
+                        {card.rating}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>

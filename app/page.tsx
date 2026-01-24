@@ -24,139 +24,144 @@ import {
 
 const posterSlides = [
   {
-    title: "The Final Lap",
-    meta: "Action • High Velocity",
+    title: "Velocity Growth Playbook",
+    meta: "Paid Media • Conversion Scale",
     image:
-      "https://www.apple.com/v/tv-home/o/images/overview/billboard/napoleon__x1909y0r6f2u_large.jpg",
+      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Moonrise",
-    meta: "Sci-Fi • Adventure",
+    title: "Shopfront Redefined",
+    meta: "Ecommerce • UX Design",
     image:
-      "https://www.apple.com/v/tv-home/o/images/overview/billboard/monarch__gplp8a65a8q6_large.jpg",
+      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Echo Valley",
-    meta: "Drama • Award Winner",
+    title: "Automation Engine",
+    meta: "AI Workflow • Ops Efficiency",
     image:
-      "https://www.apple.com/v/tv-home/o/images/overview/billboard/the_morning_show__d0s7x04h7rqu_large.jpg",
+      "https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Pulse",
-    meta: "Thriller • Limited Series",
+    title: "Authority Link Network",
+    meta: "SEO • Backlinks",
     image:
-      "https://www.apple.com/v/tv-home/o/images/overview/billboard/shrinking__b2o0a7o7mymq_large.jpg",
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
   },
 ];
 
 const promoTiles = [
   {
-    title: "MacBook Air",
-    description: ["Sky blue color.", "Sky high performance with M4."],
-    image:
-      "https://www.apple.com/v/macbook-air/x/images/overview/hero/hero_static__c9sislzzicq6_large.png",
-    className: "bg-gradient-to-b from-[#e6f2ff] to-white",
-  },
-  {
-    title: "iPad",
+    title: "SEO Backlinks",
     description: [
-      "Now with the speed of the A16 chip",
-      "and double the starting storage.",
+      "Dominate search with high-authority placements",
+      "that push rankings, traffic, and trust.",
     ],
     image:
-      "https://www.apple.com/v/ipad-11/c/images/overview/hero/hero__ecv967jz1y82_large.jpg",
-    className: "bg-[#f5f5f7]",
+      "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=80",
+    className: "bg-gradient-to-b from-[#eff6ff] to-white",
   },
   {
-    title: "WATCH ULTRA 3",
-    description: ["Personal beast."],
+    title: "AI Automation",
+    description: [
+      "Replace manual work with smart AI flows",
+      "that close deals, answer customers, and scale.",
+    ],
     image:
-      "https://www.apple.com/v/apple-watch-ultra-3/b/images/overview/welcome/hero_endframe__e4ls9pihykya_large.jpg",
-    className: "bg-black text-white",
+      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=80",
+    className: "bg-[#f5f7ff]",
+  },
+  {
+    title: "Ecommerce Web Design",
+    description: ["Storefronts built to convert and retain."],
+    image:
+      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+    className: "bg-[#0f172a] text-white",
     isDark: true,
   },
   {
-    title: "AirPods Pro 3",
+    title: "Facebook Ads",
     description: [
-      "The world’s best in-ear",
-      "Active Noise Cancellation.",
+      "Full-funnel campaigns that turn attention",
+      "into revenue at scale.",
     ],
     image:
-      "https://www.apple.com/v/airpods-pro/r/images/overview/welcome/hero__b0eal3mn03ua_large.jpg",
+      "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80",
     className: "bg-[#f5f5f7]",
   },
   {
-    title: "Trade In",
+    title: "Google Ads",
     description: [
-      "Get up to $180–$650",
-      "in credit when you trade in",
-      "iPhone 13 or higher.",
+      "Precision search campaigns",
+      "that capture demand and lower CAC.",
     ],
     image:
-      "https://www.apple.com/v/iphone/home/ch/images/overview/consider/getting_started__f98z0j9hm7m2_large.jpg",
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
     className: "bg-[#f5f5f7]",
-    singleCta: "Get your estimate",
+    singleCta: "Request a strategy call",
   },
   {
-    title: "Card",
-    description: ["Get up to 3% Daily Cash back", "with every purchase."],
+    title: "Growth Strategy",
+    description: [
+      "Unified messaging, creative, and analytics",
+      "that unlock predictable growth.",
+    ],
     image:
-      "https://www.apple.com/newsroom/images/product/apple-card/standard/Apple-Card-available-today-Apple-Card-082019_inline.jpg.large.jpg",
+      "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80",
     className: "bg-[#f5f5f7]",
   },
 ];
 
 const featuredCards = [
   {
-    title: "Learn SQL Basics for Data Science",
-    provider: "University of California, Davis",
+    title: "Enterprise SEO Backlinks",
+    provider: "Link Authority Team",
     providerLogo:
-      "https://upload.wikimedia.org/wikipedia/commons/8/8b/University_of_California_Davis_seal.svg",
-    metaLabel: "Specialization",
-    rating: "4.6",
+      "https://upload.wikimedia.org/wikipedia/commons/0/0b/Black_circle.svg",
+    metaLabel: "High-Authority Placement",
+    rating: "5.0",
     image:
-      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=800&q=80",
   },
   {
-    title: "Meta Full Stack Developer: Front-End & Back-End from Scratch",
-    provider: "Meta",
+    title: "AI Automation Systems",
+    provider: "Automation Lab",
     providerLogo:
-      "https://upload.wikimedia.org/wikipedia/commons/0/05/Meta_Platforms_Inc._logo.svg",
-    metaLabel: "Specialization",
-    rating: "4.7",
+      "https://upload.wikimedia.org/wikipedia/commons/3/36/Logo.min.svg",
+    metaLabel: "Workflow Acceleration",
+    rating: "4.9",
     image:
-      "https://images.unsplash.com/photo-1517433456452-f9633a875f6f?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
   },
   {
-    title: "IBM Business Analyst",
-    provider: "IBM",
+    title: "Ecommerce Experience Design",
+    provider: "Conversion Studio",
     providerLogo:
-      "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
-    metaLabel: "Professional Certificate",
-    rating: "4.7",
+      "https://upload.wikimedia.org/wikipedia/commons/3/3f/Font_Awesome_5_solid_store.svg",
+    metaLabel: "Conversion Architecture",
+    rating: "4.8",
     image:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&q=80",
     isVideo: true,
   },
   {
-    title: "Adobe Marketing Specialist",
-    provider: "Adobe",
+    title: "Facebook & Instagram Ads",
+    provider: "Paid Social Squad",
     providerLogo:
-      "https://upload.wikimedia.org/wikipedia/commons/6/6e/Adobe_Corporate_Logo.png",
-    metaLabel: "Professional Certificate",
-    rating: "4.7",
+      "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
+    metaLabel: "Paid Social Mastery",
+    rating: "4.9",
     image:
-      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80",
   },
   {
-    title: "Google Data Analytics",
-    provider: "Google",
+    title: "Google Search Ads",
+    provider: "Performance Team",
     providerLogo:
       "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
-    metaLabel: "Professional Certificate",
-    rating: "4.8",
+    metaLabel: "Demand Capture",
+    rating: "5.0",
     image:
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
   },
 ];
 
@@ -185,24 +190,25 @@ export default function Home() {
   return (
     <main className="bg-white text-neutral-900">
       <div className="w-full border-b border-neutral-200 bg-white px-4 py-2 text-center text-xs text-[#6e6e73]">
-        Save on iPhone with carrier deals and trade-in. Terms apply.
+        Precision marketing for brands that want unstoppable growth.
       </div>
 
       <section>
         <div className="mx-auto flex max-w-[1600px] flex-col items-center px-4 py-16 text-center">
           <AppleLogo className="h-6 w-6 text-black" />
           <p className={cn("mt-3", heroEyebrowClass)}>
-            Watch Series 11
+            Growth Marketing Company
           </p>
           <h1 className={cn("mt-4", heroHeadingClass)}>
-            Turn resolutions into routines.
+            Sell more with relentless, revenue-first marketing.
           </h1>
           <p className={cn("mt-2", heroBodyClass)}>
-            Quit quitting your fitness goals.
+            SEO backlinks, AI automation, ecommerce web design, and high-impact
+            Facebook + Google ads built to scale.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <button className={primaryButtonClass}>Learn more</button>
-            <button className={secondaryButtonClass}>Buy</button>
+            <button className={primaryButtonClass}>Book a growth call</button>
+            <button className={secondaryButtonClass}>View services</button>
           </div>
           <FeaturedCardsSection>
             <FeaturedCardsRow>
@@ -262,19 +268,20 @@ export default function Home() {
       <section>
         <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
           <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
-            iPhone
+            SEO Backlinks that build authority fast
           </h2>
           <p className="mt-3 text-base text-neutral-600">
-            Say hello to the latest generation of iPhone.
+            Get premium placements on real, trusted sites that move rankings
+            and keep compounding traffic.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <button className={primaryButtonClass}>Learn more</button>
-            <button className={secondaryButtonClass}>Shop iPhone</button>
+            <button className={primaryButtonClass}>Get backlink plan</button>
+            <button className={secondaryButtonClass}>See case studies</button>
           </div>
           <div className="mt-8 w-full max-w-4xl overflow-hidden">
             <img
-              src="https://www.apple.com/v/iphone/home/ch/images/overview/consider/designed-to_last__c3hmkknr9scy_large.jpg"
-              alt="iPhone lineup"
+              src="https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=1400&q=80"
+              alt="SEO growth analytics"
               className="w-full object-cover"
             />
           </div>
@@ -284,18 +291,19 @@ export default function Home() {
       <section className="bg-gradient-to-b from-[#cfe6f7] via-[#e7f2fb] to-white">
         <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
           <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
-            iPad <span className="font-light italic text-sky-500">air</span>
+            AI automation that never sleeps
           </h2>
           <p className="mt-3 text-base text-neutral-700">
-            Now supercharged by the M3 chip.
+            Automate lead capture, follow-ups, and reporting with intelligent
+            workflows tailored to your stack.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <button className={primaryButtonClass}>Learn more</button>
-            <button className={secondaryButtonClass}>Buy</button>
+            <button className={primaryButtonClass}>Build my workflow</button>
+            <button className={secondaryButtonClass}>See automation demos</button>
           </div>
           <img
-            src="https://www.apple.com/v/ipad-air/af/images/overview/hero/hero_endframe__fvm22b45e5me_large.png"
-            alt="iPad Air"
+            src="https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=1400&q=80"
+            alt="AI automation visualization"
             className="mt-8 w-full max-w-3xl object-contain"
           />
         </div>
@@ -312,26 +320,14 @@ export default function Home() {
               )}
             >
               <div>
-                {tile.title === "Trade In" || tile.title === "Card" ? (
-                  <div className="mb-2 flex items-center justify-center gap-2 text-sm font-semibold">
-                    <AppleLogo
-                      className={cn(
-                        "h-4 w-4",
-                        tile.isDark ? "text-white" : "text-black"
-                      )}
-                    />
-                    <span>{tile.title}</span>
-                  </div>
-                ) : tile.title === "WATCH ULTRA 3" ? (
-                  <div className="mb-2 flex items-center justify-center gap-2 text-xs font-semibold uppercase tracking-[0.3em]">
-                    <AppleLogo className="h-4 w-4 text-white" />
-                    <span>{tile.title}</span>
-                  </div>
-                ) : (
-                  <p className="text-lg font-semibold text-neutral-900">
-                    {tile.title}
-                  </p>
-                )}
+                <p
+                  className={cn(
+                    "text-lg font-semibold",
+                    tile.isDark ? "text-white" : "text-neutral-900"
+                  )}
+                >
+                  {tile.title}
+                </p>
                 <div className={cn("mt-3 space-y-1", tile.isDark && "text-white")}>
                   {tile.description.map((line) => (
                     <p
@@ -351,7 +347,7 @@ export default function Home() {
                   ) : (
                     <>
                       <button className={primaryButtonClass}>Learn more</button>
-                      <button className={secondaryButtonClass}>Buy</button>
+                      <button className={secondaryButtonClass}>Get started</button>
                     </>
                   )}
                 </div>
@@ -379,7 +375,7 @@ export default function Home() {
       <section className="bg-white pb-20 pt-6">
         <div className="mx-auto max-w-[1100px] px-4">
           <h2 className="mb-10 text-center text-3xl font-semibold text-neutral-900 sm:text-4xl">
-            Endless entertainment.
+            Proof that performance marketing wins.
           </h2>
           <Carousel opts={{ align: "center", loop: true }} className="w-full">
             <CarouselContent>
@@ -400,7 +396,7 @@ export default function Home() {
                       <p className="text-lg font-semibold">{slide.title}</p>
                       <p className="text-xs text-neutral-200">{slide.meta}</p>
                       <button className="w-fit rounded-full bg-white/90 px-4 py-1 text-xs font-medium text-black">
-                        Stream now
+                        View results
                       </button>
                     </div>
                   </div>

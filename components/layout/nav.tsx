@@ -1,8 +1,11 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { MobileNav } from "@/components/nav/mobile-nav";
 import { serviceMenu } from "@/menu.config";
 import { siteConfig } from "@/site.config";
 import { cn } from "@/lib/utils";
+import { trackEvent } from "@/lib/analytics";
 import Logo from "@/public/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
@@ -24,6 +27,10 @@ interface NavProps {
 }
 
 export function Nav({ className, children, id }: NavProps) {
+  const handleBookCallClick = () => {
+    trackEvent("book_call_click");
+  };
+
   return (
     <nav
       className={cn("sticky z-50 top-0 bg-background", "border-b", className)}
@@ -99,7 +106,9 @@ export function Nav({ className, children, id }: NavProps) {
             asChild
             className="hidden rounded-full px-5 sm:flex"
           >
-            <Link href="/contact">Book a growth call</Link>
+            <Link href="/book-call" onClick={handleBookCallClick}>
+              Book a growth call
+            </Link>
           </Button>
           <MobileNav />
         </div>

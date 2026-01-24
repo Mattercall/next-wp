@@ -99,7 +99,7 @@ export function Nav({ className, children, id }: NavProps) {
             asChild
             className="hidden rounded-full px-5 sm:flex"
           >
-            <Link href="https://github.com/9d8dev/next-wp">Get Started</Link>
+            <Link href="/contact">Book a growth call</Link>
           </Button>
           <MobileNav />
         </div>

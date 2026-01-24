@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import {
   ChevronDown,
-  Facebook,
+  Linkedin,
   Instagram,
   Pin,
   Twitter,
@@ -17,41 +17,45 @@ import { Container, Section } from "@/components/craft";
 const footerColumns = [
   {
     title: "Contact",
-    links: [{ label: "Contact Us", href: "/contact" }],
+    links: [
+      { label: "Book a Growth Call", href: "/contact" },
+      { label: "Email Our Team", href: "/contact" },
+    ],
   },
   {
-    title: "Company Info",
+    title: "Company",
     links: [
       { label: "About Us", href: "/about" },
-      { label: "Privacy Policy", href: "/privacy-policy" },
-      { label: "Terms & Conditions", href: "/terms-conditions" },
-      { label: "Blog", href: "/posts" },
+      { label: "Services Overview", href: "/service/seo" },
+      { label: "Legal Hub", href: "/legal" },
     ],
   },
   {
-    title: "Purchase Info",
+    title: "Services",
     links: [
-      { label: "Payment Methods", href: "/payment-methods" },
-      { label: "Refunds & Returns Policy", href: "/refunds-returns" },
-      { label: "Shipping & Delivery", href: "/shipping-delivery" },
+      { label: "SEO & Authority", href: "/service/seo" },
+      { label: "Backlink Growth", href: "/service/seo-backlink" },
+      { label: "Paid Ads", href: "/service/advertising" },
+      { label: "Shopify Web Design", href: "/service/webdesign" },
     ],
   },
   {
-    title: "Customer Service",
+    title: "Legal",
     links: [
-      { label: "Contact Us", href: "/contact" },
-      { label: "Frequently Asked Questions", href: "/faq" },
-      { label: "Tracking", href: "/tracking" },
+      { label: "Privacy Policy", href: "/legal/privacy" },
+      { label: "Terms of Use", href: "/legal/terms" },
+      { label: "Service Terms", href: "/legal/service-terms" },
+      { label: "Payment Terms", href: "/legal/payments" },
     ],
   },
 ];
 
 const socialLinks = [
-  { label: "Facebook", href: "https://www.facebook.com", Icon: Facebook },
-  { label: "Instagram", href: "https://www.instagram.com", Icon: Instagram },
-  { label: "Twitter/X", href: "https://x.com", Icon: Twitter },
-  { label: "Pinterest", href: "https://www.pinterest.com", Icon: Pin },
-  { label: "YouTube", href: "https://www.youtube.com", Icon: Youtube },
+  { label: "LinkedIn", href: "/contact", Icon: Linkedin },
+  { label: "Instagram", href: "/contact", Icon: Instagram },
+  { label: "YouTube", href: "/contact", Icon: Youtube },
+  { label: "Twitter/X", href: "/contact", Icon: Twitter },
+  { label: "Pinterest", href: "/contact", Icon: Pin },
 ];
 
 const paymentLogos = [
@@ -255,12 +259,14 @@ export function Footer() {
 
       <div className="bg-primary text-primary-foreground dark:bg-secondary dark:text-secondary-foreground">
         <Container className="not-prose py-6 text-center text-sm">
-          <p className="mb-1">Copyright 2026. All Rights Reserved</p>
+          <p className="mb-1">
+            © 2024 Atlas Growth Systems. All Rights Reserved.
+          </p>
           <Link
-            href="https://woo-newdavinci.alidropship.com"
+            href="https://atlasgrowthsystems.com"
             className="hover:underline underline-offset-4"
           >
-            woo-newdavinci.alidropship.com
+            atlasgrowthsystems.com
           </Link>
         </Container>
       </div>

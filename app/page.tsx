@@ -24,26 +24,26 @@ import {
 
 const posterSlides = [
   {
-    title: "Velocity Growth Playbook",
-    meta: "Paid Media • ROAS Growth",
+    title: "Shopify Revenue Lift",
+    meta: "Paid Media + CRO • +18% conversion rate",
     image:
       "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Shopfront Redefined",
-    meta: "Shopify • Conversion UX",
+    title: "Local Pipeline Turnaround",
+    meta: "Search + Automation • faster response times",
     image:
       "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Automation Engine",
-    meta: "AI Workflow • Response Time",
+    title: "Automation Response Lift",
+    meta: "AI Workflow • speed-to-lead under 5 min",
     image:
       "https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=1600&q=80",
   },
   {
-    title: "Authority Link Network",
-    meta: "SEO • Demand Capture",
+    title: "Authority Growth Sprint",
+    meta: "SEO + Backlinks • ranking momentum",
     image:
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
   },
@@ -51,39 +51,41 @@ const posterSlides = [
 
 const promoTiles = [
   {
-    title: "Ecommerce Web Design",
-    description: ["Shopify storefronts engineered for AOV and repeat orders."],
+    title: "Shopify Web Design",
+    description: [
+      "Conversion-first storefronts built to lift AOV,",
+      "repeat orders, and mobile checkout completion.",
+    ],
     image:
       "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
     className: "bg-[#0f172a] text-white",
     isDark: true,
   },
   {
-    title: "Facebook Ads",
+    title: "Meta Ads",
     description: [
-      "Scroll-stopping creatives and funnels",
-      "that turn clicks into purchases and bookings.",
+      "Creative, audiences, and landing flows",
+      "that convert clicks into orders and bookings.",
     ],
     image:
       "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80",
     className: "bg-[#f5f5f7]",
   },
   {
-    title: "Google Ads",
+    title: "Google Ads + Local Search",
     description: [
-      "High-intent search coverage",
-      "that captures demand and lowers CAC.",
+      "Capture demand with high-intent search",
+      "coverage that lowers CAC and CPL.",
     ],
     image:
       "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
     className: "bg-[#f5f5f7]",
-    singleCta: "Request a strategy call",
   },
   {
-    title: "Growth Strategy",
+    title: "Growth Strategy + Reporting",
     description: [
       "Unified offer, messaging, and analytics",
-      "that drives predictable growth.",
+      "that keep growth predictable and measurable.",
     ],
     image:
       "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80",
@@ -93,53 +95,53 @@ const promoTiles = [
 
 const featuredCards = [
   {
-    title: "Enterprise SEO Backlinks",
-    provider: "Authority Growth Team",
+    title: "Shopify Growth System",
+    provider: "Atlas Growth Team",
     providerLogo:
       "https://upload.wikimedia.org/wikipedia/commons/0/0b/Black_circle.svg",
-    metaLabel: "Authority Lift",
-    rating: "5.0",
+    metaLabel: "Conversion Lift",
+    rating: "4.9",
     image:
       "https://images.unsplash.com/photo-1507537297725-24a1c029d3ca?auto=format&fit=crop&w=800&q=80",
   },
   {
-    title: "AI Automation Systems",
+    title: "AI Follow-Up Automation",
     provider: "Automation Lab",
     providerLogo:
       "https://upload.wikimedia.org/wikipedia/commons/3/36/Logo.min.svg",
-    metaLabel: "Response Velocity",
+    metaLabel: "Response Speed",
     rating: "4.9",
     image:
       "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=800&q=80",
   },
   {
-    title: "Ecommerce Experience Design",
+    title: "Checkout & CRO Sprint",
     provider: "Conversion Studio",
     providerLogo:
       "https://upload.wikimedia.org/wikipedia/commons/3/3f/Font_Awesome_5_solid_store.svg",
-    metaLabel: "Checkout Lift",
+    metaLabel: "AOV + CVR",
     rating: "4.8",
     image:
       "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=800&q=80",
     isVideo: true,
   },
   {
-    title: "Facebook & Instagram Ads",
-    provider: "Paid Social Squad",
+    title: "Paid Social Growth Engine",
+    provider: "Paid Media Desk",
     providerLogo:
       "https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg",
-    metaLabel: "ROAS Expansion",
+    metaLabel: "ROAS Efficiency",
     rating: "4.9",
     image:
       "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=800&q=80",
   },
   {
-    title: "Google Search Ads",
+    title: "High-Intent Search Capture",
     provider: "Performance Team",
     providerLogo:
       "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
-    metaLabel: "High-Intent Capture",
-    rating: "5.0",
+    metaLabel: "Lower CAC",
+    rating: "4.9",
     image:
       "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=800&q=80",
   },
@@ -147,7 +149,7 @@ const featuredCards = [
 
 const courseraQuickTiles = [
   {
-    label: "Launch a new revenue stream",
+    label: "Recover abandoned carts",
     icon: (
       <svg
         className="h-7 w-7 text-[#5960f2]"
@@ -167,7 +169,7 @@ const courseraQuickTiles = [
     ),
   },
   {
-    label: "Capture demand faster",
+    label: "Speed-to-lead follow-up",
     icon: (
       <svg
         className="h-7 w-7 text-[#5960f2]"
@@ -187,7 +189,7 @@ const courseraQuickTiles = [
     ),
   },
   {
-    label: "Automate follow-up",
+    label: "Review + referral boosters",
     icon: (
       <svg
         className="h-7 w-7 text-[#5960f2]"
@@ -222,41 +224,41 @@ const courseraPartnerChips = [
 
 const trendingCoursePanels = [
   {
-    title: "Most popular →",
+    title: "Most requested →",
     items: [
       {
         provider: "Shopify + Meta",
         providerLogo: "S",
-        title: "Shopify Demand Capture Sprint",
-        meta: "Growth Package • ★ 4.9",
+        title: "Abandoned Cart Recovery + Winback",
+        meta: "Shopify Package • ★ 4.9",
       },
       {
         provider: "Local Growth",
         providerLogo: "L",
-        title: "Local Leads Accelerator",
-        meta: "Done-for-you • ★ 4.8",
+        title: "Lead-to-Booking Speed-to-Lead",
+        meta: "Local System • ★ 4.8",
       },
       {
         provider: "Automation Lab",
         providerLogo: "A",
-        title: "Instant Follow-Up Automation",
+        title: "Missed Call Text-Back Workflow",
         meta: "Workflow Build • ★ 4.8",
       },
     ],
   },
   {
-    title: "Weekly spotlight →",
+    title: "Shopify playbooks →",
     items: [
       {
         provider: "Ecommerce UX",
         providerLogo: "E",
-        title: "Conversion-First Shopify Redesign",
+        title: "Conversion-First PDP + Checkout",
         meta: "Design Sprint • ★ 4.9",
       },
       {
         provider: "Paid Search",
         providerLogo: "P",
-        title: "Google Ads Profit Map",
+        title: "High-Intent Search Capture",
         meta: "Campaign System • ★ 4.7",
       },
       {
@@ -268,24 +270,24 @@ const trendingCoursePanels = [
     ],
   },
   {
-    title: "In-demand AI skills →",
+    title: "Local business playbooks →",
     items: [
       {
-        provider: "AI Ops",
+        provider: "CRM Sync",
         providerLogo: "AI",
-        title: "AI Lead Qualification Pipeline",
+        title: "Lead Qualification + CRM Sync",
         meta: "Automation Stack • ★ 4.8",
       },
       {
         provider: "Retention",
         providerLogo: "R",
-        title: "Lifecycle Email + SMS Flow Pack",
+        title: "Review Booster + Referral Loop",
         meta: "Retention Build • ★ 4.9",
       },
       {
         provider: "Local Teams",
         providerLogo: "LT",
-        title: "Booking & Review Automation",
+        title: "Booking Confirmations + Reminders",
         meta: "Workflow System • ★ 4.8",
       },
     ],
@@ -317,22 +319,22 @@ export default function Home() {
   return (
     <main className="bg-white text-neutral-900">
       <div className="w-full border-b border-neutral-200 bg-white px-4 py-2 text-center text-xs text-[#6e6e73]">
-        Growth systems for Shopify brands and local businesses that demand results.
+        Done-for-you growth systems for Shopify brands and local businesses.
       </div>
 
       <section>
         <div className="mx-auto flex max-w-[1600px] flex-col items-center px-4 py-16 text-center">
           <AppleLogo className="h-6 w-6 text-black" />
           <p className={cn("mt-3", heroEyebrowClass)}>
-            Growth Marketing Company
+            Atlas Growth Systems
           </p>
           <h1 className={cn("mt-4", heroHeadingClass)}>
-            Done-for-you growth systems for Shopify and local businesses.
+            More orders, bookings, and leads for Shopify brands and local teams.
           </h1>
           <p className={cn("mt-2", heroBodyClass)}>
-            We build conversion-ready storefronts, run profitable Facebook + Google
-            ads, scale SEO + backlinks, and automate follow-up to turn clicks into
-            orders, bookings, and leads.
+            We build conversion-focused pages, run Facebook + Google ads, grow SEO
+            and backlinks, and automate follow-up so you turn traffic into revenue
+            without adding headcount.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <button className={primaryButtonClass}>Book a growth call</button>
@@ -396,15 +398,15 @@ export default function Home() {
       <section>
         <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
           <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
-            SEO backlinks that lift rankings, trust, and revenue fast
+            SEO backlinks that build trust, rankings, and qualified demand
           </h2>
           <p className="mt-3 text-base text-neutral-600">
-            Secure premium placements on real sites to boost rankings, earn
-            buyer trust, and compound qualified traffic.
+            Secure placements on real sites to improve authority, lift rankings,
+            and compound high-intent traffic for Shopify and local services.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <button className={primaryButtonClass}>Get my backlink plan</button>
-            <button className={secondaryButtonClass}>View SEO wins</button>
+            <button className={primaryButtonClass}>Book a growth call</button>
+            <button className={secondaryButtonClass}>View services</button>
           </div>
           <div className="mt-12 w-full">
             <div className="mx-auto flex max-w-[1080px] flex-wrap items-center justify-center gap-4 rounded-full bg-[#F3F8FF] px-6 py-4 text-left">
@@ -413,9 +415,9 @@ export default function Home() {
               </p>
               <div className="flex flex-wrap items-center justify-center gap-3">
                 {[
-                  { label: "Launch my backlink growth plan" },
-                  { label: "Improve rankings in 90 days" },
-                  { label: "Build authority in my niche" },
+                  { label: "Launch my authority growth plan" },
+                  { label: "Improve rankings for core offers" },
+                  { label: "Build trust with premium placements" },
                   { label: "Scale link building safely" },
                 ].map((item) => (
                   <button
@@ -444,20 +446,20 @@ export default function Home() {
             <div className="mx-auto mt-10 flex w-full max-w-[1075px] flex-col gap-6 rounded-[22px] bg-gradient-to-r from-[#C12BA8] via-[#7c3aed] to-[#2F80FF] px-8 py-8 md:flex-row md:items-center">
               <div className="flex w-full flex-col items-start gap-4 text-left md:w-[32%]">
                 <h3 className="text-lg font-semibold text-white">
-                  Prepare for an authority-driven
+                  Benchmark authority before
                   <br />
-                  SEO benchmark
+                  you scale SEO
                 </h3>
                 <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0056D2]">
-                  Explore SEO playbooks →
+                  View services →
                 </button>
               </div>
               <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 md:w-[68%]">
                 {[
                   {
                     provider: "Authority Lab",
-                    title: "Backlink Foundations: Build Ranking Momentum",
-                    type: "Growth Blueprint",
+                    title: "Authority Foundations for Ranking Momentum",
+                    type: "Backlink Blueprint",
                     rating: "★ 4.9",
                     imageClass:
                       "bg-gradient-to-br from-green-400 via-blue-500 to-yellow-400",
@@ -465,7 +467,7 @@ export default function Home() {
                   },
                   {
                     provider: "Shopify Growth",
-                    title: "Authority Outreach & PR Placements",
+                    title: "Authority Outreach + PR Placements",
                     type: "Growth Sprint",
                     rating: "★ 4.8",
                     imageClass:
@@ -475,7 +477,7 @@ export default function Home() {
                   },
                   {
                     provider: "Local SEO",
-                    title: "Local Authority & Map Pack Boost",
+                    title: "Local Authority + Map Pack Boost",
                     type: "Performance Kit",
                     rating: "★ 4.7",
                     imageClass: "bg-[#0b2b55]",
@@ -484,7 +486,7 @@ export default function Home() {
                   {
                     provider: "Digital PR",
                     title: "Content-Led Link Velocity",
-                    type: "Specialization",
+                    type: "Authority Specialization",
                     rating: "★ 4.6",
                     imageClass:
                       "bg-[url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80')] bg-cover bg-center",
@@ -532,7 +534,7 @@ export default function Home() {
       <section className="bg-white">
         <div className="mx-auto flex max-w-[1200px] flex-col px-4 py-16">
           <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
-            Automation that turns leads into orders and bookings — automatically.
+            Automation that turns speed-to-lead into orders and bookings.
           </h2>
           <div className="mt-10 space-y-8">
             <div className="grid gap-6 lg:grid-cols-[1.2fr_1fr]">
@@ -544,15 +546,15 @@ export default function Home() {
                   </span>
                 </div>
                 <h3 className="mt-4 text-2xl font-semibold leading-snug sm:text-3xl">
-                  Ends soon! Q4 automation onboarding slots are almost full.
+                  Ends soon: Q4 automation onboarding is almost full.
                 </h3>
                 <p className="mt-3 max-w-sm text-sm text-white/80">
-                  Launch always-on AI workflows that capture leads, recover carts,
-                  and follow up instantly—so you win more orders and bookings
-                  without extra headcount.
+                  Launch always-on workflows for Shopify and local businesses:
+                  abandoned cart recovery, lead-to-booking follow-up, missed call
+                  text-back, review boosters, and CRM sync.
                 </p>
                 <button className="mt-6 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#1b4fbf]">
-                  Get a free automation audit →
+                  Book a growth call →
                 </button>
                 <div className="absolute right-10 top-10 flex h-20 w-20 items-center justify-center rounded-full bg-[#f6d6ff] text-center text-sm font-semibold text-[#1c1c1c]">
                   <span className="leading-tight">
@@ -578,14 +580,14 @@ export default function Home() {
 
               <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-[#0a5ad6] via-[#1a6fe0] to-[#0c54c4] p-8 text-white">
                 <p className="text-sm font-semibold uppercase tracking-wide text-white/80">
-                  Automation for teams
+                  Automation packages
                 </p>
                 <h3 className="mt-3 text-2xl font-semibold leading-snug sm:text-3xl">
-                  Put your business on autopilot with automated follow-up,
-                  booking confirmations, and revenue-critical workflows.
+                  Keep every lead warm with instant replies, booking confirmations,
+                  review requests, and revenue alerts.
                 </h3>
                 <button className="mt-5 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#0b5bd3]">
-                  Save 50% on Team Automation →
+                  View services →
                 </button>
                 <div className="absolute right-0 top-0 h-full w-1/2">
                   <div className="absolute bottom-0 right-0 h-40 w-40 rounded-tl-[80px] bg-gradient-to-br from-[#8ef0ff] via-[#d2f7ff] to-white/80" />
@@ -636,7 +638,7 @@ export default function Home() {
 
             <div className="space-y-4">
               <p className="text-base font-semibold text-neutral-900">
-                Get more orders & bookings
+                Works with your growth stack
               </p>
               <div className="flex items-center gap-3 overflow-hidden">
                 <div className="flex flex-wrap gap-3">
@@ -668,7 +670,7 @@ export default function Home() {
 
             <div className="space-y-4">
               <h3 className="text-lg font-semibold text-neutral-900">
-                Trending workflows
+                Trending workflows for Shopify + local
               </h3>
               <div className="grid gap-6 lg:grid-cols-3">
                 {trendingCoursePanels.map((panel) => (
@@ -747,8 +749,12 @@ export default function Home() {
                     <button className={primaryButtonClass}>{tile.singleCta}</button>
                   ) : (
                     <>
-                      <button className={primaryButtonClass}>Learn more</button>
-                      <button className={secondaryButtonClass}>Get started</button>
+                      <button className={primaryButtonClass}>
+                        Book a growth call
+                      </button>
+                      <button className={secondaryButtonClass}>
+                        View services
+                      </button>
                     </>
                   )}
                 </div>
@@ -776,7 +782,7 @@ export default function Home() {
       <section className="bg-white pb-20 pt-6">
         <div className="mx-auto max-w-[1100px] px-4">
           <h2 className="mb-10 text-center text-3xl font-semibold text-neutral-900 sm:text-4xl">
-            Proof that performance marketing wins.
+            Proof that a growth system performs.
           </h2>
           <Carousel opts={{ align: "center", loop: true }} className="w-full">
             <CarouselContent>

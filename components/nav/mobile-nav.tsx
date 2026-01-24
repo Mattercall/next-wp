@@ -64,7 +64,7 @@ export function MobileNav() {
                 {item.name}
               </MobileLink>
             ))}
-            <h3 className="text-small pt-6">Blog Menu</h3>
+            <h3 className="text-small pt-6">Company</h3>
             <Separator />
             {Object.entries(contentMenu).map(([key, href]) => (
               <MobileLink key={key} href={href} onOpenChange={setOpen}>

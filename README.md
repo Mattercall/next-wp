@@ -17,6 +17,8 @@ A modern headless WordPress starter built with Next.js 16, React 19, and TypeScr
 - [Quick Start](#quick-start)
 - [Prerequisites](#prerequisites)
 - [Environment Variables](#environment-variables)
+- [FluentCart Proxy Routing (Option 1)](#fluentcart-proxy-routing-option-1)
+- [FluentCart Setup Checklist](#fluentcart-setup-checklist)
 - [Features](#features)
 - [Project Structure](#project-structure)
 - [Deployment](#deployment)
@@ -66,7 +68,49 @@ Create a `.env.local` file in the root directory:
 WORDPRESS_URL="https://your-wordpress-site.com"    # Full WordPress URL
 WORDPRESS_HOSTNAME="your-wordpress-site.com"       # Domain for image optimization
 WORDPRESS_WEBHOOK_SECRET="your-secret-key-here"    # Secret for cache revalidation
+WP_ORIGIN="https://backend.example.com"            # WordPress/FluentCart origin to proxy
+PROXY_MODE="rewrite"                               # rewrite (default) or redirect
 ```
+
+## FluentCart Proxy Routing (Option 1)
+
+This setup keeps Next.js as the public site while proxying FluentCart’s built-in
+WordPress pages on specific paths:
+
+- `/shop`
+- `/cart`
+- `/checkout`
+- `/receipt`
+- `/account`
+
+### How it works
+
+- **Rewrite mode (default):** Next.js rewrites those paths to `WP_ORIGIN` and
+  serves the WordPress/FluentCart HTML directly from your Next.js domain.
+- **Redirect mode (fallback):** Set `PROXY_MODE=redirect` to issue 302 redirects
+  to the WordPress origin instead of rewriting.
+- **Health check:** Visit `/status` to confirm the Next.js app is online.
+
+### Cookie/session notes
+
+For the most reliable checkout/account sessions, keep WordPress on the same
+top-level domain (e.g., `example.com` with `shop.example.com`). If cookies or
+sessions misbehave, use a true reverse proxy (Cloudflare, Nginx, etc.) so the
+WordPress site and Next.js are same-site, and ensure WordPress “Site URL” and
+“Home URL” match the public domain you are using.
+
+## FluentCart Setup Checklist
+
+1. Create the FluentCart pages in WordPress with these slugs:
+   - `/shop` → `[fluent_cart_products]`
+   - `/cart` → `[fluent_cart_cart]`
+   - `/checkout` → `[fluent_cart_checkout]`
+   - `/receipt` → `[fluent_cart_receipt]`
+   - `/account` → `[fluent_cart_customer_profile]`
+2. Confirm WordPress permalinks are set to “Post name.”
+3. Set `WP_ORIGIN` in `.env.local`.
+4. (Optional) Switch to redirect mode with `PROXY_MODE=redirect`.
+5. Test the flow: add item → cart → checkout → account login.
 
 ## Features
 

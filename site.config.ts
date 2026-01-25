@@ -5,8 +5,8 @@ type SiteConfig = {
 };
 
 export const siteConfig: SiteConfig = {
-  site_name: "Atlas Growth Systems",
+  site_name: "MatterCall",
   site_description:
     "Done-for-you growth systems for Shopify brands and local businesses.",
-  site_domain: "https://atlasgrowthsystems.com",
+  site_domain: "https://mattercall.com",
 };

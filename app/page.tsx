@@ -1,7 +1,6 @@
 "use client";
 
 import { Star } from "lucide-react";
-import Link from "next/link";
 import {
   Carousel,
   CarouselContent,
@@ -22,7 +21,6 @@ import {
   heroHeadingClass,
   heroBodyClass,
 } from "@/components/marketing/cta-styles";
-import { trackEvent } from "@/lib/analytics";
 
 const posterSlides = [
   {
@@ -325,10 +323,6 @@ const AppleTvLogo = ({ className }: { className?: string }) => (
 );
 
 export default function Home() {
-  const handleBookCallClick = () => {
-    trackEvent("book_call_click");
-  };
-
   return (
     <main className="bg-white text-neutral-900">
       <div className="w-full border-b border-neutral-200 bg-white px-4 py-2 text-center text-xs text-[#6e6e73]">
@@ -350,13 +344,7 @@ export default function Home() {
             without adding headcount.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/book-call"
-              className={primaryButtonClass}
-              onClick={handleBookCallClick}
-            >
-              Book a growth call
-            </Link>
+            <button className={primaryButtonClass}>Book a growth call</button>
             <button className={secondaryButtonClass}>View services</button>
           </div>
           <FeaturedCardsSection>
@@ -424,13 +412,7 @@ export default function Home() {
             and compound high-intent traffic for Shopify and local services.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <Link
-              href="/book-call"
-              className={primaryButtonClass}
-              onClick={handleBookCallClick}
-            >
-              Book a growth call
-            </Link>
+            <button className={primaryButtonClass}>Book a growth call</button>
             <button className={secondaryButtonClass}>View services</button>
           </div>
           <div className="mt-12 w-full">
@@ -578,13 +560,9 @@ export default function Home() {
                   abandoned cart recovery, lead-to-booking follow-up, missed call
                   text-back, review boosters, and CRM sync.
                 </p>
-                <Link
-                  href="/book-call"
-                  className="mt-6 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#1b4fbf]"
-                  onClick={handleBookCallClick}
-                >
+                <button className="mt-6 rounded-full bg-white px-5 py-2 text-sm font-semibold text-[#1b4fbf]">
                   Book a growth call →
-                </Link>
+                </button>
                 <div className="absolute right-10 top-10 flex h-20 w-20 items-center justify-center rounded-full bg-[#f6d6ff] text-center text-sm font-semibold text-[#1c1c1c]">
                   <span className="leading-tight">
                     <span className="block text-[10px] text-neutral-500 line-through">
@@ -778,13 +756,9 @@ export default function Home() {
                     <button className={primaryButtonClass}>{tile.singleCta}</button>
                   ) : (
                     <>
-                      <Link
-                        href="/book-call"
-                        className={primaryButtonClass}
-                        onClick={handleBookCallClick}
-                      >
+                      <button className={primaryButtonClass}>
                         Book a growth call
-                      </Link>
+                      </button>
                       <button className={secondaryButtonClass}>
                         View services
                       </button>

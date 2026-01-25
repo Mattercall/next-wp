@@ -89,10 +89,6 @@ WordPress pages on specific paths:
   serves the WordPress/FluentCart HTML directly from your Next.js domain.
 - **Redirect mode (fallback):** Set `PROXY_MODE=redirect` to issue 302 redirects
   to the WordPress origin instead of rewriting.
-- **Admin AJAX in rewrite mode:** WordPress core/plugins generate
-  `/wp-admin/admin-ajax.php` via `admin_url()`. In rewrite mode, this path is
-  proxied to `WP_ORIGIN` so cart and checkout AJAX calls (including FluentCart)
-  resolve through the public domain instead of 404ing on Next.js.
 - **Health check:** Visit `/status` to confirm the Next.js app is online.
 
 ### Cookie/session notes
@@ -102,15 +98,6 @@ top-level domain (e.g., `example.com` with `shop.example.com`). If cookies or
 sessions misbehave, use a true reverse proxy (Cloudflare, Nginx, etc.) so the
 WordPress site and Next.js are same-site, and ensure WordPress “Site URL” and
 “Home URL” match the public domain you are using.
-
-### Quick verification
-
-With `PROXY_MODE=rewrite`, confirm the admin AJAX endpoint responds through your
-public domain (not the WordPress origin) and does not return a 404:
-
-```
-https://your-public-domain.com/wp-admin/admin-ajax.php?action=heartbeat
-```
 
 ## FluentCart Setup Checklist
 

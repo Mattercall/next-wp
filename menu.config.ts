@@ -5,12 +5,6 @@ export const mainMenu = {
   contact: "/contact",
 };
 
-export const storeMenu = [
-  { href: "/shop", label: "Shop" },
-  { href: "/cart", label: "Cart" },
-  { href: "/account", label: "Account" },
-];
-
 export const serviceMenu = [
   {
     name: "SEO & Authority",

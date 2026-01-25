@@ -68,10 +68,6 @@ const nextConfig: NextConfig = {
         },
       ]),
       {
-        source: "/wp-admin/admin-ajax.php",
-        destination: `${normalizedWpOrigin}/wp-admin/admin-ajax.php`,
-      },
-      {
         source: "/wp-content/:path*",
         destination: `${normalizedWpOrigin}/wp-content/:path*`,
       },

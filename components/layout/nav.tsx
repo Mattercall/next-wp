@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { MobileNav } from "@/components/nav/mobile-nav";
-import { serviceMenu, storeMenu } from "@/menu.config";
+import { serviceMenu } from "@/menu.config";
 import { siteConfig } from "@/site.config";
 import { cn } from "@/lib/utils";
 import { trackEvent } from "@/lib/analytics";
@@ -54,17 +54,6 @@ export function Nav({ className, children, id }: NavProps) {
           />
           <h2 className="text-sm">{siteConfig.site_name}</h2>
         </Link>
-        <div className="hidden items-center gap-4 text-sm font-medium md:flex">
-          {storeMenu.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className="text-muted-foreground transition-colors hover:text-foreground"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </div>
         {children}
         <div className="flex items-center gap-2">
           <div className="mx-2 hidden md:flex">

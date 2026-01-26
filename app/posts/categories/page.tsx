@@ -20,7 +20,7 @@ export default async function Page() {
     <ArchiveList<Category>
       title="All Categories"
       items={categories}
-      getItemHref={(c) => `/posts/?category=${c.id}`}
+      getItemHref={(c) => `/category/${c.slug}`}
       getItemLabel={(c) => c.name}
       emptyMessage="No categories available yet."
     />

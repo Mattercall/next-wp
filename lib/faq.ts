@@ -1,12 +1,25 @@
-export type FaqItem = { question: string; answerHtml: string };
+import { stripHtml } from "@/lib/metadata";
 
-function stripTags(html: string) {
-  return html.replace(/<[^>]*>/g, "").replace(/\s+/g, " ").trim();
-}
+export type FAQPage = {
+  "@context": "https://schema.org";
+  "@type": "FAQPage";
+  mainEntity: Array<{
+    "@type": "Question";
+    name: string;
+    acceptedAnswer: {
+      "@type": "Answer";
+      text: string;
+    };
+  }>;
+};
 
-function decodeEntities(s: string) {
-  // minimal decode for common entities
-  return s
+type FaqMatch = {
+  question: string;
+  answerText: string;
+};
+
+function decodeEntities(text: string) {
+  return text
     .replace(/&amp;/g, "&")
     .replace(/&quot;/g, '"')
     .replace(/&#039;/g, "'")
@@ -15,63 +28,128 @@ function decodeEntities(s: string) {
     .replace(/&nbsp;/g, " ");
 }
 
-export function extractFaqsFromHtml(html: string): FaqItem[] {
-  if (!html) return [];
+function normalizeWhitespace(value: string) {
+  return value.replace(/\s+/g, " ").trim();
+}
 
-  // 1) Find "FAQ" section start (h2 or h3)
-  const sectionRe =
-    /<(h2|h3)[^>]*>\s*(faq|faqs|frequently asked questions|häufige fragen|haeufige fragen)\s*<\/\1>/i;
+function sanitizeQuestion(questionHtml: string) {
+  const raw = normalizeWhitespace(decodeEntities(stripHtml(questionHtml)));
+  return raw.replace(/^(?:\(?\d+\)?[.)]?\s*|q[:.)\s]+|question[:.)\s]+)/i, "").trim();
+}
 
-  const sectionMatch = html.match(sectionRe);
-  if (!sectionMatch || sectionMatch.index == null) return [];
+function htmlToPlainText(html: string) {
+  if (!html) return "";
 
-  const startIndex = sectionMatch.index + sectionMatch[0].length;
-  const afterFaq = html.slice(startIndex);
+  let text = html;
+  text = text.replace(/<br\s*\/?>/gi, "\n");
+  text = text.replace(/<\/(p|div|section|article|blockquote|table|thead|tbody|tr|td|th)>/gi, "\n");
+  text = text.replace(/<(p|div|section|article|blockquote|table|thead|tbody|tr|td|th)[^>]*>/gi, "\n");
+  text = text.replace(/<li[^>]*>/gi, "\n- ");
+  text = text.replace(/<\/li>/gi, "\n");
+  text = text.replace(/<\/(ul|ol)>/gi, "\n");
+  text = text.replace(/<(ul|ol)[^>]*>/gi, "\n");
+  text = decodeEntities(stripHtml(text));
 
-  // 2) Stop at next H2 (new major section) if present
-  const nextH2 = afterFaq.search(/<h2[^>]*>/i);
-  const faqBlock = nextH2 >= 0 ? afterFaq.slice(0, nextH2) : afterFaq;
+  const lines = text
+    .split("\n")
+    .map((line) => normalizeWhitespace(line))
+    .filter(Boolean);
 
-  // 3) Extract Q/A pairs where Q is an H3
-  // Question = <h3>...</h3>
-  // Answer = everything until next <h3> or end of block
-  const qaRe = /<h3[^>]*>([\s\S]*?)<\/h3>([\s\S]*?)(?=<h3[^>]*>|$)/gi;
+  return lines.join("\n").trim();
+}
 
-  const out: FaqItem[] = [];
-  let m: RegExpExecArray | null;
+function findFaqSectionRange(html: string) {
+  const headingRe = /<(h1|h2|h3)([^>]*)>([\s\S]*?)<\/\1>/gi;
+  let match: RegExpExecArray | null;
 
-  while ((m = qaRe.exec(faqBlock)) !== null) {
-    const qHtml = m[1] || "";
-    const aHtml = (m[2] || "").trim();
+  while ((match = headingRe.exec(html)) !== null) {
+    const [, tagName, attributes, innerHtml] = match;
+    const text = normalizeWhitespace(decodeEntities(stripHtml(innerHtml)));
+    const idMatch = attributes.match(/id\s*=\s*["']([^"']+)["']/i);
+    const idValue = idMatch?.[1] ?? "";
 
-    const question = decodeEntities(stripTags(qHtml));
-    const answerText = decodeEntities(stripTags(aHtml));
+    if (!/faq|faqs/i.test(text) && !/faq/i.test(idValue)) {
+      continue;
+    }
 
-    // guardrails: skip empties / junk
-    if (!question || question.length < 3) continue;
-    if (!answerText || answerText.length < 3) continue;
+    const startIndex = match.index + match[0].length;
+    const rest = html.slice(startIndex);
+    const nextHeadingOffset = rest.search(/<(h1|h2)\b/i);
+    const endIndex = nextHeadingOffset >= 0 ? startIndex + nextHeadingOffset : html.length;
 
-    out.push({
-      question,
-      // For schema we can use text; but we keep HTML too in case you want to render it
-      answerHtml: aHtml,
+    return { startIndex, endIndex, tagName };
+  }
+
+  return null;
+}
+
+function hasFaqJsonLd(html: string) {
+  const scriptRe =
+    /<script[^>]*type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi;
+  let match: RegExpExecArray | null;
+
+  while ((match = scriptRe.exec(html)) !== null) {
+    if (/FAQPage/i.test(match[1])) {
+      return true;
+    }
+  }
+
+  return false;
+}
+
+function extractFaqItems(html: string): FaqMatch[] {
+  const sectionRange = findFaqSectionRange(html);
+  if (!sectionRange) return [];
+
+  const sectionHtml = html.slice(sectionRange.startIndex, sectionRange.endIndex);
+  const questionRe = /<h3\b[^>]*>([\s\S]*?)<\/h3>/gi;
+  const questions: Array<{ start: number; end: number; html: string }> = [];
+  let match: RegExpExecArray | null;
+
+  while ((match = questionRe.exec(sectionHtml)) !== null) {
+    questions.push({
+      start: match.index,
+      end: match.index + match[0].length,
+      html: match[1] || "",
     });
   }
 
-  return out;
+  if (questions.length === 0) return [];
+
+  const items: FaqMatch[] = [];
+
+  questions.forEach((question, index) => {
+    const nextQuestion = questions[index + 1];
+    const answerHtml = sectionHtml.slice(question.end, nextQuestion?.start ?? sectionHtml.length);
+    const questionText = sanitizeQuestion(question.html);
+    const answerText = htmlToPlainText(answerHtml);
+
+    if (!questionText || !answerText) return;
+
+    items.push({ question: questionText, answerText });
+  });
+
+  return items;
 }
 
-export function faqJsonLd(faqs: FaqItem[]) {
+export function extractFaqSchemaFromHtml(html: string): FAQPage | null {
+  if (!html || hasFaqJsonLd(html)) return null;
+
+  const items = extractFaqItems(html).filter(
+    (item) => item.question.length > 0 && item.answerText.length > 0,
+  );
+
+  if (items.length < 2) return null;
+
   return {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqs.map((f) => ({
+    mainEntity: items.map((item) => ({
       "@type": "Question",
-      name: f.question,
+      name: item.question,
       acceptedAnswer: {
         "@type": "Answer",
-        // Schema expects text (not HTML). We'll strip tags at render time.
-        text: decodeEntities(stripTags(f.answerHtml)),
+        text: item.answerText,
       },
     })),
   };

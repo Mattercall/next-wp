@@ -56,17 +56,25 @@ function htmlToPlainText(html: string) {
   return lines.join("\n").trim();
 }
 
+function isFaqHeadingText(text: string) {
+  const normalized = normalizeWhitespace(text);
+  if (!normalized) return false;
+
+  const faqRegex = /\bfaqs?\b/i;
+  const frequentlyAskedRegex = /\bfrequently\s+asked\b/i;
+
+  return faqRegex.test(normalized) || frequentlyAskedRegex.test(normalized);
+}
+
 function findFaqSectionRange(html: string) {
-  const headingRe = /<(h1|h2|h3)([^>]*)>([\s\S]*?)<\/\1>/gi;
+  const headingRe = /<(h2)([^>]*)>([\s\S]*?)<\/\1>/gi;
   let match: RegExpExecArray | null;
 
   while ((match = headingRe.exec(html)) !== null) {
     const [, tagName, attributes, innerHtml] = match;
     const text = normalizeWhitespace(decodeEntities(stripHtml(innerHtml)));
-    const idMatch = attributes.match(/id\s*=\s*["']([^"']+)["']/i);
-    const idValue = idMatch?.[1] ?? "";
 
-    if (!/faq|faqs/i.test(text) && !/faq/i.test(idValue)) {
+    if (!isFaqHeadingText(text)) {
       continue;
     }
 

@@ -47,6 +47,40 @@ describe("extractFaqSchemaFromHtml", () => {
     assert.equal(schema, null);
   });
 
+  it("detects FAQ section only when introduced by an H2 heading", () => {
+    const html = `
+      <h1>FAQ</h1>
+      <h3>Question one?</h3>
+      <p>Answer one.</p>
+      <h2>Frequently asked questions on returns</h2>
+      <h3>Question two?</h3>
+      <p>Answer two.</p>
+      <h3>Question three?</h3>
+      <p>Answer three.</p>
+    `;
+
+    const schema = extractFaqSchemaFromHtml(html);
+
+    assert.ok(schema);
+    assert.equal(schema.mainEntity.length, 2);
+    assert.equal(schema.mainEntity[0].name, "Question two?");
+    assert.equal(schema.mainEntity[1].name, "Question three?");
+  });
+
+  it("returns null when FAQ-like text appears in non-H2 headings", () => {
+    const html = `
+      <h3>FAQ</h3>
+      <h3>Question one?</h3>
+      <p>Answer one.</p>
+      <h3>Question two?</h3>
+      <p>Answer two.</p>
+    `;
+
+    const schema = extractFaqSchemaFromHtml(html);
+
+    assert.equal(schema, null);
+  });
+
   it("strips separator-only lines from FAQ answers", () => {
     const html = `
       <h2 id="faq">FAQ</h2>

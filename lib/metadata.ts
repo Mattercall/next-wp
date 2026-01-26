@@ -1,4 +1,4 @@
-import { siteConfig } from "@/site.config";
+import { SITE_URL } from "@/lib/site-url";
 import type { Metadata } from "next";
 
 interface ContentMetadataOptions {
@@ -15,9 +15,9 @@ export function generateContentMetadata({
   basePath,
 }: ContentMetadataOptions): Metadata {
   const baseSegment = basePath ? `/${basePath}` : "";
-  const pageUrl = `${siteConfig.site_domain}${baseSegment}/${slug}`;
+  const pageUrl = `${SITE_URL}${baseSegment}/${slug}`;
 
-  const ogUrl = new URL(`${siteConfig.site_domain}/api/og`);
+  const ogUrl = new URL(`${SITE_URL}/api/og`);
   ogUrl.searchParams.append("title", title);
   ogUrl.searchParams.append("description", description);
 

@@ -1,6 +1,6 @@
 // app/posts/sitemap/[slug]/route.ts
 import { NextResponse } from "next/server";
-import { siteConfig } from "@/site.config";
+import { SITE_URL } from "@/lib/site-url";
 
 const WP = process.env.WORDPRESS_URL; // e.g. https://backend.mattercall.com
 const POSTS_PER_SITEMAP = 1000; // chunk size (set higher in production)
@@ -94,7 +94,7 @@ export async function GET(
   const sliceStart = startIndex % PER_PAGE;
   const chunk = results.slice(sliceStart, sliceStart + POSTS_PER_SITEMAP);
 
-  const base = siteConfig.site_domain.replace(/\/$/, "");
+  const base = SITE_URL.replace(/\/$/, "");
   const urlset = makeUrlset(
     chunk.map((p) => ({
       loc: `${base}/${p.slug}`,

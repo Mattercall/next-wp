@@ -48,12 +48,12 @@ const PUBLISHER_LOGO_URL = process.env.NEXT_PUBLIC_PUBLISHER_LOGO_URL || ""; // 
 
 /**
  * ===== FAQ extraction from WP HTML =====
- * Supports:
- *  - Heading-based FAQs (<h2>FAQs</h2> + <h3>Question</h3>)
- *  - Yoast SEO FAQ block (schema-faq-section)
- *  - Rank Math FAQ block (rank-math-faq-item)
+ * Expected:
+ *  - <h2>FAQs</h2> (or FAQ / Häufige Fragen)
+ *  - each question in <h3>Question</h3>
+ *  - answer content until next <h3> or end of FAQ block
  */
-type FaqItem = { question: string; answerHtml: string; answerText: string };
+type FaqItem = { question: string; answerText: string };
 type TocItem = { id: string; text: string };
 type CategoryProduct = {
   name?: string;
@@ -72,177 +72,61 @@ function decodeEntities(s: string) {
     .replace(/&nbsp;/g, " ");
 }
 
-function normalizeFaqHeading(text: string) {
-  return stripHtml(text)
-    .toLowerCase()
-    .replace(/\s+/g, " ")
-    .trim();
-}
-
-function pushFaqItem(out: FaqItem[], questionHtml: string, answerHtml: string) {
-  const question = decodeEntities(stripHtml(questionHtml));
-  const answerText = decodeEntities(stripHtml(answerHtml));
-
-  if (!question || question.length < 3) return;
-  if (!answerText || answerText.length < 3) return;
-
-  out.push({ question, answerHtml: answerHtml.trim(), answerText });
-}
-
-function extractFaqsFromSchemaBlocks(html: string): FaqItem[] {
-  const out: FaqItem[] = [];
-
-  const schemaSectionRe =
-    /<div[^>]*class="[^"]*schema-faq-section[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
-
-  let match: RegExpExecArray | null;
-  while ((match = schemaSectionRe.exec(html)) !== null) {
-    const sectionHtml = match[1] || "";
-    const questionMatch =
-      sectionHtml.match(
-        /<strong[^>]*class="[^"]*schema-faq-question[^"]*"[^>]*>([\s\S]*?)<\/strong>/i,
-      ) || sectionHtml.match(/<h3[^>]*>([\s\S]*?)<\/h3>/i);
-    const answerMatch =
-      sectionHtml.match(
-        /<p[^>]*class="[^"]*schema-faq-answer[^"]*"[^>]*>([\s\S]*?)<\/p>/i,
-      ) || sectionHtml.match(/<div[^>]*class="[^"]*schema-faq-answer[^"]*"[^>]*>([\s\S]*?)<\/div>/i);
-
-    if (questionMatch) {
-      const answerHtml = answerMatch
-        ? answerMatch[1]
-        : sectionHtml.replace(questionMatch[0], "");
-      pushFaqItem(out, questionMatch[1], answerHtml);
-    }
-  }
-
-  const rankMathItemRe =
-    /<div[^>]*class="[^"]*rank-math-faq-item[^"]*"[^>]*>([\s\S]*?)<\/div>/gi;
-
-  while ((match = rankMathItemRe.exec(html)) !== null) {
-    const itemHtml = match[1] || "";
-    const questionMatch = itemHtml.match(
-      /<h3[^>]*class="[^"]*rank-math-question[^"]*"[^>]*>([\s\S]*?)<\/h3>/i,
-    );
-    const answerMatch = itemHtml.match(
-      /<div[^>]*class="[^"]*rank-math-answer[^"]*"[^>]*>([\s\S]*?)<\/div>/i,
-    );
-
-    if (questionMatch && answerMatch) {
-      pushFaqItem(out, questionMatch[1], answerMatch[1]);
-    }
-  }
-
-  return out;
-}
-
 function extractFaqsFromHtml(html: string): FaqItem[] {
   if (!html) return [];
 
-  const structuredFaqs = extractFaqsFromSchemaBlocks(html);
-  if (structuredFaqs.length > 0) return structuredFaqs;
+  const sectionRe =
+    /<(h2|h3)[^>]*>\s*(faq|faqs|frequently asked questions|häufige fragen|haeufige fragen)\s*<\/\1>/i;
 
-  const headingRe = /<(h2|h3)[^>]*>([\s\S]*?)<\/\1>/gi;
-  let headingMatch: RegExpExecArray | null;
-  let sectionMatch: { start: number; end: number } | null = null;
+  const sectionMatch = html.match(sectionRe);
+  if (!sectionMatch || sectionMatch.index == null) return [];
 
-  while ((headingMatch = headingRe.exec(html)) !== null) {
-    const headingText = normalizeFaqHeading(headingMatch[2] || "");
-    if (
-      ["faq", "faqs", "frequently asked questions", "häufige fragen", "haeufige fragen"].includes(
-        headingText,
-      )
-    ) {
-      sectionMatch = {
-        start: headingMatch.index,
-        end: headingMatch.index + headingMatch[0].length,
-      };
-      break;
-    }
-  }
+  const startIndex = sectionMatch.index + sectionMatch[0].length;
+  const afterFaq = html.slice(startIndex);
 
-  if (!sectionMatch) return [];
-
-  const afterFaq = html.slice(sectionMatch.end);
+  // stop at next h2
   const nextH2 = afterFaq.search(/<h2[^>]*>/i);
   const faqBlock = nextH2 >= 0 ? afterFaq.slice(0, nextH2) : afterFaq;
 
   const qaRe = /<h3[^>]*>([\s\S]*?)<\/h3>([\s\S]*?)(?=<h3[^>]*>|$)/gi;
+
   const out: FaqItem[] = [];
   let m: RegExpExecArray | null;
 
   while ((m = qaRe.exec(faqBlock)) !== null) {
     const qHtml = m[1] || "";
     const aHtml = (m[2] || "").trim();
-    pushFaqItem(out, qHtml, aHtml);
+
+    const question = decodeEntities(stripHtml(qHtml));
+    const answerText = decodeEntities(stripHtml(aHtml));
+
+    if (!question || question.length < 3) continue;
+    if (!answerText || answerText.length < 3) continue;
+
+    out.push({ question, answerText });
   }
 
   return out;
 }
 
-function wrapMatchesWithFaqSection(html: string, blockRe: RegExp) {
-  blockRe.lastIndex = 0;
-  let match: RegExpExecArray | null;
-  let firstMatch: RegExpExecArray | null = null;
-  let lastMatch: RegExpExecArray | null = null;
-
-  while ((match = blockRe.exec(html)) !== null) {
-    if (!firstMatch) firstMatch = match;
-    lastMatch = match;
-  }
-
-  if (!firstMatch || !lastMatch) return html;
-
-  const startIndex = firstMatch.index;
-  const endIndex = lastMatch.index + lastMatch[0].length;
-
-  return `${html.slice(0, startIndex)}<section class="faq-section">${html.slice(
-    startIndex,
-    endIndex,
-  )}</section>${html.slice(endIndex)}`;
-}
-
 function wrapFaqSection(html: string) {
   if (!html || html.includes("faq-section")) return html;
 
-  const schemaWrapped = wrapMatchesWithFaqSection(
-    html,
-    /<div[^>]*class="[^"]*schema-faq-section[^"]*"[^>]*>[\s\S]*?<\/div>/gi,
-  );
-  if (schemaWrapped !== html) return schemaWrapped;
+  const sectionRe =
+    /<(h2|h3)[^>]*>\s*(faq|faqs|frequently asked questions|häufige fragen|haeufige fragen)\s*<\/\1>/i;
 
-  const rankMathWrapped = wrapMatchesWithFaqSection(
-    html,
-    /<div[^>]*class="[^"]*rank-math-faq-item[^"]*"[^>]*>[\s\S]*?<\/div>/gi,
-  );
-  if (rankMathWrapped !== html) return rankMathWrapped;
+  const sectionMatch = html.match(sectionRe);
+  if (!sectionMatch || sectionMatch.index == null) return html;
 
-  const headingRe = /<(h2|h3)[^>]*>([\s\S]*?)<\/\1>/gi;
-  let headingMatch: RegExpExecArray | null;
-  let sectionMatch: { start: number; end: number } | null = null;
+  const startIndex = sectionMatch.index;
+  const afterHeadingIndex = startIndex + sectionMatch[0].length;
+  const afterFaq = html.slice(afterHeadingIndex);
 
-  while ((headingMatch = headingRe.exec(html)) !== null) {
-    const headingText = normalizeFaqHeading(headingMatch[2] || "");
-    if (
-      ["faq", "faqs", "frequently asked questions", "häufige fragen", "haeufige fragen"].includes(
-        headingText,
-      )
-    ) {
-      sectionMatch = {
-        start: headingMatch.index,
-        end: headingMatch.index + headingMatch[0].length,
-      };
-      break;
-    }
-  }
-
-  if (!sectionMatch) return html;
-
-  const afterFaq = html.slice(sectionMatch.end);
   const nextH2 = afterFaq.search(/<h2[^>]*>/i);
-  const endIndex = nextH2 >= 0 ? sectionMatch.end + nextH2 : html.length;
+  const endIndex = nextH2 >= 0 ? afterHeadingIndex + nextH2 : html.length;
 
-  const before = html.slice(0, sectionMatch.start);
-  const faqBlock = html.slice(sectionMatch.start, endIndex);
+  const before = html.slice(0, startIndex);
+  const faqBlock = html.slice(startIndex, endIndex);
   const after = html.slice(endIndex);
 
   return `${before}<section class="faq-section">${faqBlock}</section>${after}`;

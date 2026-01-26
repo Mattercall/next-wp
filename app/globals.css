@@ -222,10 +222,8 @@
 }
 
 .faq-section {
-    background-color: #f9fafb;
-    border: 1px solid rgba(148, 163, 184, 0.25);
+    background-color: #f6f6f1;
     border-radius: 1.5rem;
-    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.08);
     margin-block: 2.5rem;
     padding: 2rem;
 }
@@ -235,48 +233,6 @@
     font-family: var(--font-sans);
     font-size: 14px;
     color: var(--color-neutral-600);
-}
-
-.faq-section h2,
-.faq-section h3 {
-    color: var(--color-neutral-900);
-    font-family: var(--font-sans);
-    font-weight: 600;
-}
-
-.faq-section h2 {
-    font-size: 20px;
-    margin-bottom: 1.25rem;
-}
-
-.faq-section h3 {
-    font-size: 16px;
-    margin-top: 1.25rem;
-}
-
-.faq-section .schema-faq-section,
-.faq-section .rank-math-faq-item {
-    background: #ffffff;
-    border: 1px solid rgba(148, 163, 184, 0.35);
-    border-radius: 1rem;
-    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
-    margin-top: 1rem;
-    padding: 1rem 1.25rem;
-}
-
-.faq-section .schema-faq-question,
-.faq-section .rank-math-question {
-    display: block;
-    font-size: 16px;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    color: var(--color-neutral-900);
-}
-
-.faq-section .schema-faq-answer,
-.faq-section .rank-math-answer {
-    color: var(--color-neutral-600);
-    font-size: 14px;
 }
 
 /* Make sure this wins over Tailwind utilities */

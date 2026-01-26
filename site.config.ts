@@ -8,5 +8,5 @@ export const siteConfig: SiteConfig = {
   site_name: "MatterCall",
   site_description:
     "Done-for-you growth systems for Shopify brands and local businesses.",
-  site_domain: "https://mattercall.com",
+  site_domain: "https://frontend.mattercall.com",
 };

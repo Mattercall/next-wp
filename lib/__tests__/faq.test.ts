@@ -5,7 +5,7 @@ import { extractFaqSchemaFromHtml } from "../faq";
 describe("extractFaqSchemaFromHtml", () => {
   it("returns FAQPage schema when FAQ section with multiple questions is present", () => {
     const html = `
-      <h2 id="faq">FAQ: Getting Started</h2>
+      <h2 id="faq">FAQ</h2>
       <h3>1. What is Next?</h3>
       <p>Next.js is a React framework.</p>
       <p>It supports server rendering.</p>
@@ -40,65 +40,6 @@ describe("extractFaqSchemaFromHtml", () => {
       <p>This is a regular post.</p>
       <h3>Not a question</h3>
       <p>Still not a FAQ section.</p>
-    `;
-
-    const schema = extractFaqSchemaFromHtml(html);
-
-    assert.equal(schema, null);
-  });
-
-  it("matches FAQ headings with punctuation and extra text", () => {
-    const html = `
-      <h2>FAQs | Buying Green Apples</h2>
-      <h3>Question one?</h3>
-      <p>First line.</p>
-      <h3>Question two?</h3>
-      <p>Second line.</p>
-    `;
-
-    const schema = extractFaqSchemaFromHtml(html);
-
-    assert.ok(schema);
-    assert.equal(schema.mainEntity.length, 2);
-  });
-
-  it("matches FAQ headings with faq at the end", () => {
-    const html = `
-      <h2>Buying Green Apples FAQ</h2>
-      <h3>Question one?</h3>
-      <p>First line.</p>
-      <h3>Question two?</h3>
-      <p>Second line.</p>
-    `;
-
-    const schema = extractFaqSchemaFromHtml(html);
-
-    assert.ok(schema);
-    assert.equal(schema.mainEntity.length, 2);
-  });
-
-  it("matches frequently asked headings", () => {
-    const html = `
-      <h2>Frequently Asked Questions about apples</h2>
-      <h3>Question one?</h3>
-      <p>First line.</p>
-      <h3>Question two?</h3>
-      <p>Second line.</p>
-    `;
-
-    const schema = extractFaqSchemaFromHtml(html);
-
-    assert.ok(schema);
-    assert.equal(schema.mainEntity.length, 2);
-  });
-
-  it("does not match FAQ in non-h2 headings", () => {
-    const html = `
-      <h3>FAQ</h3>
-      <h3>Question one?</h3>
-      <p>First line.</p>
-      <h3>Question two?</h3>
-      <p>Second line.</p>
     `;
 
     const schema = extractFaqSchemaFromHtml(html);

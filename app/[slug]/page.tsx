@@ -24,6 +24,7 @@ import {
 import { ProductCardsStrip } from "@/components/featured-cards/product-cards-strip";
 import { FeaturedCardsSection } from "@/components/featured-cards/featured-cards-section";
 import ProductSidebar from "./product-sidebar";
+import { extractFaqSchemaFromHtml } from "@/lib/faq";
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -46,14 +47,6 @@ const TWITTER_SITE = process.env.NEXT_PUBLIC_TWITTER_SITE || ""; // e.g. "@matte
 const PUBLISHER_NAME = process.env.NEXT_PUBLIC_PUBLISHER_NAME || SITE_NAME || "Mattercall";
 const PUBLISHER_LOGO_URL = process.env.NEXT_PUBLIC_PUBLISHER_LOGO_URL || ""; // e.g. "https://frontend.mattercall.com/logo.png"
 
-/**
- * ===== FAQ extraction from WP HTML =====
- * Expected:
- *  - <h2>FAQs</h2> (or FAQ / Häufige Fragen)
- *  - each question in <h3>Question</h3>
- *  - answer content until next <h3> or end of FAQ block
- */
-type FaqItem = { question: string; answerText: string };
 type TocItem = { id: string; text: string };
 type CategoryProduct = {
   name?: string;
@@ -61,53 +54,6 @@ type CategoryProduct = {
   image?: string;
   link?: string;
 };
-
-function decodeEntities(s: string) {
-  return s
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&nbsp;/g, " ");
-}
-
-function extractFaqsFromHtml(html: string): FaqItem[] {
-  if (!html) return [];
-
-  const sectionRe =
-    /<(h2|h3)[^>]*>\s*(faq|faqs|frequently asked questions|häufige fragen|haeufige fragen)\s*<\/\1>/i;
-
-  const sectionMatch = html.match(sectionRe);
-  if (!sectionMatch || sectionMatch.index == null) return [];
-
-  const startIndex = sectionMatch.index + sectionMatch[0].length;
-  const afterFaq = html.slice(startIndex);
-
-  // stop at next h2
-  const nextH2 = afterFaq.search(/<h2[^>]*>/i);
-  const faqBlock = nextH2 >= 0 ? afterFaq.slice(0, nextH2) : afterFaq;
-
-  const qaRe = /<h3[^>]*>([\s\S]*?)<\/h3>([\s\S]*?)(?=<h3[^>]*>|$)/gi;
-
-  const out: FaqItem[] = [];
-  let m: RegExpExecArray | null;
-
-  while ((m = qaRe.exec(faqBlock)) !== null) {
-    const qHtml = m[1] || "";
-    const aHtml = (m[2] || "").trim();
-
-    const question = decodeEntities(stripHtml(qHtml));
-    const answerText = decodeEntities(stripHtml(aHtml));
-
-    if (!question || question.length < 3) continue;
-    if (!answerText || answerText.length < 3) continue;
-
-    out.push({ question, answerText });
-  }
-
-  return out;
-}
 
 function wrapFaqSection(html: string) {
   if (!html || html.includes("faq-section")) return html;
@@ -550,19 +496,7 @@ export default async function Page({
     ""; // ok to be empty; schema image is optional but recommended
 
   // FAQ schema (only if FAQs detected)
-  const faqs = extractFaqsFromHtml(post.content.rendered);
-  const faqSchema =
-    faqs.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqs.map((f) => ({
-            "@type": "Question",
-            name: f.question,
-            acceptedAnswer: { "@type": "Answer", text: f.answerText },
-          })),
-        }
-      : null;
+  const faqSchema = extractFaqSchemaFromHtml(post.content.rendered);
 
   const contentWithEmbeds = renderYoutubeEmbeds(post.content.rendered);
 

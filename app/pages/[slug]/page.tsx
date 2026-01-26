@@ -5,71 +5,13 @@ import {
   getAllPages,
 } from "@/lib/wordpress";
 import { generateContentMetadata, stripHtml } from "@/lib/metadata";
+import { extractFaqSchemaFromHtml } from "@/lib/faq";
 
 import { Section, Container, Article, Prose } from "@/components/craft";
 
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import Script from "next/script";
-
-/**
- * Extract FAQs from WP HTML content.
- * Expected structure:
- *  - A heading: <h2>FAQ</h2> or <h2>FAQs</h2> or <h2>Häufige Fragen</h2> (also works with <h3>)
- *  - Each question as <h3>Question...</h3>
- *  - Answer is the content until the next <h3> or end of FAQ block
- */
-type FaqItem = { question: string; answerText: string };
-
-function decodeEntities(s: string) {
-  return s
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&nbsp;/g, " ");
-}
-
-function extractFaqsFromHtml(html: string): FaqItem[] {
-  if (!html) return [];
-
-  // Find the FAQ section heading
-  const sectionRe =
-    /<(h2|h3)[^>]*>\s*(faq|faqs|frequently asked questions|häufige fragen|haeufige fragen)\s*<\/\1>/i;
-
-  const sectionMatch = html.match(sectionRe);
-  if (!sectionMatch || sectionMatch.index == null) return [];
-
-  const startIndex = sectionMatch.index + sectionMatch[0].length;
-  const afterFaq = html.slice(startIndex);
-
-  // Stop at next H2 to avoid grabbing other sections
-  const nextH2 = afterFaq.search(/<h2[^>]*>/i);
-  const faqBlock = nextH2 >= 0 ? afterFaq.slice(0, nextH2) : afterFaq;
-
-  // Q/A pairs where Q is an H3
-  const qaRe = /<h3[^>]*>([\s\S]*?)<\/h3>([\s\S]*?)(?=<h3[^>]*>|$)/gi;
-
-  const out: FaqItem[] = [];
-  let m: RegExpExecArray | null;
-
-  while ((m = qaRe.exec(faqBlock)) !== null) {
-    const qHtml = m[1] || "";
-    const aHtml = (m[2] || "").trim();
-
-    const question = decodeEntities(stripHtml(qHtml));
-    const answerText = decodeEntities(stripHtml(aHtml));
-
-    // guardrails: skip empty/very short content
-    if (!question || question.length < 3) continue;
-    if (!answerText || answerText.length < 3) continue;
-
-    out.push({ question, answerText });
-  }
-
-  return out;
-}
 
 function wrapFaqSection(html: string) {
   if (!html || html.includes("faq-section")) return html;
@@ -199,23 +141,7 @@ export default async function Page({
   });
 
   // Extract FAQs from the rendered HTML content
-  const faqs = extractFaqsFromHtml(post.content.rendered);
-
-  const faqSchema =
-    faqs.length > 0
-      ? {
-          "@context": "https://schema.org",
-          "@type": "FAQPage",
-          mainEntity: faqs.map((f) => ({
-            "@type": "Question",
-            name: f.question,
-            acceptedAnswer: {
-              "@type": "Answer",
-              text: f.answerText,
-            },
-          })),
-        }
-      : null;
+  const faqSchema = extractFaqSchemaFromHtml(post.content.rendered);
 
   return (
     <Section>

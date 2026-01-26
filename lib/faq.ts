@@ -57,17 +57,16 @@ function htmlToPlainText(html: string) {
 }
 
 function findFaqSectionRange(html: string) {
-  const headingRe = /<h2([^>]*)>([\s\S]*?)<\/h2>/gi;
+  const headingRe = /<(h1|h2|h3)([^>]*)>([\s\S]*?)<\/\1>/gi;
   let match: RegExpExecArray | null;
 
-  const faqHeadingRe = /(?:^|[\s\p{P}])faqs?(?:$|[\s\p{P}])/iu;
-  const frequentlyAskedRe = /frequently\s+asked/i;
-
   while ((match = headingRe.exec(html)) !== null) {
-    const [, attributes, innerHtml] = match;
+    const [, tagName, attributes, innerHtml] = match;
     const text = normalizeWhitespace(decodeEntities(stripHtml(innerHtml)));
+    const idMatch = attributes.match(/id\s*=\s*["']([^"']+)["']/i);
+    const idValue = idMatch?.[1] ?? "";
 
-    if (!faqHeadingRe.test(text) && !frequentlyAskedRe.test(text)) {
+    if (!/faq|faqs/i.test(text) && !/faq/i.test(idValue)) {
       continue;
     }
 
@@ -76,7 +75,7 @@ function findFaqSectionRange(html: string) {
     const nextHeadingOffset = rest.search(/<(h1|h2)\b/i);
     const endIndex = nextHeadingOffset >= 0 ? startIndex + nextHeadingOffset : html.length;
 
-    return { startIndex, endIndex, tagName: "h2" };
+    return { startIndex, endIndex, tagName };
   }
 
   return null;

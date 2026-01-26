@@ -24,13 +24,12 @@ import {
 import { ProductCardsStrip } from "@/components/featured-cards/product-cards-strip";
 import { FeaturedCardsSection } from "@/components/featured-cards/featured-cards-section";
 import ProductSidebar from "./product-sidebar";
-import JsonLd from "@/components/seo/JsonLd";
-import { SITE_URL } from "@/lib/site-url";
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Fragment } from "react";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Play } from "lucide-react";
 
 const blogHeadingTypography =
@@ -40,8 +39,12 @@ const blogHeadingTypography =
  * ===== Site config (set via env if you want) =====
  * Make sure NEXT_PUBLIC_SITE_URL is your real domain (not next-wp.com).
  */
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL || "https://frontend.mattercall.com";
 const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME || ""; // e.g. "Mattercall Blog"
 const TWITTER_SITE = process.env.NEXT_PUBLIC_TWITTER_SITE || ""; // e.g. "@mattercall"
+const PUBLISHER_NAME = process.env.NEXT_PUBLIC_PUBLISHER_NAME || SITE_NAME || "Mattercall";
+const PUBLISHER_LOGO_URL = process.env.NEXT_PUBLIC_PUBLISHER_LOGO_URL || ""; // e.g. "https://frontend.mattercall.com/logo.png"
 
 /**
  * ===== FAQ extraction from WP HTML =====
@@ -129,14 +132,8 @@ function wrapFaqSection(html: string) {
   return `${before}<section class="faq-section">${faqBlock}</section>${after}`;
 }
 
-function resolveCanonicalUrl(value: string, slug: string) {
-  if (!value) return `${SITE_URL}/${slug}`;
-
-  if (value.startsWith("http://") || value.startsWith("https://")) {
-    return value.replace(/^https?:\\/\\/[^/]+/i, SITE_URL);
-  }
-
-  return `${SITE_URL}${value.startsWith("/") ? "" : "/"}${value}`;
+function safeJsonLd(obj: any) {
+  return JSON.stringify(obj).replace(/</g, "\\u003c");
 }
 
 function slugifyHeading(text: string) {
@@ -401,10 +398,11 @@ export async function generateMetadata({
   });
 
   const merged: Metadata = { ...base };
-  const canonicalUrl = resolveCanonicalUrl(canonicalOverride, post.slug);
 
-  merged.alternates = { ...(base.alternates || {}), canonical: canonicalUrl };
-  merged.openGraph = { ...(base.openGraph || {}), url: canonicalUrl };
+  if (canonicalOverride) {
+    merged.alternates = { ...(base.alternates || {}), canonical: canonicalOverride };
+    merged.openGraph = { ...(base.openGraph || {}), url: canonicalOverride };
+  }
 
   if (ogImageOverride) {
     merged.openGraph = { ...(merged.openGraph || {}), images: [{ url: ogImageOverride }] };
@@ -543,12 +541,13 @@ export default async function Page({
   const seoDescription =
     String(meta._next_meta_description ?? "").trim() || stripHtml(post.excerpt.rendered);
 
-  const canonicalUrl = resolveCanonicalUrl(
-    String(meta._next_canonical ?? "").trim(),
-    post.slug,
-  );
+  const canonicalUrl =
+    String(meta._next_canonical ?? "").trim() || `${SITE_URL}/${post.slug}`;
 
-  const featuredImageUrl = featuredMedia?.source_url || "";
+  const imageUrl =
+    String(meta._next_og_image ?? "").trim() ||
+    featuredMedia?.source_url ||
+    ""; // ok to be empty; schema image is optional but recommended
 
   // FAQ schema (only if FAQs detected)
   const faqs = extractFaqsFromHtml(post.content.rendered);
@@ -598,9 +597,18 @@ export default async function Page({
       name: author?.name || "Unknown",
     },
     publisher: {
-      "@id": `${SITE_URL}/#organization`,
+      "@type": "Organization",
+      name: PUBLISHER_NAME,
+      ...(PUBLISHER_LOGO_URL
+        ? {
+            logo: {
+              "@type": "ImageObject",
+              url: PUBLISHER_LOGO_URL,
+            },
+          }
+        : {}),
     },
-    ...(featuredImageUrl ? { image: [featuredImageUrl] } : {}),
+    ...(imageUrl ? { image: [imageUrl] } : {}),
   };
 
   // BreadcrumbList schema (optional)
@@ -650,11 +658,26 @@ export default async function Page({
     <>
       <Section className="pt-0 pb-8 md:pt-0 md:pb-12">
         {/* BlogPosting schema (always) */}
-        <JsonLd data={[blogPostingSchema, breadcrumbSchema]} idPrefix="blog" />
+        <Script
+          id="blogposting-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(blogPostingSchema) }}
+        />
+
+        {/* Breadcrumb schema (optional but recommended) */}
+        <Script
+          id="breadcrumb-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: safeJsonLd(breadcrumbSchema) }}
+        />
 
         {/* FAQ schema only if FAQs exist */}
         {faqSchema && (
-          <JsonLd data={faqSchema} idPrefix="faq" />
+          <Script
+            id="faq-schema"
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: safeJsonLd(faqSchema) }}
+          />
         )}
 
         {hasHeroCta && (

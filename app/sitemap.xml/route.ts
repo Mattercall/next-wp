@@ -1,6 +1,6 @@
 // app/sitemap.xml/route.ts
 import { NextResponse } from "next/server";
-import { SITE_URL } from "@/lib/site-url";
+import { siteConfig } from "@/site.config";
 
 const WP = process.env.WORDPRESS_URL;
 const POSTS_PER_SITEMAP = 1000;
@@ -18,7 +18,7 @@ async function getPublishedPostCount(): Promise<number> {
 }
 
 export async function GET() {
-  const base = SITE_URL.replace(/\/$/, "");
+  const base = siteConfig.site_domain.replace(/\/$/, "");
   const total = await getPublishedPostCount();
   const chunks = Math.max(1, Math.ceil(total / POSTS_PER_SITEMAP));
 

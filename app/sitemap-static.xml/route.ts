@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
-import { SITE_URL } from "@/lib/site-url";
+import { siteConfig } from "@/site.config";
 
 export async function GET() {
-  const base = SITE_URL.replace(/\/$/, "");
+  const base = siteConfig.site_domain.replace(/\/$/, "");
   const now = new Date().toISOString();
 
   const urls = [

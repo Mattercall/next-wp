@@ -38,12 +38,20 @@ function htmlToPlainText(html: string) {
   text = text.replace(/<\/li>/gi, "\n");
   text = text.replace(/<\/(ul|ol)>/gi, "\n");
   text = text.replace(/<(ul|ol)[^>]*>/gi, "\n");
-  text = decodeEntities(stripHtml(text));
+  const separatorRegex = /^\s*([—–-]{2,}|_{2,}|\*{2,})\s*$/;
+  const entitySeparatorRegex = /^\s*(?:&#8212;|&mdash;)\s*$/i;
+  const singleDashRegex = /^\s*[—–]\s*$/;
 
   const lines = text
     .split("\n")
-    .map((line) => normalizeWhitespace(line))
-    .filter(Boolean);
+    .map((line) => normalizeWhitespace(decodeEntities(stripHtml(line))))
+    .filter(Boolean)
+    .filter(
+      (line) =>
+        !separatorRegex.test(line) &&
+        !entitySeparatorRegex.test(line) &&
+        !singleDashRegex.test(line),
+    );
 
   return lines.join("\n").trim();
 }

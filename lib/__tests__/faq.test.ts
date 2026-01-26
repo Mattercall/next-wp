@@ -46,4 +46,30 @@ describe("extractFaqSchemaFromHtml", () => {
 
     assert.equal(schema, null);
   });
+
+  it("strips separator-only lines from FAQ answers", () => {
+    const html = `
+      <h2 id="faq">FAQ</h2>
+      <h3>Question one?</h3>
+      <p>First line.</p>
+      &#8212;
+      <p>Second line.</p>
+      <h3>Question two?</h3>
+      <p>Alpha.</p>
+      <p>&#8212;</p>
+      <p>Beta.</p>
+      <h3>Question three?</h3>
+      <p>Start.</p>
+      <p>—</p>
+      <p>End.</p>
+    `;
+
+    const schema = extractFaqSchemaFromHtml(html);
+
+    assert.ok(schema);
+    assert.equal(schema.mainEntity.length, 3);
+    assert.equal(schema.mainEntity[0].acceptedAnswer.text, "First line.\nSecond line.");
+    assert.equal(schema.mainEntity[1].acceptedAnswer.text, "Alpha.\nBeta.");
+    assert.equal(schema.mainEntity[2].acceptedAnswer.text, "Start.\nEnd.");
+  });
 });

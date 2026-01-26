@@ -65,7 +65,9 @@ export function decodeEntities(text: string): string {
     .replace(/&#039;/g, "'")
     .replace(/&lt;/g, "<")
     .replace(/&gt;/g, ">")
-    .replace(/&nbsp;/g, " ");
+    .replace(/&nbsp;/g, " ")
+    .replace(/&mdash;|&#8212;/gi, "—")
+    .replace(/&ndash;|&#8211;/gi, "–");
 }
 
 export function truncateHtml(html: string, maxWords: number): string {

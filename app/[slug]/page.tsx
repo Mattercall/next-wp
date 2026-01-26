@@ -277,7 +277,7 @@ function buildTocFromHtml(html: string) {
       const text = decodeEntities(stripHtml(inner)).trim();
       if (!text) return match;
 
-      const idMatch = String(attrs).match(/\sid=["']([^"']+)["']/i);
+      const idMatch = String(attrs).match(/id\s*=\s*["']([^"']+)["']/i);
       const existingId = idMatch?.[1];
       const baseSlug = existingId || slugifyHeading(text) || "section";
       const id = getUniqueId(baseSlug);
@@ -288,8 +288,12 @@ function buildTocFromHtml(html: string) {
         return match;
       }
 
-      const spacer = attrs && String(attrs).trim().length > 0 ? " " : "";
-      return `<h2${attrs}${spacer}id="${id}">${inner}</h2>`;
+      const rawAttrs = String(attrs ?? "");
+      const cleanedAttrs = rawAttrs.replace(/\s*id\s*=\s*["'][^"']+["']/i, "");
+      const normalizedAttrs = cleanedAttrs.trim().length
+        ? ` ${cleanedAttrs.trim()}`
+        : "";
+      return `<h2${normalizedAttrs} id="${id}">${inner}</h2>`;
     },
   );
 

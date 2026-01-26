@@ -72,4 +72,19 @@ describe("extractFaqSchemaFromHtml", () => {
     assert.equal(schema.mainEntity[1].acceptedAnswer.text, "Alpha.\nBeta.");
     assert.equal(schema.mainEntity[2].acceptedAnswer.text, "Start.\nEnd.");
   });
+
+  it("detects FAQ headings with punctuation and extra words", () => {
+    const html = `
+      <h2>FAQs: Common questions</h2>
+      <h3>Question one?</h3>
+      <p>First answer.</p>
+      <h3>Question two?</h3>
+      <p>Second answer.</p>
+    `;
+
+    const schema = extractFaqSchemaFromHtml(html);
+
+    assert.ok(schema);
+    assert.equal(schema.mainEntity.length, 2);
+  });
 });

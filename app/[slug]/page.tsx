@@ -24,7 +24,7 @@ import {
 import { ProductCardsStrip } from "@/components/featured-cards/product-cards-strip";
 import { FeaturedCardsSection } from "@/components/featured-cards/featured-cards-section";
 import ProductSidebar from "./product-sidebar";
-import { extractFaqSchemaFromHtml } from "@/lib/faq";
+import { extractFaqSchemaFromHtml, matchesFaqHeadingText } from "@/lib/faq";
 
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -58,24 +58,30 @@ type CategoryProduct = {
 function wrapFaqSection(html: string) {
   if (!html || html.includes("faq-section")) return html;
 
-  const sectionRe =
-    /<(h2|h3)[^>]*>\s*(faq|faqs|frequently asked questions|häufige fragen|haeufige fragen)\s*<\/\1>/i;
+  const headingRe = /<(h2|h3)([^>]*)>([\s\S]*?)<\/\1>/gi;
+  let match: RegExpExecArray | null;
 
-  const sectionMatch = html.match(sectionRe);
-  if (!sectionMatch || sectionMatch.index == null) return html;
+  while ((match = headingRe.exec(html)) !== null) {
+    const innerHtml = match[3] || "";
+    if (!matchesFaqHeadingText(innerHtml)) {
+      continue;
+    }
 
-  const startIndex = sectionMatch.index;
-  const afterHeadingIndex = startIndex + sectionMatch[0].length;
-  const afterFaq = html.slice(afterHeadingIndex);
+    const startIndex = match.index;
+    const afterHeadingIndex = startIndex + match[0].length;
+    const afterFaq = html.slice(afterHeadingIndex);
 
-  const nextH2 = afterFaq.search(/<h2[^>]*>/i);
-  const endIndex = nextH2 >= 0 ? afterHeadingIndex + nextH2 : html.length;
+    const nextH2 = afterFaq.search(/<h2[^>]*>/i);
+    const endIndex = nextH2 >= 0 ? afterHeadingIndex + nextH2 : html.length;
 
-  const before = html.slice(0, startIndex);
-  const faqBlock = html.slice(startIndex, endIndex);
-  const after = html.slice(endIndex);
+    const before = html.slice(0, startIndex);
+    const faqBlock = html.slice(startIndex, endIndex);
+    const after = html.slice(endIndex);
 
-  return `${before}<section class="faq-section">${faqBlock}</section>${after}`;
+    return `${before}<section class="faq-section">${faqBlock}</section>${after}`;
+  }
+
+  return html;
 }
 
 function safeJsonLd(obj: any) {

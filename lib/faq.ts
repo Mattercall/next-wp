@@ -18,8 +18,26 @@ type FaqMatch = {
   answerText: string;
 };
 
+const faqHeadingRegex = /(^|[^a-z0-9])faq(s)?([^a-z0-9]|$)/i;
+const faqPhraseMatchers = [
+  "frequently asked questions",
+  "häufige fragen",
+  "haeufige fragen",
+];
+
 function normalizeWhitespace(value: string) {
   return value.replace(/\s+/g, " ").trim();
+}
+
+export function matchesFaqHeadingText(value: string) {
+  const normalized = normalizeWhitespace(decodeEntities(stripHtml(value)));
+  const lower = normalized.toLowerCase();
+
+  if (faqPhraseMatchers.some((phrase) => lower.includes(phrase))) {
+    return true;
+  }
+
+  return faqHeadingRegex.test(normalized);
 }
 
 function sanitizeQuestion(questionHtml: string) {
@@ -66,7 +84,7 @@ function findFaqSectionRange(html: string) {
     const idMatch = attributes.match(/id\s*=\s*["']([^"']+)["']/i);
     const idValue = idMatch?.[1] ?? "";
 
-    if (!/faq|faqs/i.test(text) && !/faq/i.test(idValue)) {
+    if (!matchesFaqHeadingText(text) && !matchesFaqHeadingText(idValue)) {
       continue;
     }
 

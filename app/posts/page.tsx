@@ -1,5 +1,6 @@
 import {
   getAllCategories,
+  getCategoryById,
   searchCategories,
   getPostsByCategoryPaginated,
 } from "@/lib/wordpress";
@@ -15,11 +16,15 @@ import {
 } from "@/components/posts/category-spotlight";
 import { CategoryChips } from "@/components/posts/category-chips";
 
+import { notFound, permanentRedirect } from "next/navigation";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Blog Posts",
   description: "Browse all our blog posts",
+  alternates: {
+    canonical: "/posts",
+  },
 };
 
 export const dynamic = "auto";
@@ -34,13 +39,48 @@ const trendingConfig = [
 export default async function Page({
   searchParams,
 }: {
-  searchParams: Promise<{
-    category?: string;
-    search?: string;
-  }>;
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
 }) {
   const params = await searchParams;
-  const { category, search } = params;
+  const rawCategory = params.category;
+  const categoryParam = Array.isArray(rawCategory)
+    ? rawCategory[0]
+    : typeof rawCategory === "string"
+      ? rawCategory
+      : undefined;
+  const rawSearch = params.search;
+  const search = Array.isArray(rawSearch)
+    ? rawSearch[0]
+    : typeof rawSearch === "string"
+      ? rawSearch
+      : undefined;
+
+  if (categoryParam) {
+    const categoryId = Number(categoryParam);
+    if (!Number.isFinite(categoryId)) notFound();
+
+    try {
+      const category = await getCategoryById(categoryId);
+      if (!category?.slug) notFound();
+
+      const redirectParams = new URLSearchParams();
+      Object.entries(params).forEach(([key, value]) => {
+        if (key === "category" || value === undefined) return;
+        if (Array.isArray(value)) {
+          value.forEach((entry) => redirectParams.append(key, entry));
+        } else {
+          redirectParams.set(key, value);
+        }
+      });
+
+      const queryString = redirectParams.toString();
+      permanentRedirect(
+        `/category/${category.slug}${queryString ? `?${queryString}` : ""}`
+      );
+    } catch {
+      notFound();
+    }
+  }
 
   // Fetch data based on search parameters using efficient pagination
   const [categories] = await Promise.all([
@@ -71,16 +111,17 @@ export default async function Page({
   );
 
   // Create pagination URL helper
-  const createCategoryUrl = (categoryId: number) => {
+  const createCategoryUrl = (categorySlug: string) => {
     const params = new URLSearchParams();
-    params.set("category", categoryId.toString());
     if (search) params.set("search", search);
-    return `/posts${params.toString() ? `?${params.toString()}` : ""}`;
+    return `/category/${categorySlug}${
+      params.toString() ? `?${params.toString()}` : ""
+    }`;
   };
 
   const trendingSections = resolvedTrending.map((item, index) => ({
     label: item.title,
-    href: item.category ? createCategoryUrl(item.category.id) : "/posts",
+    href: item.category ? createCategoryUrl(item.category.slug) : "/posts",
     accent: getSpotlightAccent(item.category?.slug ?? item.slug),
     posts: trendingResponses[index].data,
   }));
@@ -91,7 +132,7 @@ export default async function Page({
 
   const categorySpotlights = categories.map((item, index) => ({
     label: item.name,
-    href: createCategoryUrl(item.id),
+    href: createCategoryUrl(item.slug),
     accent: getSpotlightAccent(item.slug),
     posts: categorySpotlightResponses[index].data,
   }));
@@ -115,7 +156,7 @@ export default async function Page({
 
           <CategoryChips
             categories={categories}
-            selectedCategory={category}
+            selectedCategory={undefined}
             getCategoryHref={createCategoryUrl}
           />
         </div>

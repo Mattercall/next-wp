@@ -20,7 +20,7 @@ import { cn } from "@/lib/utils";
 type CategoryChipsProps = {
   categories: Category[];
   selectedCategory?: string;
-  getCategoryHref: (categoryId: number) => string;
+  getCategoryHref: (categorySlug: string) => string;
 };
 
 const iconMap: Record<string, typeof Tag> = {
@@ -49,11 +49,11 @@ export function CategoryChips({
       <div className="flex flex-wrap gap-2">
         {categories.map((category) => {
           const Icon = iconMap[category.slug] ?? Tag;
-          const isActive = selectedCategory === category.id.toString();
+          const isActive = selectedCategory === category.slug;
           return (
             <Link
               key={category.id}
-              href={getCategoryHref(category.id)}
+              href={getCategoryHref(category.slug)}
               className={cn(
                 "flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-medium",
                 isActive

@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { siteConfig } from "@/site.config";
+import { getAllCategories } from "@/lib/wordpress";
 
 export async function GET() {
   const base = siteConfig.site_domain.replace(/\/$/, "");
   const now = new Date().toISOString();
+  const categories = await getAllCategories();
 
   const urls = [
     `${base}/`,
@@ -12,6 +14,7 @@ export async function GET() {
     `${base}/posts/authors`,
     `${base}/posts/categories`,
     `${base}/posts/tags`,
+    ...categories.map((category) => `${base}/category/${category.slug}`),
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>

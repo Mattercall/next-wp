@@ -634,7 +634,7 @@ export default async function Page({
               "@type": "ListItem",
               position: 3,
               name: category.name,
-              item: `${SITE_URL}/posts/?category=${category.id}`,
+              item: `${SITE_URL}/category/${category.slug}`,
             },
             {
               "@type": "ListItem",
@@ -784,7 +784,7 @@ export default async function Page({
 
                     {category?.name && (
                       <Link
-                        href={`/posts/?category=${category.id}`}
+                        href={`/category/${category.slug}`}
                         className={cn(
                           badgeVariants({ variant: "outline" }),
                           "no-underline!",

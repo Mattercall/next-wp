@@ -6,7 +6,7 @@ import {
   getCategoriesByIds,
   getAllPostSlugs,
 } from "@/lib/wordpress";
-import { generateContentMetadata, stripHtml } from "@/lib/metadata";
+import { decodeEntities, generateContentMetadata, stripHtml } from "@/lib/metadata";
 
 import { Section, Container, Article, Prose } from "@/components/craft";
 import { badgeVariants } from "@/components/ui/badge";

@@ -58,6 +58,16 @@ export function stripHtml(html: string): string {
   return html.replace(/<[^>]*>/g, "").trim();
 }
 
+export function decodeEntities(text: string): string {
+  return text
+    .replace(/&amp;/g, "&")
+    .replace(/&quot;/g, '"')
+    .replace(/&#039;/g, "'")
+    .replace(/&lt;/g, "<")
+    .replace(/&gt;/g, ">")
+    .replace(/&nbsp;/g, " ");
+}
+
 export function truncateHtml(html: string, maxWords: number): string {
   const text = html.replace(/<[^>]*>/g, "").trim();
   const words = text.split(/\s+/);

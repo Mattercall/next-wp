@@ -913,16 +913,16 @@ export default async function Page({
             <div className="flex flex-col justify-center gap-4 p-6 sm:p-8 lg:p-12">
               <div className="space-y-3">
                 <h2 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-                  Aktuelle Neuigkeiten von Shopify erfahren
+                  Latest updates from Mattercall today
                 </h2>
                 <p className="text-sm text-muted-foreground sm:text-base">
-                  Abonniere unseren Blog und erhalte kostenlose E-Commerce-Tipps,
-                  Inspiration und Ressourcen direkt in deinem Posteingang.
+                  Subscribe to our blog and get free tips, inspiration and
+                  resources in your inbox.
                 </p>
               </div>
               <form className="space-y-3" aria-label="Newsletter anmelden">
                 <label htmlFor="newsletter-email" className="sr-only">
-                  E-Mail-Adresse
+                  Email
                 </label>
                 <div className="flex flex-col gap-3 sm:flex-row">
                   <Input
@@ -930,19 +930,19 @@ export default async function Page({
                     name="email"
                     type="email"
                     autoComplete="email"
-                    placeholder="E-Mail-Adresse hier eingeben"
+                    placeholder="Enter email address"
                     className="rounded-full bg-background text-foreground"
                   />
                   <Button
                     type="submit"
                     className="h-10 rounded-full bg-emerald-400 px-6 text-sm font-semibold text-foreground hover:bg-emerald-500"
                   >
-                    Abonnieren
+                    Subscribe
                   </Button>
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  Du kannst dich jederzeit abmelden. Mit der Eingabe deiner
-                  E-Mail-Adresse stimmst du dem Erhalt von Marketing-E-Mails zu.
+                  You can unsubscribe anytime. By entering your email address,
+                  you agree to receive marketing emails from Mattercall.
                 </p>
               </form>
             </div>
@@ -952,20 +952,20 @@ export default async function Page({
         <div className="bg-emerald-400 text-foreground">
           <div className="mx-auto flex max-w-5xl flex-col items-center justify-center px-6 py-12 text-center sm:px-8 lg:py-16">
             <h2 className="text-3xl font-semibold uppercase tracking-tight sm:text-4xl lg:text-5xl">
-              <span className="block">MIT SHOPIFY</span>
-              <span className="block">ÜBERALL</span>
-              <span className="block">VERKAUFEN</span>
+              <span className="block">WITH MATTERCALL</span>
+              <span className="block">EVERYWHERE</span>
+              <span className="block">SELL</span>
             </h2>
             <p className="mt-4 max-w-2xl text-sm text-foreground/80 sm:text-base">
-              Learning by Doing: Teste Shopify kostenlos und entdecke alle Tools, die
-              du für die Gründung, den Betrieb und den Ausbau deines Business
-              benötigst.
+              Learning by doing: Try Mattercall free and discover the tools you
+              need to start, run, and grow your business with real customer
+              conversations.
             </p>
             <Button className="mt-6 rounded-full px-6" size="lg">
-              Kostenlos starten
+              Start free
             </Button>
             <p className="mt-3 text-xs text-foreground/80">
-              Kostenlos einsteigen und 3 Monate nur 1 €/Monat zahlen
+              Start free and pay 1 €/month for 3 months
             </p>
           </div>
         </div>

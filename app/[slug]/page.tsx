@@ -239,6 +239,17 @@ function extractLeadingMedia(html: string) {
   return { mediaHtml: match[0], contentHtml: `${before}${after}` };
 }
 
+function fixMalformedHeadingIds(html: string) {
+  if (!html) return html;
+  return html.replace(/<h([1-6])id=/gi, "<h$1 id=");
+}
+
+function validateNoMalformedHeadingIds(html: string) {
+  if (/<h[1-6]id=/i.test(html)) {
+    console.warn("Post content still contains malformed heading id attributes.");
+  }
+}
+
 function buildTocFromHtml(html: string) {
   const toc: TocItem[] = [];
   const slugCounts = new Map<string, number>();
@@ -499,11 +510,13 @@ export default async function Page({
   const faqSchema = extractFaqSchemaFromHtml(post.content.rendered);
 
   const contentWithEmbeds = renderYoutubeEmbeds(post.content.rendered);
+  const contentWithFixedHeadingIds = fixMalformedHeadingIds(contentWithEmbeds);
+  validateNoMalformedHeadingIds(contentWithFixedHeadingIds);
 
   const { mediaHtml: leadingMediaHtml, contentHtml: contentForToc } =
     featuredMedia?.source_url
-      ? { mediaHtml: null, contentHtml: contentWithEmbeds }
-      : extractLeadingMedia(contentWithEmbeds);
+      ? { mediaHtml: null, contentHtml: contentWithFixedHeadingIds }
+      : extractLeadingMedia(contentWithFixedHeadingIds);
 
   const isLeadingIframe = Boolean(leadingMediaHtml?.match(/<iframe/i));
 

@@ -260,13 +260,13 @@ export function Footer() {
       <div className="bg-primary text-primary-foreground dark:bg-secondary dark:text-secondary-foreground">
         <Container className="not-prose py-6 text-center text-sm">
           <p className="mb-1">
-            © 2024 Atlas Growth Systems. All Rights Reserved.
+            © 2026 MatterCall Marketing . All Rights Reserved.
           </p>
           <Link
-            href="https://atlasgrowthsystems.com"
+            href="https://mattercall.com"
             className="hover:underline underline-offset-4"
           >
-            atlasgrowthsystems.com
+            mattercall.com
           </Link>
         </Container>
       </div>

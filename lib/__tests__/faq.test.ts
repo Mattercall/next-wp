@@ -47,6 +47,51 @@ describe("extractFaqSchemaFromHtml", () => {
     assert.equal(schema, null);
   });
 
+  it("detects FAQ sections using FAQ or Frequently Asked in H2 headings", () => {
+    const html = `
+      <h2>FAQ: Buying Green Apples</h2>
+      <h3>Question one?</h3>
+      <p>Answer one.</p>
+      <h3>Question two?</h3>
+      <p>Answer two.</p>
+    `;
+
+    const schema = extractFaqSchemaFromHtml(html);
+
+    assert.ok(schema);
+    assert.equal(schema.mainEntity.length, 2);
+  });
+
+  it("detects FAQ sections when H2 uses Frequently Asked wording", () => {
+    const html = `
+      <h2>Frequently Asked Questions about Next.js</h2>
+      <h3>Question one?</h3>
+      <p>Answer one.</p>
+      <h3>Question two?</h3>
+      <p>Answer two.</p>
+    `;
+
+    const schema = extractFaqSchemaFromHtml(html);
+
+    assert.ok(schema);
+    assert.equal(schema.mainEntity.length, 2);
+  });
+
+  it("does not detect FAQ sections based on non-H2 headings", () => {
+    const html = `
+      <h1>FAQ</h1>
+      <h3>Question one?</h3>
+      <p>Answer one.</p>
+      <h2>Overview</h2>
+      <h3>Question two?</h3>
+      <p>Answer two.</p>
+    `;
+
+    const schema = extractFaqSchemaFromHtml(html);
+
+    assert.equal(schema, null);
+  });
+
   it("strips separator-only lines from FAQ answers", () => {
     const html = `
       <h2 id="faq">FAQ</h2>

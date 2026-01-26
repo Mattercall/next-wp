@@ -244,9 +244,11 @@ function fixMalformedHeadingIds(html: string) {
   return html.replace(/<h([1-6])id=/gi, "<h$1 id=");
 }
 
+const malformedHeadingIdRegex = /<h[1-6]id=/i;
+
 function validateNoMalformedHeadingIds(html: string) {
-  if (/<h[1-6]id=/i.test(html)) {
-    console.warn("Post content still contains malformed heading id attributes.");
+  if (malformedHeadingIdRegex.test(html)) {
+    throw new Error("Post content still contains malformed heading id attributes.");
   }
 }
 

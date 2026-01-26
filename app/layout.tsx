@@ -27,6 +27,29 @@ export const metadata: Metadata = {
   },
 };
 
+const SITE_URL = "https://mattercall.com";
+
+const organization = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${SITE_URL}/#organization`,
+  name: "MatterCall",
+  url: SITE_URL,
+  // use a stable logo URL you control (not a build-hash path if possible)
+  logo: `${SITE_URL}/logo.png`,
+  sameAs: [
+    // add your real social URLs
+  ],
+};
+
+const website = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${SITE_URL}/#website`,
+  name: "MatterCall",
+  url: SITE_URL,
+};
+
 export default function RootLayout({
   children,
 }: {
@@ -34,7 +57,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <head />
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
+        />
+      </head>
       <body className={cn("min-h-screen font-sans antialiased", font.variable)}>
         <ThemeProvider
           attribute="class"

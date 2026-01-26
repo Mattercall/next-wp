@@ -9,6 +9,8 @@ import { Analytics } from "@vercel/analytics/react";
 
 import { siteConfig } from "@/site.config";
 import { cn } from "@/lib/utils";
+import { SITE_URL } from "@/lib/site-url";
+import JsonLd from "@/components/seo/JsonLd";
 
 import type { Metadata } from "next";
 
@@ -18,16 +20,13 @@ const font = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "WordPress & Next.js Starter by 9d8",
-  description:
-    "A starter template for Next.js with WordPress as a headless CMS.",
-  metadataBase: new URL(siteConfig.site_domain),
-  alternates: {
-    canonical: "/",
+  title: {
+    default: "MatterCall",
+    template: "%s | MatterCall",
   },
+  description: siteConfig.site_description,
+  metadataBase: new URL(SITE_URL),
 };
-
-const SITE_URL = "https://mattercall.com";
 
 const organization = {
   "@context": "https://schema.org",
@@ -35,11 +34,16 @@ const organization = {
   "@id": `${SITE_URL}/#organization`,
   name: "MatterCall",
   url: SITE_URL,
-  // use a stable logo URL you control (not a build-hash path if possible)
-  logo: `${SITE_URL}/logo.png`,
-  sameAs: [
-    // add your real social URLs
+  logo: `${SITE_URL}/logo.svg`,
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      url: `${SITE_URL}/contact`,
+    },
   ],
+  // add your real social URLs when ready
+  sameAs: [],
 };
 
 const website = {
@@ -58,14 +62,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(organization) }}
-        />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(website) }}
-        />
+        <JsonLd data={[organization, website]} idPrefix="global" />
       </head>
       <body className={cn("min-h-screen font-sans antialiased", font.variable)}>
         <ThemeProvider

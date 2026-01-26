@@ -1,4 +1,4 @@
-import { stripHtml } from "@/lib/metadata";
+import { decodeEntities, stripHtml } from "@/lib/metadata";
 
 export type FAQPage = {
   "@context": "https://schema.org";
@@ -17,16 +17,6 @@ type FaqMatch = {
   question: string;
   answerText: string;
 };
-
-function decodeEntities(text: string) {
-  return text
-    .replace(/&amp;/g, "&")
-    .replace(/&quot;/g, '"')
-    .replace(/&#039;/g, "'")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    .replace(/&nbsp;/g, " ");
-}
 
 function normalizeWhitespace(value: string) {
   return value.replace(/\s+/g, " ").trim();

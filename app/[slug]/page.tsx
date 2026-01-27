@@ -84,6 +84,17 @@ function wrapFaqSection(html: string) {
   return html;
 }
 
+function wrapTablesForScroll(html: string) {
+  if (!html || html.includes("table-scroll")) return html;
+
+  const withOpenWrappers = html.replace(
+    /<table\b[^>]*>/gi,
+    (match) => `<div class="table-scroll">${match}`,
+  );
+
+  return withOpenWrappers.replace(/<\/table>/gi, "</table></div>");
+}
+
 function safeJsonLd(obj: any) {
   return JSON.stringify(obj).replace(/</g, "\\u003c");
 }
@@ -535,9 +546,10 @@ export default async function Page({
   const { toc: tocItems, content: contentWithAnchors } =
     buildTocFromHtml(contentForToc);
   const contentWithFaqStyles = wrapFaqSection(contentWithAnchors);
+  const contentWithScrollableTables = wrapTablesForScroll(contentWithFaqStyles);
   const contentSections = hasProductCards
-    ? splitContentByEverySecondH2(contentWithFaqStyles, 4)
-    : [{ html: contentWithFaqStyles, insertAfter: false }];
+    ? splitContentByEverySecondH2(contentWithScrollableTables, 4)
+    : [{ html: contentWithScrollableTables, insertAfter: false }];
 
   // BlogPosting schema
   const blogPostingSchema: any = {
@@ -801,6 +813,7 @@ export default async function Page({
                   className={cn(
                     blogHeadingTypography,
                     "max-w-none w-full [&_iframe]:aspect-video [&_iframe]:h-auto [&_iframe]:w-full [&_iframe]:rounded-lg [&_iframe]:border [&_iframe]:border-border/70 [&_iframe]:shadow-sm [&_img]:w-full [&_img]:rounded-lg [&_img]:border [&_img]:border-border/70 [&_img]:shadow-sm [&_video]:w-full [&_video]:rounded-lg [&_video]:border [&_video]:border-border/70 [&_video]:shadow-sm [&_p]:font-sans [&_p]:text-[14px] [&_p]:text-[color:var(--color-neutral-600)] [&_li]:font-sans [&_li]:text-[14px] [&_li]:text-[color:var(--color-neutral-600)] [&_blockquote]:font-sans [&_blockquote]:text-[14px] [&_blockquote]:text-[color:var(--color-neutral-600)]",
+                    "[&_.table-scroll]:max-w-full [&_.table-scroll]:overflow-x-auto [&_.table-scroll]:[-webkit-overflow-scrolling:touch] [&_.table-scroll]:my-4 [&_.table-scroll>table]:w-full [&_.table-scroll>table]:max-w-full [&_.table-scroll>table]:min-w-0 [&_table]:max-w-full [&_table]:w-full [&_table]:min-w-0 [&_th]:break-words [&_th]:[overflow-wrap:anywhere] [&_th]:[word-break:break-word] [&_th]:[hyphens:auto] [&_td]:break-words [&_td]:[overflow-wrap:anywhere] [&_td]:[word-break:break-word] [&_td]:[hyphens:auto]",
                   )}
                 >
                   {contentSections.map((section, index) => (

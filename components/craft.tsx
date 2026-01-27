@@ -156,7 +156,6 @@ const styles = {
     media: [
       "[&_img]:rounded-lg [&_img]:border [&_img]:my-4 [&_img]:max-w-full [&_img]:h-auto",
       "[&_video]:rounded-lg [&_video]:border [&_video]:my-4",
-      "[&_iframe]:w-full [&_iframe]:max-w-full [&_iframe]:h-auto",
       "[&_figure]:my-4",
       "[&_figure_img]:my-0",
       "[&_figure_figcaption]:text-sm [&_figure_figcaption]:mt-2 [&_figure_figcaption]:text-muted-foreground",

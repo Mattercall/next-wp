@@ -192,7 +192,7 @@ export default async function Page({
         </Prose>
 
         <Article
-          className="[&_p]:font-sans [&_p]:text-[14px] [&_p]:text-[color:var(--color-neutral-600)] [&_li]:font-sans [&_li]:text-[14px] [&_li]:text-[color:var(--color-neutral-600)] [&_blockquote]:font-sans [&_blockquote]:text-[14px] [&_blockquote]:text-[color:var(--color-neutral-600)] [&_table]:block [&_table]:max-w-full [&_table]:overflow-x-auto [&_table]:[-webkit-overflow-scrolling:touch] [&_table]:table-auto [&_th]:break-words [&_th]:[overflow-wrap:anywhere] [&_th]:whitespace-normal [&_td]:break-words [&_td]:[overflow-wrap:anywhere] [&_td]:whitespace-normal"
+          className="[&_p]:font-sans [&_p]:text-[14px] [&_p]:text-[color:var(--color-neutral-600)] [&_li]:font-sans [&_li]:text-[14px] [&_li]:text-[color:var(--color-neutral-600)] [&_blockquote]:font-sans [&_blockquote]:text-[14px] [&_blockquote]:text-[color:var(--color-neutral-600)]"
           dangerouslySetInnerHTML={{
             __html: wrapFaqSection(post.content.rendered),
           }}

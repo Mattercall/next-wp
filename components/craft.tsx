@@ -147,13 +147,11 @@ const styles = {
       "[&_pre_code]:block [&_pre_code]:w-full",
     ],
     tables: [
-      "[&_.TyagGW_tableContainer]:max-w-full [&_.TyagGW_tableContainer]:overflow-x-auto",
-      "[&_.TyagGW_tableWrapper]:max-w-full [&_.TyagGW_tableWrapper]:overflow-x-auto",
-      "[&_table]:my-4 [&_table]:w-full [&_table]:max-w-full [&_table]:table-auto [&_table]:border [&_table]:rounded-lg [&_table]:overflow-x-auto [&_table]:block sm:[&_table]:table",
+      "[&_table]:w-full [&_table]:my-4 [&_table]:overflow-x-auto [&_table]:rounded-lg [&_table]:border",
       "[&_thead]:bg-muted/50",
       "[&_tr]:border-b [&_tr]:last:border-0",
-      "[&_th]:border-r [&_th]:px-4 [&_th]:py-2 [&_th]:text-left [&_th]:font-semibold [&_th]:last:border-0 [&_th]:break-words [&_th]:[overflow-wrap:anywhere]",
-      "[&_td]:border-r [&_td]:px-4 [&_td]:py-2 [&_td]:last:border-0 [&_td]:break-words [&_td]:[overflow-wrap:anywhere]",
+      "[&_th]:border-r [&_th]:px-4 [&_th]:py-2 [&_th]:text-left [&_th]:font-semibold [&_th]:last:border-0",
+      "[&_td]:border-r [&_td]:px-4 [&_td]:py-2 [&_td]:last:border-0",
     ],
     media: [
       "[&_img]:rounded-lg [&_img]:border [&_img]:my-4 [&_img]:max-w-full [&_img]:h-auto",

@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 
+import { isCdnImage } from "@/lib/images";
 import { cn } from "@/lib/utils";
 import { Post } from "@/lib/wordpress.d";
 
@@ -175,6 +176,7 @@ export function CategorySpotlightRow({ post }: { post: Post }) {
             width={48}
             height={48}
             className="h-full w-full object-cover"
+            unoptimized={isCdnImage(media.source_url)}
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-xs font-semibold text-muted-foreground">
@@ -191,6 +193,7 @@ export function CategorySpotlightRow({ post }: { post: Post }) {
               width={16}
               height={16}
               className="h-4 w-4 rounded-full"
+              unoptimized={isCdnImage(providerAvatar)}
             />
           ) : (
             <span className="flex h-4 w-4 items-center justify-center rounded-full bg-muted text-[10px] font-semibold text-foreground">

@@ -18,9 +18,19 @@ const font = FontSans({
 });
 
 export const metadata: Metadata = {
-  title: "WordPress & Next.js Starter by 9d8",
+  title: "MatterCall – SEO, Ads & Automation for Shopify & Local Businesses",
   description:
-    "A starter template for Next.js with WordPress as a headless CMS.",
+    "Done-for-you growth systems: conversion pages, Google & Meta ads, SEO backlinks, and follow-up automation to drive more orders and bookings.",
+  openGraph: {
+    title: "MatterCall – SEO, Ads & Automation for Shopify & Local Businesses",
+    description:
+      "Done-for-you growth systems: conversion pages, Google & Meta ads, SEO backlinks, and follow-up automation to drive more orders and bookings.",
+  },
+  twitter: {
+    title: "MatterCall – SEO, Ads & Automation for Shopify & Local Businesses",
+    description:
+      "Done-for-you growth systems: conversion pages, Google & Meta ads, SEO backlinks, and follow-up automation to drive more orders and bookings.",
+  },
   metadataBase: new URL(siteConfig.site_domain),
   alternates: {
     canonical: "/",

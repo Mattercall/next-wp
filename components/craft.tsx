@@ -147,11 +147,11 @@ const styles = {
       "[&_pre_code]:block [&_pre_code]:w-full",
     ],
     tables: [
-      "[&_table]:w-full [&_table]:my-4 [&_table]:overflow-x-auto [&_table]:rounded-lg [&_table]:border",
+      "[&_table]:w-full [&_table]:my-4 [&_table]:overflow-x-auto [&_table]:rounded-lg [&_table]:border [&_table]:font-sans [&_table]:text-xs [&_table]:leading-4 sm:[&_table]:text-sm sm:[&_table]:leading-5 lg:[&_table]:text-base lg:[&_table]:leading-6",
       "[&_thead]:bg-muted/50",
       "[&_tr]:border-b [&_tr]:last:border-0",
-      "[&_th]:border-r [&_th]:px-4 [&_th]:py-2 [&_th]:text-left [&_th]:font-semibold [&_th]:last:border-0",
-      "[&_td]:border-r [&_td]:px-4 [&_td]:py-2 [&_td]:last:border-0",
+      "[&_th]:border-r [&_th]:px-2.5 [&_th]:py-1.5 sm:[&_th]:px-3 sm:[&_th]:py-2 lg:[&_th]:px-4 [&_th]:text-left [&_th]:font-semibold [&_th]:last:border-0",
+      "[&_td]:border-r [&_td]:px-2.5 [&_td]:py-1.5 sm:[&_td]:px-3 sm:[&_td]:py-2 lg:[&_td]:px-4 [&_td]:last:border-0",
     ],
     media: [
       "[&_img]:rounded-lg [&_img]:border [&_img]:my-4 [&_img]:max-w-full [&_img]:h-auto",

@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Post } from "@/lib/wordpress.d";
-import { isCdnImage } from "@/lib/images";
 import { cn } from "@/lib/utils";
 import { truncateHtml } from "@/lib/metadata";
 
@@ -33,7 +32,6 @@ export function PostCard({ post }: { post: Post }) {
               alt={post.title?.rendered || "Post thumbnail"}
               width={400}
               height={200}
-              unoptimized={isCdnImage(media.source_url)}
             />
           ) : (
             <div className="flex items-center justify-center w-full h-full text-muted-foreground">

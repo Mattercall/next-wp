@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { Star } from "lucide-react";
 
-import { isCdnImage } from "@/lib/images";
 import { Post } from "@/lib/wordpress.d";
 import { cn } from "@/lib/utils";
 
@@ -98,7 +97,6 @@ export function TrendingColumns({ columns }: { columns: TrendingColumn[] }) {
                             width={48}
                             height={48}
                             className="h-full w-full object-cover"
-                            unoptimized={isCdnImage(media.source_url)}
                           />
                         ) : (
                           <div

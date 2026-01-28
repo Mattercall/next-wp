@@ -25,6 +25,17 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!webhookUrl || !checkoutUrl) {
+      console.error("Advertising lead env vars missing after validation", {
+        webhookUrl,
+        checkoutUrl,
+      });
+      return NextResponse.json(
+        { error: "Server configuration error." },
+        { status: 500 }
+      );
+    }
+
     const webhookResponse = await fetch(webhookUrl, {
       method: "POST",
       headers: {

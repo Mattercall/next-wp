@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { getServiceEnvConfig } from "@/lib/service-env";
 
 const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
 
@@ -13,8 +14,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const webhookUrl = process.env.WEBDESIGN_FORM_WEBHOOK;
-    const checkoutUrl = process.env.WEBDESIGN_STRIPE_CHECKOUT_URL;
+    const { webhookUrl, checkoutUrl } = getServiceEnvConfig("seo-backlink");
 
     if (!webhookUrl || !checkoutUrl) {
       return NextResponse.json(

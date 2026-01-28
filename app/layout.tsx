@@ -1,11 +1,13 @@
 import "./globals.css";
 
 import { Inter as FontSans } from "next/font/google";
+import Script from "next/script";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
 import { CookieConsent } from "@/components/cookie-consent";
 import { Analytics } from "@vercel/analytics/react";
+import { MetaPixel } from "@/components/MetaPixel";
 
 import { siteConfig } from "@/site.config";
 import { cn } from "@/lib/utils";
@@ -60,6 +62,9 @@ const website = {
   url: SITE_URL,
 };
 
+// Set NEXT_PUBLIC_META_PIXEL_ID in your env (e.g. .env.local) to enable Meta Pixel.
+const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+
 export default function RootLayout({
   children,
 }: {
@@ -78,6 +83,33 @@ export default function RootLayout({
         />
       </head>
       <body className={cn("min-h-screen font-sans antialiased", font.variable)}>
+        {metaPixelId ? (
+          <>
+            <Script
+              id="meta-pixel"
+              strategy="afterInteractive"
+              dangerouslySetInnerHTML={{
+                __html: `!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?` +
+                  `n.callMethod.apply(n,arguments):n.queue.push(arguments)};` +
+                  `if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';` +
+                  `n.queue=[];t=b.createElement(e);t.async=!0;` +
+                  `t.src=v;s=b.getElementsByTagName(e)[0];` +
+                  `s.parentNode.insertBefore(t,s)}(window, document,'script',` +
+                  `'https://connect.facebook.net/en_US/fbevents.js');` +
+                  `fbq('init', '${metaPixelId}');`,
+              }}
+            />
+            <noscript>
+              <img
+                height="1"
+                width="1"
+                style={{ display: "none" }}
+                src={`https://www.facebook.com/tr?id=${metaPixelId}&ev=PageView&noscript=1`}
+                alt=""
+              />
+            </noscript>
+          </>
+        ) : null}
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -89,6 +121,7 @@ export default function RootLayout({
           <Footer />
           <CookieConsent />
         </ThemeProvider>
+        <MetaPixel />
         <Analytics />
       </body>
     </html>

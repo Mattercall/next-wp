@@ -24,6 +24,17 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!webhookUrl || !checkoutUrl) {
+      console.error("Missing SEO lead env vars after check", {
+        webhookUrlPresent: Boolean(webhookUrl),
+        checkoutUrlPresent: Boolean(checkoutUrl),
+      });
+      return NextResponse.json(
+        { error: "Missing configuration for SEO lead capture." },
+        { status: 500 }
+      );
+    }
+
     const webhookResponse = await fetch(webhookUrl, {
       method: "POST",
       headers: {

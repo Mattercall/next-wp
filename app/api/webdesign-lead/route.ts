@@ -14,11 +14,13 @@ export async function POST(request: Request) {
       );
     }
 
-    const { webhookUrl, checkoutUrl } = getServiceEnvConfig("webdesign");
+    const { webhookUrl, checkoutUrl, missingKeys } =
+      getServiceEnvConfig("webdesign");
 
-    if (!webhookUrl || !checkoutUrl) {
+    if (missingKeys.length > 0) {
+      console.error("Missing webdesign lead env vars", { missingKeys });
       return NextResponse.json(
-        { error: "Server configuration error." },
+        { error: `Missing env var: ${missingKeys.join(", ")}` },
         { status: 500 }
       );
     }

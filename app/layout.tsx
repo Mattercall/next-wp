@@ -2,6 +2,7 @@ import "./globals.css";
 
 import { Inter as FontSans } from "next/font/google";
 import Script from "next/script";
+import { Suspense } from "react";
 import { ThemeProvider } from "@/components/theme/theme-provider";
 import { Nav } from "@/components/layout/nav";
 import { Footer } from "@/components/layout/footer";
@@ -121,7 +122,9 @@ export default function RootLayout({
           <Footer />
           <CookieConsent />
         </ThemeProvider>
-        <MetaPixel />
+        <Suspense fallback={null}>
+          <MetaPixel />
+        </Suspense>
         <Analytics />
       </body>
     </html>

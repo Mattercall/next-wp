@@ -14,7 +14,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { webhookUrl, checkoutUrl } = getServiceEnvConfig("advertising");
+    const { webhookUrl, checkoutUrl } = getServiceEnvConfig("seo");
 
     if (!webhookUrl || !checkoutUrl) {
       return NextResponse.json(
@@ -30,7 +30,7 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         email,
-        source: "service/advertising",
+        source: "service/seo",
         timestamp: new Date().toISOString(),
       }),
     });
@@ -44,7 +44,7 @@ export async function POST(request: Request) {
 
     return NextResponse.json({ checkoutUrl });
   } catch (error) {
-    console.error("advertising lead capture failed", error);
+    console.error("seo lead capture failed", error);
     return NextResponse.json(
       { error: "Something went wrong. Please try again." },
       { status: 500 }

@@ -254,7 +254,7 @@ export default function SeoLanding() {
     setErrorMessage(null);
 
     try {
-      const response = await fetch("/api/webdesign-lead", {
+      const response = await fetch("/api/seo-lead", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

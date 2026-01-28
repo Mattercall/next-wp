@@ -25,6 +25,17 @@ export async function POST(request: Request) {
       );
     }
 
+    if (!webhookUrl || !checkoutUrl) {
+      console.error("Missing seo-backlink lead env vars", {
+        webhookUrl,
+        checkoutUrl,
+      });
+      return NextResponse.json(
+        { error: "Missing required configuration." },
+        { status: 500 }
+      );
+    }
+
     const webhookResponse = await fetch(webhookUrl, {
       method: "POST",
       headers: {

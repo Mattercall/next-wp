@@ -71,6 +71,11 @@ const faqs = [
   "Can you align with our existing brand voice?",
 ];
 
+const cardSurfaceClasses =
+  "rounded-3xl border border-neutral-100 bg-white shadow-[0_12px_30px_rgba(0,0,0,0.06)]";
+const cardBadgeClasses =
+  "inline-flex rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-neutral-600";
+
 const prospectFacts = [
   {
     title: "FACT 1",
@@ -335,7 +340,7 @@ export default function SeoLanding() {
   };
 
   return (
-    <main className="bg-background text-foreground">
+    <main className="bg-background font-sans text-foreground">
       <section className="relative overflow-hidden bg-background pb-16 pt-12 sm:pb-20 sm:pt-16">
         <div className="absolute inset-0">
           {hasHeroVideo ? (
@@ -459,10 +464,13 @@ export default function SeoLanding() {
               {prospectFacts.map((fact) => (
                 <div
                   key={fact.title}
-                  className="mx-auto w-full max-w-[320px] rounded-[4px] bg-white px-5 pb-5 pt-4 text-center shadow-[0_8px_12px_rgba(0,0,0,0.15)] lg:absolute lg:top-[238px] lg:w-[253px]"
+                  className={cn(
+                    "mx-auto w-full max-w-[320px] px-5 pb-5 pt-4 text-center lg:absolute lg:top-[238px] lg:w-[253px]",
+                    cardSurfaceClasses
+                  )}
                   style={{ left: `${fact.left}px` }}
                 >
-                  <div className="mx-auto flex h-[175px] w-full items-center justify-center">
+                  <div className="mx-auto flex h-[175px] w-full items-center justify-center overflow-hidden rounded-2xl bg-neutral-50">
                     <img
                       src={fact.imageUrl}
                       alt=""
@@ -470,10 +478,10 @@ export default function SeoLanding() {
                       loading="lazy"
                     />
                   </div>
-                  <div className="mt-3 text-[13px] font-bold uppercase text-[#6b6b6b]">
-                    {fact.title}
+                  <div className="mt-4">
+                    <span className={cardBadgeClasses}>{fact.title}</span>
                   </div>
-                  <p className="mt-2 whitespace-pre-line text-[13px] leading-[1.35] text-[#5e5e5e]">
+                  <p className="mt-3 whitespace-pre-line text-[13px] leading-[1.35] text-neutral-500">
                     {fact.body}
                   </p>
                 </div>
@@ -559,10 +567,13 @@ export default function SeoLanding() {
               {prospectFactsSecondary.map((fact) => (
                 <div
                   key={fact.title}
-                  className="mx-auto w-full max-w-[320px] rounded-[4px] bg-white px-5 pb-5 pt-4 text-center shadow-[0_8px_12px_rgba(0,0,0,0.15)] lg:absolute lg:top-[238px] lg:w-[253px]"
+                  className={cn(
+                    "mx-auto w-full max-w-[320px] px-5 pb-5 pt-4 text-center lg:absolute lg:top-[238px] lg:w-[253px]",
+                    cardSurfaceClasses
+                  )}
                   style={{ left: `${fact.left}px` }}
                 >
-                  <div className="mx-auto flex h-[175px] w-full items-center justify-center">
+                  <div className="mx-auto flex h-[175px] w-full items-center justify-center overflow-hidden rounded-2xl bg-neutral-50">
                     <img
                       src={fact.imageUrl}
                       alt=""
@@ -570,10 +581,10 @@ export default function SeoLanding() {
                       loading="lazy"
                     />
                   </div>
-                  <div className="mt-3 text-[13px] font-bold uppercase text-[#6b6b6b]">
-                    {fact.title}
+                  <div className="mt-4">
+                    <span className={cardBadgeClasses}>{fact.title}</span>
                   </div>
-                  <p className="mt-2 whitespace-pre-line text-[13px] leading-[1.35] text-[#5e5e5e]">
+                  <p className="mt-3 whitespace-pre-line text-[13px] leading-[1.35] text-neutral-500">
                     {fact.body}
                   </p>
                 </div>
@@ -614,9 +625,9 @@ export default function SeoLanding() {
           {features.map((feature) => (
             <div
               key={feature.title}
-              className="rounded-3xl border border-neutral-100 bg-white p-6 shadow-[0_12px_30px_rgba(0,0,0,0.06)]"
+              className={cn("p-6", cardSurfaceClasses)}
             >
-              <span className="inline-flex rounded-full border border-neutral-200 bg-neutral-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-neutral-600">
+              <span className={cardBadgeClasses}>
                 {feature.tag}
               </span>
               <div className="mt-5 overflow-hidden rounded-2xl bg-neutral-100">

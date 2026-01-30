@@ -36,7 +36,7 @@ const features = [
     description:
       "Build authority with contextual mentions, clean link profiles, and live reporting. Best for competitive niches and new category pages. Deliverables include target page + anchor strategy, optional placement shortlist approval, and live links + reporting. Note: DA is a third-party metric popularized by Moz.",
     image:
-      "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80",
+      "/service/seo/feature-backlinks.svg",
   },
   {
     tag: "KEYWORD RANKING ACCELERATOR",
@@ -44,7 +44,7 @@ const features = [
     description:
       "We map quick wins, sharpen on-page relevance, and ship updates that match search intent. Best for pages stuck on page 2 or new keyword clusters. Deliverables include a keyword map, on-page optimization plan, and SERP-based outlines when new pages are needed.",
     image:
-      "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=900&q=80",
+      "/service/seo/feature-keyword-accelerator.svg",
   },
   {
     tag: "PRESS RELEASE + DISTRIBUTION",
@@ -52,7 +52,7 @@ const features = [
     description:
       "We write your release, format it correctly, and distribute it for brand mentions that stick. Best for launches, funding, and milestones. Deliverables include writing + revisions, distribution, and a live URL list where available.",
     image:
-      "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80",
+      "/service/seo/feature-press-release.svg",
   },
   {
     tag: "DR GROWTH PROGRAM",
@@ -60,7 +60,7 @@ const features = [
     description:
       "A clean, steady approach to DR growth with monthly reporting and next actions. Deliverables include a DR growth roadmap, link velocity plan, and monthly reporting. DR is an Ahrefs metric reflecting backlink profile strength.",
     image:
-      "https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&w=900&q=80",
+      "/service/seo/feature-dr-growth.svg",
   },
 ];
 

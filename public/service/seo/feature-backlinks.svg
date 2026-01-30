@@ -1,36 +1,41 @@
 <svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#EEF2FF" />
-      <stop offset="1" stop-color="#E0E7FF" />
+      <stop offset="0" stop-color="#F5F7FF" />
+      <stop offset="1" stop-color="#EEF2FF" />
     </linearGradient>
     <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#6366F1" />
-      <stop offset="1" stop-color="#8B5CF6" />
+      <stop offset="0" stop-color="#4F46E5" />
+      <stop offset="1" stop-color="#6366F1" />
     </linearGradient>
   </defs>
   <rect width="800" height="600" rx="48" fill="url(#bg)" />
-  <circle cx="150" cy="130" r="70" fill="#E2E8F0" />
-  <circle cx="660" cy="110" r="50" fill="#E2E8F0" />
-  <circle cx="640" cy="480" r="80" fill="#E2E8F0" />
-  <rect x="140" y="180" width="520" height="300" rx="28" fill="white" stroke="#E5E7EB" />
-  <rect x="190" y="230" width="220" height="26" rx="13" fill="#E5E7EB" />
-  <rect x="190" y="270" width="180" height="20" rx="10" fill="#E5E7EB" />
-  <rect x="190" y="310" width="260" height="20" rx="10" fill="#E5E7EB" />
-  <rect x="190" y="350" width="200" height="20" rx="10" fill="#E5E7EB" />
-  <rect x="190" y="390" width="240" height="20" rx="10" fill="#E5E7EB" />
-  <rect x="470" y="240" width="150" height="190" rx="20" fill="#EEF2FF" stroke="#E0E7FF" />
-  <path d="M520 290h70" stroke="#6366F1" stroke-width="10" stroke-linecap="round" />
-  <path d="M520 330h50" stroke="#A5B4FC" stroke-width="10" stroke-linecap="round" />
-  <path d="M520 370h60" stroke="#A5B4FC" stroke-width="10" stroke-linecap="round" />
-  <g transform="translate(290 120)">
-    <rect x="0" y="0" width="220" height="72" rx="36" fill="url(#accent)" />
-    <path d="M60 36h100" stroke="white" stroke-width="10" stroke-linecap="round" />
-    <circle cx="40" cy="36" r="18" fill="white" />
-    <circle cx="180" cy="36" r="18" fill="white" />
+  <circle cx="125" cy="120" r="60" fill="#E0E7FF" />
+  <circle cx="700" cy="130" r="40" fill="#E0E7FF" />
+  <circle cx="660" cy="500" r="70" fill="#E0E7FF" />
+  <rect x="130" y="170" width="540" height="320" rx="28" fill="white" stroke="#E5E7EB" />
+  <rect x="170" y="215" width="280" height="36" rx="18" fill="#F1F5F9" />
+  <rect x="170" y="265" width="240" height="20" rx="10" fill="#E5E7EB" />
+  <rect x="170" y="300" width="300" height="20" rx="10" fill="#E5E7EB" />
+  <rect x="170" y="335" width="220" height="20" rx="10" fill="#E5E7EB" />
+  <rect x="170" y="370" width="260" height="20" rx="10" fill="#E5E7EB" />
+  <rect x="500" y="230" width="150" height="210" rx="20" fill="#EEF2FF" stroke="#E0E7FF" />
+  <path d="M525 280h80" stroke="#4F46E5" stroke-width="12" stroke-linecap="round" />
+  <path d="M525 320h60" stroke="#A5B4FC" stroke-width="12" stroke-linecap="round" />
+  <path d="M525 360h70" stroke="#A5B4FC" stroke-width="12" stroke-linecap="round" />
+  <g stroke="#6366F1" stroke-width="6" stroke-linecap="round">
+    <path d="M250 450l70-40 70 30 70-50" />
   </g>
-  <g transform="translate(120 420)">
-    <rect x="0" y="0" width="120" height="56" rx="28" fill="#111827" opacity="0.9" />
-    <path d="M32 28h56" stroke="white" stroke-width="8" stroke-linecap="round" />
+  <g fill="white" stroke="#4F46E5" stroke-width="6">
+    <circle cx="250" cy="450" r="18" />
+    <circle cx="320" cy="410" r="18" />
+    <circle cx="390" cy="440" r="18" />
+    <circle cx="460" cy="390" r="18" />
+  </g>
+  <g transform="translate(250 110)">
+    <rect x="0" y="0" width="300" height="76" rx="38" fill="url(#accent)" />
+    <path d="M60 38h140" stroke="white" stroke-width="10" stroke-linecap="round" />
+    <circle cx="40" cy="38" r="18" fill="white" />
+    <circle cx="240" cy="38" r="18" fill="white" />
   </g>
 </svg>

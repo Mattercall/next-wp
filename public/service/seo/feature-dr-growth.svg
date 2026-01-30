@@ -1,27 +1,40 @@
 <svg width="800" height="600" viewBox="0 0 800 600" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#F0FDF4" />
-      <stop offset="1" stop-color="#DCFCE7" />
+      <stop offset="0" stop-color="#F5F9FF" />
+      <stop offset="1" stop-color="#ECF4FF" />
     </linearGradient>
     <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#22C55E" />
-      <stop offset="1" stop-color="#16A34A" />
+      <stop offset="1" stop-color="#3B82F6" />
     </linearGradient>
   </defs>
   <rect width="800" height="600" rx="48" fill="url(#bg)" />
-  <rect x="120" y="130" width="560" height="340" rx="30" fill="white" stroke="#DCFCE7" />
-  <rect x="170" y="190" width="120" height="220" rx="18" fill="#E2E8F0" />
-  <rect x="320" y="230" width="120" height="180" rx="18" fill="#CFFAFE" />
-  <rect x="470" y="270" width="120" height="140" rx="18" fill="#BBF7D0" />
-  <path d="M170 430h420" stroke="#E2E8F0" stroke-width="12" stroke-linecap="round" />
-  <g transform="translate(490 120)">
-    <rect width="190" height="90" rx="22" fill="url(#accent)" />
-    <path d="M40 58l36-28 30 24 38-32" stroke="white" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+  <circle cx="110" cy="120" r="55" fill="#E0F2FE" />
+  <circle cx="690" cy="140" r="45" fill="#E0F2FE" />
+  <circle cx="650" cy="510" r="75" fill="#E0F2FE" />
+  <rect x="130" y="170" width="540" height="320" rx="28" fill="white" stroke="#E5E7EB" />
+  <g transform="translate(180 220)">
+    <rect x="0" y="0" width="260" height="210" rx="20" fill="#F8FAFC" stroke="#E2E8F0" />
+    <path d="M30 170h40" stroke="#E2E8F0" stroke-width="12" stroke-linecap="round" />
+    <path d="M30 135h60" stroke="#E2E8F0" stroke-width="12" stroke-linecap="round" />
+    <path d="M30 100h80" stroke="#E2E8F0" stroke-width="12" stroke-linecap="round" />
+    <path d="M30 65h100" stroke="#E2E8F0" stroke-width="12" stroke-linecap="round" />
+    <path d="M40 170L90 140L140 150L200 90" stroke="url(#accent)" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="90" cy="140" r="10" fill="white" stroke="#22C55E" stroke-width="6" />
+    <circle cx="140" cy="150" r="10" fill="white" stroke="#22C55E" stroke-width="6" />
+    <circle cx="200" cy="90" r="10" fill="white" stroke="#3B82F6" stroke-width="6" />
   </g>
-  <g transform="translate(200 150)">
-    <circle cx="0" cy="0" r="34" fill="#16A34A" />
-    <path d="M-10 0h20" stroke="white" stroke-width="8" stroke-linecap="round" />
-    <path d="M0 -10v20" stroke="white" stroke-width="8" stroke-linecap="round" />
+  <g transform="translate(470 230)">
+    <rect x="0" y="0" width="170" height="190" rx="20" fill="#F1F5F9" stroke="#E2E8F0" />
+    <rect x="30" y="40" width="30" height="110" rx="10" fill="#CFFAFE" />
+    <rect x="75" y="70" width="30" height="80" rx="10" fill="#A7F3D0" />
+    <rect x="120" y="30" width="30" height="120" rx="10" fill="#BFDBFE" />
+    <path d="M28 160h120" stroke="#CBD5F5" stroke-width="8" stroke-linecap="round" />
+  </g>
+  <g transform="translate(250 110)">
+    <rect x="0" y="0" width="300" height="70" rx="35" fill="url(#accent)" />
+    <path d="M60 35h120" stroke="white" stroke-width="10" stroke-linecap="round" />
+    <path d="M200 24l26 11-26 11" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
   </g>
 </svg>

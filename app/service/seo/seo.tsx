@@ -3,6 +3,7 @@
 import { type FormEvent, useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import SeoAfterHeroConversion from "@/components/sections/SeoAfterHeroConversion";
 import { cn } from "@/lib/utils";
 import { ArrowRight, Plus, ShoppingBag } from "lucide-react";
 
@@ -349,6 +350,8 @@ export default function SeoLanding() {
         </div>
         <div ref={heroSentinelRef} className="h-px w-full" aria-hidden="true" />
       </section>
+
+      <SeoAfterHeroConversion />
 
       <section className="bg-background py-10">
         <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-6 px-4 text-sm font-semibold uppercase tracking-wide text-neutral-500">

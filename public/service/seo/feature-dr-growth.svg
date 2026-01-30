@@ -32,8 +32,4 @@
     <rect x="120" y="30" width="30" height="120" rx="10" fill="#BFDBFE" />
     <path d="M28 160h120" stroke="#CBD5F5" stroke-width="8" stroke-linecap="round" />
   </g>
-  <g transform="translate(250 110)">
-    <rect x="0" y="0" width="300" height="70" rx="35" fill="url(#accent)" />
-    <path d="M60 35h120" stroke="white" stroke-width="10" stroke-linecap="round" />
-  </g>
 </svg>

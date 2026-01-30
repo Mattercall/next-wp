@@ -71,6 +71,28 @@ const faqs = [
   "Can you work with our existing site and brand voice?",
 ];
 
+const prospectFacts = [
+  {
+    title: "FACT 1",
+    body: "Potential customers will only buy\nyour product if they understand it.",
+    left: 531,
+    imageUrl: "https://placehold.co/220x160/png?text=Fact+1",
+  },
+  {
+    title: "FACT 2",
+    body:
+      "A potential customer who doesn't\nknow you yet will only take a short\ntime to review your offer.",
+    left: 826,
+    imageUrl: "https://placehold.co/220x160/png?text=Fact+2",
+  },
+  {
+    title: "FACT 3",
+    body: "Text can explain a complex offer\nwell, but not quickly.",
+    left: 1121,
+    imageUrl: "https://placehold.co/220x160/png?text=Fact+3",
+  },
+];
+
 const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
 
 type StartForFreeBarProps = {
@@ -357,6 +379,106 @@ export default function SeoLanding() {
               {logo}
             </span>
           ))}
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-[#FAFCFF]">
+        <div className="absolute inset-x-0 top-0 h-[206px] bg-white" />
+        <div className="absolute inset-0">
+          <svg
+            className="h-full w-full"
+            viewBox="0 0 1906 739"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            <defs>
+              <linearGradient
+                id="seo-prospect-gradient"
+                x1="0"
+                y1="0"
+                x2="1"
+                y2="0.1"
+              >
+                <stop offset="0%" stopColor="#275B9C" />
+                <stop offset="50%" stopColor="#3873B9" />
+                <stop offset="100%" stopColor="#275B9C" />
+              </linearGradient>
+            </defs>
+            <path
+              d="M0,433 C350,425 550,435 805,423 C1100,415 1350,435 1906,433 L1906,739 L0,739 Z"
+              fill="url(#seo-prospect-gradient)"
+            />
+          </svg>
+        </div>
+        <div className="relative mx-auto w-full max-w-[1906px]">
+          <div className="absolute left-1/2 top-[70px] w-full max-w-[920px] -translate-x-1/2 text-center">
+            <h2 className="text-[42px] font-semibold leading-[1.1] text-[#2B5E98]">
+              Why do many of your prospects{" "}
+              <span className="font-normal">never</span>
+              <br />
+              <span className="text-[40px] font-normal">
+                become customers?
+              </span>
+            </h2>
+            <p className="mt-4 text-[14px] font-semibold text-[#406DA2]">
+              You know why your customers choose you. But you don't know why
+              many of your prospects
+              <br />
+              choose against you...
+            </p>
+          </div>
+
+          <div className="relative h-[739px]">
+            {prospectFacts.map((fact) => (
+              <div
+                key={fact.title}
+                className="absolute top-[238px] w-[253px] rounded-[4px] bg-white px-5 pb-5 pt-4 text-center shadow-[0_8px_12px_rgba(0,0,0,0.15)]"
+                style={{ left: `${fact.left}px` }}
+              >
+                <div className="mx-auto flex h-[175px] w-full items-center justify-center">
+                  <img
+                    src={fact.imageUrl}
+                    alt=""
+                    className="h-full w-auto object-contain"
+                    loading="lazy"
+                  />
+                </div>
+                <div className="mt-3 text-[13px] font-bold uppercase text-[#6b6b6b]">
+                  {fact.title}
+                </div>
+                <p className="mt-2 whitespace-pre-line text-[13px] leading-[1.35] text-[#5e5e5e]">
+                  {fact.body}
+                </p>
+              </div>
+            ))}
+
+            <div className="absolute left-1/2 top-[560px] w-full max-w-[880px] -translate-x-1/2 text-center text-white">
+              <div className="text-[17px] font-bold tracking-wide">RESULT</div>
+              <p className="mt-3 text-[13px] leading-[1.45]">
+                Potential customers spend very little time on your offer (8
+                seconds according to statistics), see no added value for
+                themselves during that time, and consequently abandon their
+                research. They don't become customers — even if your offer would
+                be the perfect solution for them.
+              </p>
+            </div>
+
+            <svg
+              className="absolute bottom-0 right-0 h-[260px] w-[420px]"
+              viewBox="0 0 420 260"
+              fill="none"
+              aria-hidden="true"
+            >
+              <g stroke="rgba(0,0,0,0.12)" strokeWidth="1">
+                <path d="M320 190 l30 -17 30 17 0 34 -30 17 -30 -17z" />
+                <path d="M260 150 l30 -17 30 17 0 34 -30 17 -30 -17z" />
+                <path d="M360 130 l24 -14 24 14 0 28 -24 14 -24 -14z" />
+                <path d="M200 190 l24 -14 24 14 0 28 -24 14 -24 -14z" />
+                <path d="M300 230 l24 -14 24 14 0 28 -24 14 -24 -14z" />
+                <path d="M380 210 l18 -10 18 10 0 20 -18 10 -18 -10z" />
+              </g>
+            </svg>
+          </div>
         </div>
       </section>
 

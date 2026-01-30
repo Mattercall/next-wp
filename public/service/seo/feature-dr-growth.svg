@@ -35,6 +35,5 @@
   <g transform="translate(250 110)">
     <rect x="0" y="0" width="300" height="70" rx="35" fill="url(#accent)" />
     <path d="M60 35h120" stroke="white" stroke-width="10" stroke-linecap="round" />
-    <path d="M200 24l26 11-26 11" stroke="white" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
   </g>
 </svg>

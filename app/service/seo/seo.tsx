@@ -411,16 +411,16 @@ export default function SeoLanding() {
           </svg>
         </div>
         <div className="relative mx-auto w-full max-w-[1906px]">
-          <div className="absolute left-1/2 top-[70px] w-full max-w-[920px] -translate-x-1/2 text-center">
-            <h2 className="text-[42px] font-semibold leading-[1.1] text-[#2B5E98]">
+          <div className="relative mx-auto w-full max-w-[920px] px-4 pt-12 text-center lg:absolute lg:left-1/2 lg:top-[70px] lg:-translate-x-1/2 lg:px-0 lg:pt-0">
+            <h2 className="text-[30px] font-semibold leading-[1.15] text-[#2B5E98] sm:text-[36px] lg:text-[42px]">
               Why do many of your prospects{" "}
               <span className="font-normal">never</span>
               <br />
-              <span className="text-[40px] font-normal">
+              <span className="text-[28px] font-normal sm:text-[34px] lg:text-[40px]">
                 become customers?
               </span>
             </h2>
-            <p className="mt-4 text-[14px] font-semibold text-[#406DA2]">
+            <p className="mt-4 text-[13px] font-semibold text-[#406DA2] sm:text-[14px]">
               You know why your customers choose you. But you don't know why
               many of your prospects
               <br />
@@ -428,33 +428,37 @@ export default function SeoLanding() {
             </p>
           </div>
 
-          <div className="relative h-[739px]">
-            {prospectFacts.map((fact) => (
-              <div
-                key={fact.title}
-                className="absolute top-[238px] w-[253px] rounded-[4px] bg-white px-5 pb-5 pt-4 text-center shadow-[0_8px_12px_rgba(0,0,0,0.15)]"
-                style={{ left: `${fact.left}px` }}
-              >
-                <div className="mx-auto flex h-[175px] w-full items-center justify-center">
-                  <img
-                    src={fact.imageUrl}
-                    alt=""
-                    className="h-full w-auto object-contain"
-                    loading="lazy"
-                  />
+          <div className="relative px-4 pb-12 pt-8 lg:h-[739px] lg:px-0 lg:pb-0 lg:pt-0">
+            <div className="flex flex-col gap-6 lg:contents">
+              {prospectFacts.map((fact) => (
+                <div
+                  key={fact.title}
+                  className="mx-auto w-full max-w-[320px] rounded-[4px] bg-white px-5 pb-5 pt-4 text-center shadow-[0_8px_12px_rgba(0,0,0,0.15)] lg:absolute lg:top-[238px] lg:w-[253px]"
+                  style={{ left: `${fact.left}px` }}
+                >
+                  <div className="mx-auto flex h-[175px] w-full items-center justify-center">
+                    <img
+                      src={fact.imageUrl}
+                      alt=""
+                      className="h-full w-auto object-contain"
+                      loading="lazy"
+                    />
+                  </div>
+                  <div className="mt-3 text-[13px] font-bold uppercase text-[#6b6b6b]">
+                    {fact.title}
+                  </div>
+                  <p className="mt-2 whitespace-pre-line text-[13px] leading-[1.35] text-[#5e5e5e]">
+                    {fact.body}
+                  </p>
                 </div>
-                <div className="mt-3 text-[13px] font-bold uppercase text-[#6b6b6b]">
-                  {fact.title}
-                </div>
-                <p className="mt-2 whitespace-pre-line text-[13px] leading-[1.35] text-[#5e5e5e]">
-                  {fact.body}
-                </p>
-              </div>
-            ))}
+              ))}
+            </div>
 
-            <div className="absolute left-1/2 top-[560px] w-full max-w-[880px] -translate-x-1/2 text-center text-white">
-              <div className="text-[17px] font-bold tracking-wide">RESULT</div>
-              <p className="mt-3 text-[13px] leading-[1.45]">
+            <div className="mx-auto mt-10 w-full max-w-[880px] text-center text-white lg:absolute lg:left-1/2 lg:top-[560px] lg:mt-0 lg:-translate-x-1/2">
+              <div className="text-[15px] font-bold tracking-wide sm:text-[17px]">
+                RESULT
+              </div>
+              <p className="mt-3 text-[12px] leading-[1.55] sm:text-[13px]">
                 Potential customers spend very little time on your offer (8
                 seconds according to statistics), see no added value for
                 themselves during that time, and consequently abandon their

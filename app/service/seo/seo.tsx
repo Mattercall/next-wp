@@ -751,6 +751,15 @@ export default function SeoLanding() {
           </div>
         </div>
       </section>
+      <div className="bg-background pb-6">
+        <div className="mx-auto max-w-5xl px-4">
+          <p className="text-[10px] leading-relaxed text-neutral-400">
+            Disclaimer: SEO results vary based on competition, website
+            condition, industry, and algorithm changes. We cannot guarantee
+            specific rankings, traffic, or revenue outcomes.
+          </p>
+        </div>
+      </div>
       <div ref={footerSentinelRef} className="h-px w-full" aria-hidden="true" />
 
       <div

@@ -29,33 +29,6 @@ const logos = [
   "MONOS",
 ];
 
-const prospectFacts = [
-  {
-    label: "Fact 1",
-    title: "Potential customers will only buy when they get it.",
-    description:
-      "If your offer isn't immediately clear, they move on without asking.",
-    image:
-      "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=640&q=80",
-  },
-  {
-    label: "Fact 2",
-    title: "Unknown brands get a short evaluation window.",
-    description:
-      "Prospects skim fast and decide if your page deserves more time.",
-    image:
-      "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?auto=format&fit=crop&w=640&q=80",
-  },
-  {
-    label: "Fact 3",
-    title: "Text alone can't explain complex offers quickly.",
-    description:
-      "Visual proof and structure clarify value before attention fades.",
-    image:
-      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=640&q=80",
-  },
-];
-
 const features = [
   {
     tag: "TECHNICAL SEO",
@@ -384,72 +357,6 @@ export default function SeoLanding() {
               {logo}
             </span>
           ))}
-        </div>
-      </section>
-
-      <section className="bg-white pb-24 pt-16 sm:pb-28 sm:pt-20">
-        <div className="mx-auto max-w-5xl px-4 text-center">
-          <p className="text-sm font-semibold uppercase tracking-[0.2em] text-blue-600">
-            Insight
-          </p>
-          <h2 className="mt-4 text-balance text-3xl font-semibold text-neutral-900 sm:text-4xl">
-            Why do many of your prospects never become customers?
-          </h2>
-          <p className="mt-4 text-base text-neutral-500">
-            You know why your customers choose you. But you don&apos;t know why
-            many of your prospects choose against you.
-          </p>
-        </div>
-        <div className="mx-auto mt-12 grid max-w-6xl gap-6 px-4 md:grid-cols-3">
-          {prospectFacts.map((fact) => (
-            <div
-              key={fact.label}
-              className="rounded-2xl border border-neutral-200 bg-white px-6 pb-6 pt-10 text-center shadow-[0_20px_50px_rgba(15,23,42,0.08)]"
-            >
-              <div className="flex justify-center">
-                <div className="h-32 w-32 overflow-hidden rounded-full bg-neutral-50">
-                  <img
-                    src={fact.image}
-                    alt={fact.title}
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
-                </div>
-              </div>
-              <p className="mt-5 text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
-                {fact.label}
-              </p>
-              <h3 className="mt-3 text-lg font-semibold text-neutral-900">
-                {fact.title}
-              </h3>
-              <p className="mt-2 text-sm text-neutral-500">
-                {fact.description}
-              </p>
-            </div>
-          ))}
-        </div>
-        <div className="mx-auto -mt-10 max-w-6xl px-4 sm:-mt-14">
-          <div className="rounded-[32px] bg-[#2f63b5] px-6 py-12 text-center text-white shadow-[0_40px_90px_rgba(30,64,175,0.35)] sm:px-12">
-            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white/80">
-              Result
-            </p>
-            <p className="mx-auto mt-4 max-w-3xl text-base text-white/90 sm:text-lg">
-              Potential customers spend very little time on your offer and see
-              no added value during that moment, so they abandon their research
-              and don&apos;t become customers — even if your offer is the perfect
-              solution.
-            </p>
-            <div className="mt-8 flex justify-center">
-              <div className="overflow-hidden rounded-2xl border border-white/15 bg-white/10">
-                <img
-                  src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=960&q=80"
-                  alt="Analytics dashboard illustration"
-                  className="h-40 w-full object-cover sm:h-48"
-                  loading="lazy"
-                />
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 

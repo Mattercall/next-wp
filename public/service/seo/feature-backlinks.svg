@@ -34,8 +34,5 @@
   </g>
   <g transform="translate(250 110)">
     <rect x="0" y="0" width="300" height="76" rx="38" fill="url(#accent)" />
-    <path d="M60 38h140" stroke="white" stroke-width="10" stroke-linecap="round" />
-    <circle cx="40" cy="38" r="18" fill="white" />
-    <circle cx="240" cy="38" r="18" fill="white" />
   </g>
 </svg>

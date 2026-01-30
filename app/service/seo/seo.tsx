@@ -96,26 +96,26 @@ const prospectFacts = [
 const prospectFactsSecondary = [
   {
     title: "FACT 1",
-    body: "Searchers choose the result that\nanswers their question fastest.",
+    body: "Your headline makes the promise\nclear in the first five seconds.",
     left: 395,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+1",
   },
   {
     title: "FACT 2",
     body:
-      "If your page doesn’t match intent\ninstantly, they bounce to a rival.",
+      "Your page matches high-intent\nkeywords with a direct solution.",
     left: 660,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+2",
   },
   {
     title: "FACT 3",
-    body: "Clarity beats cleverness when\nsomeone is deciding to convert.",
+    body: "Proof, outcomes, and trust signals\nshow up before the first scroll.",
     left: 925,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+3",
   },
   {
     title: "FACT 4",
-    body: "Ranking is only half the win—your\npage must earn the click.",
+    body: "The next step is obvious, simple,\nand friction-free for buyers.",
     left: 1190,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+4",
   },
@@ -527,9 +527,9 @@ export default function SeoLanding() {
                 x2="1"
                 y2="0.1"
               >
-                <stop offset="0%" stopColor="#275B9C" />
-                <stop offset="50%" stopColor="#3873B9" />
-                <stop offset="100%" stopColor="#275B9C" />
+                <stop offset="0%" stopColor="#0F172A" />
+                <stop offset="50%" stopColor="#1F2937" />
+                <stop offset="100%" stopColor="#111827" />
               </linearGradient>
             </defs>
             <path
@@ -541,16 +541,16 @@ export default function SeoLanding() {
         <div className="relative mx-auto w-full max-w-[1906px]">
           <div className="relative mx-auto w-full max-w-[920px] px-4 pt-12 text-center lg:absolute lg:left-1/2 lg:top-[70px] lg:-translate-x-1/2 lg:px-0 lg:pt-0">
             <h2 className="text-[30px] font-semibold leading-[1.15] text-[#2B5E98] sm:text-[36px] lg:text-[42px]">
-              Why do most SEO clicks{" "}
-              <span className="font-normal">never</span>
+              SEO will bring you more customers{" "}
+              <span className="font-normal">if</span>
               <br />
               <span className="text-[28px] font-normal sm:text-[34px] lg:text-[40px]">
-                turn into revenue?
+                your page earns trust fast.
               </span>
             </h2>
             <p className="mt-4 text-[13px] font-semibold text-[#406DA2] sm:text-[14px]">
-              Searchers judge your offer in seconds. If your message is unclear,
-              they choose a competitor instead.
+              High-intent visitors decide quickly. Make the promise, proof, and
+              next step obvious so they choose you.
             </p>
           </div>
 
@@ -585,9 +585,8 @@ export default function SeoLanding() {
                 RESULT
               </div>
               <p className="mt-3 text-[12px] leading-[1.55] sm:text-[13px]">
-                Most prospects scan, don’t read. If your SEO pages don’t
-                instantly answer “why you,” they exit—no matter how strong your
-                offer is.
+                When your SEO pages answer intent, prove credibility, and guide
+                the next step, clicks turn into revenue-ready customers.
               </p>
             </div>
 

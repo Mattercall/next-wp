@@ -620,6 +620,14 @@ export default function SeoLanding() {
         </div>
       </section>
 
+      <section className="bg-background py-10 sm:py-14">
+        <div className="mx-auto max-w-5xl px-4 text-center">
+          <h2 className="text-3xl font-semibold text-neutral-900 sm:text-4xl">
+            After You Place Your Order: What to Expect
+          </h2>
+        </div>
+      </section>
+
       <section className="bg-background py-16 sm:py-20">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 md:grid-cols-2">
           {features.map((feature) => (

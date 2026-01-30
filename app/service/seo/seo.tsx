@@ -117,20 +117,20 @@ const prospectFacts = [
     title: "NO GUESSWORK",
     body: "See every placement, page update,\nand PR distribution as it ships.",
     left: 531,
-    imageUrl: "https://placehold.co/220x160/png?text=Fact+1",
+    imageUrl: "/service/seo/fact-no-guesswork.svg",
   },
   {
     title: "NO FLUFF",
     body:
       "You’ll get clear reporting on\nrankings, traffic, and authority.",
     left: 826,
-    imageUrl: "https://placehold.co/220x160/png?text=Fact+2",
+    imageUrl: "/service/seo/fact-no-fluff.svg",
   },
   {
     title: "OUTCOMES YOU CAN TRACK",
     body: "Know what went live, where it\nlanded, and how it performs.",
     left: 1121,
-    imageUrl: "https://placehold.co/220x160/png?text=Fact+3",
+    imageUrl: "/service/seo/fact-outcomes.svg",
   },
 ];
 
@@ -139,26 +139,26 @@ const prospectFactsSecondary = [
     title: "STEP 1",
     body: "Tell us your goal, site, and\npriority pages or keywords.",
     left: 395,
-    imageUrl: "https://placehold.co/220x160/png?text=Fact+1",
+    imageUrl: "/service/seo/step-goal.svg",
   },
   {
     title: "STEP 2",
     body:
       "We audit, map opportunities, and\nfind the fastest path to impact.",
     left: 660,
-    imageUrl: "https://placehold.co/220x160/png?text=Fact+2",
+    imageUrl: "/service/seo/step-audit.svg",
   },
   {
     title: "STEP 3",
     body: "You approve a clear plan with\ntargets, timelines, and outputs.",
     left: 925,
-    imageUrl: "https://placehold.co/220x160/png?text=Fact+3",
+    imageUrl: "/service/seo/step-plan.svg",
   },
   {
     title: "STEP 4",
     body: "We execute: placements, updates,\nPR distribution, and DR growth.",
     left: 1190,
-    imageUrl: "https://placehold.co/220x160/png?text=Fact+4",
+    imageUrl: "/service/seo/step-execute.svg",
   },
 ];
 

@@ -32,62 +32,62 @@ const logos = [
 const features = [
   {
     tag: "TECHNICAL SEO",
-    title: "Fix the crawl issues blocking your growth",
+    title: "Fix the site issues holding rankings back",
     description:
-      "We clean up architecture, speed, and indexing so search engines trust you.",
+      "We harden crawlability, speed, and indexing so Google can trust and rank you.",
     image:
       "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80",
   },
   {
     tag: "CONTENT STRATEGY",
-    title: "Pages that match search intent and convert",
+    title: "Content built to win intent and revenue",
     description:
-      "Keyword-led content hubs answer questions and move visitors to action.",
+      "We map keywords to buyer journeys and publish pages that drive leads.",
     image:
       "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=900&q=80",
   },
   {
     tag: "AUTHORITY BUILDING",
-    title: "Earn trust signals that compound",
+    title: "Authority that compounds month after month",
     description:
-      "Digital PR and smart link strategy grow credibility without spam.",
+      "Digital PR and vetted links build credibility without risky tactics.",
     image:
       "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80",
   },
   {
     tag: "MEASURABLE GAINS",
-    title: "Rankings you can track and traffic you can use",
+    title: "Clear reporting tied to pipeline impact",
     description:
-      "We report on rankings, traffic, and revenue so wins are obvious.",
+      "We connect rankings to traffic, leads, and revenue so ROI is undeniable.",
     image:
       "https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
 const faqs = [
-  "How quickly can MatterCall improve our rankings?",
-  "What is included in a MatterCall SEO engagement?",
-  "Will you optimize technical SEO and content together?",
-  "Can you work with our existing site and brand voice?",
+  "How fast will we see SEO results?",
+  "What’s included in a MatterCall SEO sprint?",
+  "Do you handle technical SEO and content together?",
+  "Can you align with our existing brand voice?",
 ];
 
 const prospectFacts = [
   {
     title: "FACT 1",
-    body: "Potential customers will only buy\nyour product if they understand it.",
+    body: "Searchers choose the result that\nanswers their question fastest.",
     left: 531,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+1",
   },
   {
     title: "FACT 2",
     body:
-      "A potential customer who doesn't\nknow you yet will only take a short\ntime to review your offer.",
+      "If your page doesn’t match intent\ninstantly, they bounce to a rival.",
     left: 826,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+2",
   },
   {
     title: "FACT 3",
-    body: "Text can explain a complex offer\nwell, but not quickly.",
+    body: "Clarity beats cleverness when\nsomeone is deciding to convert.",
     left: 1121,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+3",
   },
@@ -96,26 +96,26 @@ const prospectFacts = [
 const prospectFactsSecondary = [
   {
     title: "FACT 1",
-    body: "Potential customers will only buy\nyour product if they understand it.",
+    body: "Searchers choose the result that\nanswers their question fastest.",
     left: 395,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+1",
   },
   {
     title: "FACT 2",
     body:
-      "A potential customer who doesn't\nknow you yet will only take a short\ntime to review your offer.",
+      "If your page doesn’t match intent\ninstantly, they bounce to a rival.",
     left: 660,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+2",
   },
   {
     title: "FACT 3",
-    body: "Text can explain a complex offer\nwell, but not quickly.",
+    body: "Clarity beats cleverness when\nsomeone is deciding to convert.",
     left: 925,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+3",
   },
   {
     title: "FACT 4",
-    body: "Text can explain a complex offer\nwell, but not quickly..",
+    body: "Ranking is only half the win—your\npage must earn the click.",
     left: 1190,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+4",
   },
@@ -249,7 +249,7 @@ export default function SeoLanding() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const ctaButtonLabel = "Start free";
+  const ctaButtonLabel = "Get my growth plan";
   const hasHeroVideo = (() => {
     if (!heroVideoUrl?.trim()) return false;
     try {
@@ -379,11 +379,11 @@ export default function SeoLanding() {
               MatterCall
             </div>
             <h1 className="mt-4 text-balance text-3xl font-semibold text-neutral-900 sm:text-4xl">
-              Premium SEO that turns searches into clients
+              High-intent SEO that turns clicks into customers
             </h1>
             <p className="mt-3 text-sm text-neutral-500">
-              Boost qualified traffic with strategy, content, and technical SEO
-              that keeps you climbing.
+              We align technical SEO, content, and authority to drive qualified
+              leads—not just vanity rankings.
             </p>
             <StartForFreeBar
               className="mt-6"
@@ -441,18 +441,16 @@ export default function SeoLanding() {
         <div className="relative mx-auto w-full max-w-[1906px]">
           <div className="relative mx-auto w-full max-w-[920px] px-4 pt-12 text-center lg:absolute lg:left-1/2 lg:top-[70px] lg:-translate-x-1/2 lg:px-0 lg:pt-0">
             <h2 className="text-[30px] font-semibold leading-[1.15] text-[#2B5E98] sm:text-[36px] lg:text-[42px]">
-              Why do many of your prospects{" "}
+              Why do most SEO clicks{" "}
               <span className="font-normal">never</span>
               <br />
               <span className="text-[28px] font-normal sm:text-[34px] lg:text-[40px]">
-                become customers?
+                turn into revenue?
               </span>
             </h2>
             <p className="mt-4 text-[13px] font-semibold text-[#406DA2] sm:text-[14px]">
-              You know why your customers choose you. But you don't know why
-              many of your prospects
-              <br />
-              choose against you...
+              Searchers judge your offer in seconds. If your message is unclear,
+              they choose a competitor instead.
             </p>
           </div>
 
@@ -487,11 +485,9 @@ export default function SeoLanding() {
                 RESULT
               </div>
               <p className="mt-3 text-[12px] leading-[1.55] sm:text-[13px]">
-                Potential customers spend very little time on your offer (8
-                seconds according to statistics), see no added value for
-                themselves during that time, and consequently abandon their
-                research. They don't become customers — even if your offer would
-                be the perfect solution for them.
+                Most prospects scan, don’t read. If your SEO pages don’t
+                instantly answer “why you,” they exit—no matter how strong your
+                offer is.
               </p>
             </div>
 
@@ -545,18 +541,16 @@ export default function SeoLanding() {
         <div className="relative mx-auto w-full max-w-[1906px]">
           <div className="relative mx-auto w-full max-w-[920px] px-4 pt-12 text-center lg:absolute lg:left-1/2 lg:top-[70px] lg:-translate-x-1/2 lg:px-0 lg:pt-0">
             <h2 className="text-[30px] font-semibold leading-[1.15] text-[#2B5E98] sm:text-[36px] lg:text-[42px]">
-              Why do many of your prospects{" "}
+              Why do most SEO clicks{" "}
               <span className="font-normal">never</span>
               <br />
               <span className="text-[28px] font-normal sm:text-[34px] lg:text-[40px]">
-                become customers?
+                turn into revenue?
               </span>
             </h2>
             <p className="mt-4 text-[13px] font-semibold text-[#406DA2] sm:text-[14px]">
-              You know why your customers choose you. But you don't know why
-              many of your prospects
-              <br />
-              choose against you...
+              Searchers judge your offer in seconds. If your message is unclear,
+              they choose a competitor instead.
             </p>
           </div>
 
@@ -591,11 +585,9 @@ export default function SeoLanding() {
                 RESULT
               </div>
               <p className="mt-3 text-[12px] leading-[1.55] sm:text-[13px]">
-                Potential customers spend very little time on your offer (8
-                seconds according to statistics), see no added value for
-                themselves during that time, and consequently abandon their
-                research. They don't become customers — even if your offer would
-                be the perfect solution for them.
+                Most prospects scan, don’t read. If your SEO pages don’t
+                instantly answer “why you,” they exit—no matter how strong your
+                offer is.
               </p>
             </div>
 
@@ -656,8 +648,8 @@ export default function SeoLanding() {
       <section className="bg-background py-16 sm:py-20">
         <div className="mx-auto max-w-4xl px-4">
           <blockquote className="text-2xl font-semibold text-neutral-900 sm:text-3xl">
-            “MatterCall helped us climb the rankings fast. Organic traffic is
-            up, and the leads are noticeably higher intent.”
+            “MatterCall rebuilt our SEO from the ground up. Rankings climbed,
+            and inbound leads finally matched our sales goals.”
           </blockquote>
           <p className="mt-4 text-sm text-neutral-500">
             Clare Jerome, NEOM Studio
@@ -674,9 +666,9 @@ export default function SeoLanding() {
               </div>
             </div>
             <h2 className="mt-6 text-2xl font-semibold sm:text-3xl">
-              Turn search visibility into confident yeses.
+              Turn search visibility into booked revenue.
               <br />
-              Start with a MatterCall SEO sprint.
+              Start with a MatterCall SEO growth sprint.
             </h2>
             <div className="mt-6 flex flex-col items-center gap-3">
               <StartForFreeBar
@@ -730,8 +722,8 @@ export default function SeoLanding() {
                   >
                     <div className="overflow-hidden">
                       <p className="mt-3 text-sm text-neutral-500">
-                        We audit your site, prioritize fixes, and launch content
-                        that lifts rankings and conversions.
+                        We audit the full funnel, prioritize fixes, and launch
+                        content designed to rank and convert.
                       </p>
                     </div>
                   </div>

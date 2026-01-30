@@ -31,44 +31,44 @@ const logos = [
 
 const features = [
   {
-    tag: "TECHNICAL SEO",
-    title: "Fix the site issues holding rankings back",
+    tag: "HIGH-AUTHORITY BACKLINKS",
+    title: "DA 50+ to DA 90+ placements on real sites",
     description:
-      "We harden crawlability, speed, and indexing so Google can trust and rank you.",
+      "Build authority with contextual mentions, clean link profiles, and live reporting. Best for competitive niches and new category pages. Deliverables include target page + anchor strategy, optional placement shortlist approval, and live links + reporting. Note: DA is a third-party metric popularized by Moz.",
     image:
       "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=900&q=80",
   },
   {
-    tag: "CONTENT STRATEGY",
-    title: "Content built to win intent and revenue",
+    tag: "KEYWORD RANKING ACCELERATOR",
+    title: "Move priority pages up the SERP faster",
     description:
-      "We map keywords to buyer journeys and publish pages that drive leads.",
+      "We map quick wins, sharpen on-page relevance, and ship updates that match search intent. Best for pages stuck on page 2 or new keyword clusters. Deliverables include a keyword map, on-page optimization plan, and SERP-based outlines when new pages are needed.",
     image:
       "https://images.unsplash.com/photo-1523475472560-d2df97ec485c?auto=format&fit=crop&w=900&q=80",
   },
   {
-    tag: "AUTHORITY BUILDING",
-    title: "Authority that compounds month after month",
+    tag: "PRESS RELEASE + DISTRIBUTION",
+    title: "PR visibility that builds credibility",
     description:
-      "Digital PR and vetted links build credibility without risky tactics.",
+      "We write your release, format it correctly, and distribute it for brand mentions that stick. Best for launches, funding, and milestones. Deliverables include writing + revisions, distribution, and a live URL list where available.",
     image:
       "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&w=900&q=80",
   },
   {
-    tag: "MEASURABLE GAINS",
-    title: "Clear reporting tied to pipeline impact",
+    tag: "DR GROWTH PROGRAM",
+    title: "Compounding domain strength over time",
     description:
-      "We connect rankings to traffic, leads, and revenue so ROI is undeniable.",
+      "A clean, steady approach to DR growth with monthly reporting and next actions. Deliverables include a DR growth roadmap, link velocity plan, and monthly reporting. DR is an Ahrefs metric reflecting backlink profile strength.",
     image:
       "https://images.unsplash.com/photo-1557821552-17105176677c?auto=format&fit=crop&w=900&q=80",
   },
 ];
 
 const faqs = [
-  "How fast will we see SEO results?",
-  "What’s included in a MatterCall SEO sprint?",
-  "Do you handle technical SEO and content together?",
-  "Can you align with our existing brand voice?",
+  "What authority range can you place links on?",
+  "How do you choose keyword wins to accelerate?",
+  "What does PR distribution include?",
+  "How is DR growth measured and reported?",
 ];
 
 const cardSurfaceClasses =
@@ -78,21 +78,21 @@ const cardBadgeClasses =
 
 const prospectFacts = [
   {
-    title: "FACT 1",
-    body: "Searchers choose the result that\nanswers their question fastest.",
+    title: "NO GUESSWORK",
+    body: "See every placement, page update,\nand PR distribution as it ships.",
     left: 531,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+1",
   },
   {
-    title: "FACT 2",
+    title: "NO FLUFF",
     body:
-      "If your page doesn’t match intent\ninstantly, they bounce to a rival.",
+      "You’ll get clear reporting on\nrankings, traffic, and authority.",
     left: 826,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+2",
   },
   {
-    title: "FACT 3",
-    body: "Clarity beats cleverness when\nsomeone is deciding to convert.",
+    title: "OUTCOMES YOU CAN TRACK",
+    body: "Know what went live, where it\nlanded, and how it performs.",
     left: 1121,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+3",
   },
@@ -100,27 +100,27 @@ const prospectFacts = [
 
 const prospectFactsSecondary = [
   {
-    title: "FACT 1",
-    body: "Your headline makes the promise\nclear in the first five seconds.",
+    title: "STEP 1",
+    body: "Tell us your goal, site, and\npriority pages or keywords.",
     left: 395,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+1",
   },
   {
-    title: "FACT 2",
+    title: "STEP 2",
     body:
-      "Your page matches high-intent\nkeywords with a direct solution.",
+      "We audit, map opportunities, and\nfind the fastest path to impact.",
     left: 660,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+2",
   },
   {
-    title: "FACT 3",
-    body: "Proof, outcomes, and trust signals\nshow up before the first scroll.",
+    title: "STEP 3",
+    body: "You approve a clear plan with\ntargets, timelines, and outputs.",
     left: 925,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+3",
   },
   {
-    title: "FACT 4",
-    body: "The next step is obvious, simple,\nand friction-free for buyers.",
+    title: "STEP 4",
+    body: "We execute: placements, updates,\nPR distribution, and DR growth.",
     left: 1190,
     imageUrl: "https://placehold.co/220x160/png?text=Fact+4",
   },
@@ -165,9 +165,9 @@ const StartForFreeBar = ({
     >
       {isDark && (
         <div>
-          <div className="text-base font-semibold">Start for free</div>
+          <div className="text-base font-semibold">Start free</div>
           <p className="mt-1 text-xs text-white/60">
-            You agree to receive marketing emails.
+            By starting, you agree to receive marketing emails.
           </p>
         </div>
       )}
@@ -254,7 +254,8 @@ export default function SeoLanding() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const ctaButtonLabel = "Get my growth plan";
+  const primaryCtaLabel = "Start free";
+  const secondaryCtaLabel = "Book a growth call";
   const hasHeroVideo = (() => {
     if (!heroVideoUrl?.trim()) return false;
     try {
@@ -384,11 +385,13 @@ export default function SeoLanding() {
               MatterCall
             </div>
             <h1 className="mt-4 text-balance text-3xl font-semibold text-neutral-900 sm:text-4xl">
-              High-intent SEO that turns clicks into customers
+              Authority + rankings that turn searchers into customers
             </h1>
             <p className="mt-3 text-sm text-neutral-500">
-              We align technical SEO, content, and authority to drive qualified
-              leads—not just vanity rankings.
+              Get high-authority placements (DA 50–DA 90+), keyword wins, and
+              PR-driven visibility built to grow trust, traffic, and revenue.
+              Choose from backlinks, ranking accelerators, press releases, or
+              DR growth programs.
             </p>
             <StartForFreeBar
               className="mt-6"
@@ -398,7 +401,7 @@ export default function SeoLanding() {
               errorMessage={errorMessage}
               onEmailChange={setEmail}
               onSubmit={handleSubmit}
-              buttonName={ctaButtonLabel}
+              buttonName={primaryCtaLabel}
             />
           </div>
         </div>
@@ -446,16 +449,16 @@ export default function SeoLanding() {
         <div className="relative mx-auto w-full max-w-[1906px]">
           <div className="relative mx-auto w-full max-w-[920px] px-4 pt-12 text-center lg:absolute lg:left-1/2 lg:top-[70px] lg:-translate-x-1/2 lg:px-0 lg:pt-0">
             <h2 className="text-[30px] font-semibold leading-[1.15] text-[#2B5E98] sm:text-[36px] lg:text-[42px]">
-              Why do most SEO clicks{" "}
-              <span className="font-normal">never</span>
+              No guesswork.{" "}
+              <span className="font-normal">No fluff.</span>
               <br />
               <span className="text-[28px] font-normal sm:text-[34px] lg:text-[40px]">
-                turn into revenue?
+                Just outcomes you can track.
               </span>
             </h2>
             <p className="mt-4 text-[13px] font-semibold text-[#406DA2] sm:text-[14px]">
-              Searchers judge your offer in seconds. If your message is unclear,
-              they choose a competitor instead.
+              See what shipped, where it went live, and how performance moves
+              across rankings, traffic, and authority metrics.
             </p>
           </div>
 
@@ -493,9 +496,8 @@ export default function SeoLanding() {
                 RESULT
               </div>
               <p className="mt-3 text-[12px] leading-[1.55] sm:text-[13px]">
-                Most prospects scan, don’t read. If your SEO pages don’t
-                instantly answer “why you,” they exit—no matter how strong your
-                offer is.
+                Every update ties back to measurable trust, visibility, and
+                revenue impact.
               </p>
             </div>
 
@@ -549,16 +551,16 @@ export default function SeoLanding() {
         <div className="relative mx-auto w-full max-w-[1906px]">
           <div className="relative mx-auto w-full max-w-[920px] px-4 pt-12 text-center lg:absolute lg:left-1/2 lg:top-[70px] lg:-translate-x-1/2 lg:px-0 lg:pt-0">
             <h2 className="text-[30px] font-semibold leading-[1.15] text-[#2B5E98] sm:text-[36px] lg:text-[42px]">
-              SEO will bring you more customers{" "}
-              <span className="font-normal">if</span>
+              How it works{" "}
+              <span className="font-normal">step-by-step</span>
               <br />
               <span className="text-[28px] font-normal sm:text-[34px] lg:text-[40px]">
-                your page earns trust fast.
+                a simple process that ships.
               </span>
             </h2>
             <p className="mt-4 text-[13px] font-semibold text-[#406DA2] sm:text-[14px]">
-              High-intent visitors decide quickly. Make the promise, proof, and
-              next step obvious so they choose you.
+              Choose your service, approve a clear plan, and we execute the
+              deliverables that grow authority and rankings.
             </p>
           </div>
 
@@ -596,8 +598,8 @@ export default function SeoLanding() {
                 RESULT
               </div>
               <p className="mt-3 text-[12px] leading-[1.55] sm:text-[13px]">
-                When your SEO pages answer intent, prove credibility, and guide
-                the next step, clicks turn into revenue-ready customers.
+                Real deliverables, transparent reporting, and momentum you can
+                measure every month.
               </p>
             </div>
 
@@ -623,7 +625,7 @@ export default function SeoLanding() {
       <section className="bg-background py-10 sm:py-14">
         <div className="mx-auto max-w-5xl px-4 text-center">
           <h2 className="text-3xl font-semibold text-neutral-900 sm:text-4xl">
-            After You Place Your Order: What to Expect
+            Pick your service (what you can buy today)
           </h2>
         </div>
       </section>
@@ -666,8 +668,8 @@ export default function SeoLanding() {
       <section className="bg-background py-16 sm:py-20">
         <div className="mx-auto max-w-4xl px-4">
           <blockquote className="text-2xl font-semibold text-neutral-900 sm:text-3xl">
-            “MatterCall rebuilt our SEO from the ground up. Rankings climbed,
-            and inbound leads finally matched our sales goals.”
+            “We needed authority and rankings that actually drove customers.
+            MatterCall delivered placements, wins, and revenue momentum.”
           </blockquote>
           <p className="mt-4 text-sm text-neutral-500">
             Clare Jerome, NEOM Studio
@@ -684,9 +686,9 @@ export default function SeoLanding() {
               </div>
             </div>
             <h2 className="mt-6 text-2xl font-semibold sm:text-3xl">
-              Turn search visibility into booked revenue.
+              Turn authority and rankings into booked revenue.
               <br />
-              Start with a MatterCall SEO growth sprint.
+              Start with a growth plan built for real outcomes.
             </h2>
             <div className="mt-6 flex flex-col items-center gap-3">
               <StartForFreeBar
@@ -697,10 +699,10 @@ export default function SeoLanding() {
                 errorMessage={errorMessage}
                 onEmailChange={setEmail}
                 onSubmit={handleSubmit}
-                buttonName={ctaButtonLabel}
+                buttonName={secondaryCtaLabel}
               />
               <p className="text-xs text-white/70">
-                You agree to receive MatterCall marketing emails.
+                By starting, you agree to receive marketing emails.
               </p>
             </div>
           </div>
@@ -740,8 +742,8 @@ export default function SeoLanding() {
                   >
                     <div className="overflow-hidden">
                       <p className="mt-3 text-sm text-neutral-500">
-                        We audit the full funnel, prioritize fixes, and launch
-                        content designed to rank and convert.
+                        We align deliverables to your goal, ship placements or
+                        updates fast, and report the impact clearly.
                       </p>
                     </div>
                   </div>
@@ -777,7 +779,7 @@ export default function SeoLanding() {
           errorMessage={errorMessage}
           onEmailChange={setEmail}
           onSubmit={handleSubmit}
-          buttonName={ctaButtonLabel}
+          buttonName={primaryCtaLabel}
         />
       </div>
     </main>

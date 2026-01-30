@@ -65,10 +65,46 @@ const features = [
 ];
 
 const faqs = [
-  "What authority range can you place links on?",
-  "How do you choose keyword wins to accelerate?",
-  "What does PR distribution include?",
-  "How is DR growth measured and reported?",
+  {
+    question: "What authority range can you place links on?",
+    answer:
+      "We target real sites in the DA 50–90+ range depending on your niche, budget, and relevance. Every placement is contextual, vetted for quality, and shared with you in reporting.",
+  },
+  {
+    question: "How do you choose keyword wins to accelerate?",
+    answer:
+      "We prioritize keywords where ranking gains are most likely to convert—typically page-two opportunities, high-intent terms, and gaps your competitors already own. You receive a focused map with targets, pages, and expected impact.",
+  },
+  {
+    question: "What does PR distribution include?",
+    answer:
+      "We handle drafting, edits, formatting, and distribution. You’ll get a final press release plus a distribution report with live URLs where available and performance notes.",
+  },
+  {
+    question: "How is DR growth measured and reported?",
+    answer:
+      "We monitor changes in domain metrics, referring domains, and link velocity month over month. Reports include what went live, why it matters, and what we recommend next.",
+  },
+  {
+    question: "What do you need from us to get started?",
+    answer:
+      "We’ll ask for your website URL, target pages or products, and any priority keywords. If you have existing analytics or Search Console access, that helps us move faster but isn’t required.",
+  },
+  {
+    question: "How quickly will we see results?",
+    answer:
+      "Most clients see early movement within 4–8 weeks, with stronger gains compounding over 3–6 months. Timelines vary based on competition, site health, and how aggressive the plan is.",
+  },
+  {
+    question: "Do you guarantee rankings?",
+    answer:
+      "No. Search algorithms change and results depend on many factors. What we guarantee is a clear plan, high-quality deliverables, and transparent reporting on progress.",
+  },
+  {
+    question: "Can you work with international or local SEO goals?",
+    answer:
+      "Yes. We can align the strategy to local geo targets or global markets with localized content and link strategies tailored to each region.",
+  },
 ];
 
 const cardSurfaceClasses =
@@ -165,9 +201,9 @@ const StartForFreeBar = ({
     >
       {isDark && (
         <div>
-          <div className="text-base font-semibold">Start free</div>
+          <div className="text-base font-semibold">Start from $1</div>
           <p className="mt-1 text-xs text-white/60">
-            By starting, you agree to receive marketing emails.
+            By continuing, you agree to receive marketing emails.
           </p>
         </div>
       )}
@@ -254,7 +290,7 @@ export default function SeoLanding() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const primaryCtaLabel = "Start free";
+  const primaryCtaLabel = "Continue";
   const secondaryCtaLabel = "Book a growth call";
   const hasHeroVideo = (() => {
     if (!heroVideoUrl?.trim()) return false;
@@ -702,7 +738,7 @@ export default function SeoLanding() {
                 buttonName={secondaryCtaLabel}
               />
               <p className="text-xs text-white/70">
-                By starting, you agree to receive marketing emails.
+                By continuing, you agree to receive marketing emails.
               </p>
             </div>
           </div>
@@ -715,16 +751,16 @@ export default function SeoLanding() {
             Questions?
           </h2>
           <div className="mt-6 divide-y divide-neutral-200">
-            {faqs.map((question, index) => {
+            {faqs.map((faq, index) => {
               const isOpen = openIndex === index;
               return (
-                <div key={question} className="py-5">
+                <div key={faq.question} className="py-5">
                   <button
                     type="button"
                     onClick={() => setOpenIndex(isOpen ? null : index)}
                     className="flex w-full items-center justify-between text-left text-base font-medium text-neutral-900"
                   >
-                    {question}
+                    {faq.question}
                     <span
                       className={`flex h-8 w-8 items-center justify-center rounded-full border border-neutral-300 transition-transform ${
                         isOpen ? "rotate-45" : "rotate-0"
@@ -742,8 +778,7 @@ export default function SeoLanding() {
                   >
                     <div className="overflow-hidden">
                       <p className="mt-3 text-sm text-neutral-500">
-                        We align deliverables to your goal, ship placements or
-                        updates fast, and report the impact clearly.
+                        {faq.answer}
                       </p>
                     </div>
                   </div>

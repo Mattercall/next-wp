@@ -271,25 +271,13 @@ const trendingCoursePanels = [
   },
 ];
 
-const AppleLogo = ({ className }: { className?: string }) => (
-  <svg
-    aria-hidden
-    viewBox="0 0 24 24"
-    className={cn("h-4 w-4 fill-current", className)}
-  >
-    <path d="M16.2 2.4c-.9.1-2 .6-2.7 1.4-.7.8-1.2 1.9-1 3 1 .1 2.1-.5 2.8-1.3.7-.8 1.1-2 1-3.1ZM19.8 17.5c-.4.9-.9 1.7-1.6 2.5-1 1.2-2 2.4-3.7 2.4-1.7 0-2.1-1-4.1-1s-2.5 1-4.1 1c-1.6 0-2.7-1.1-3.7-2.3-2-2.3-3.6-6.5-1.5-9.4 1-1.4 2.7-2.3 4.6-2.3 1.7 0 3.3 1.1 4.1 1.1.8 0 2.7-1.3 4.6-1.1.8 0 3.1.3 4.6 2.2-0.1.1-2.7 1.6-2.6 4.7.1 3.8 3.4 5.1 3.5 5.2Z" />
-  </svg>
-);
-
-const AppleTvLogo = ({ className }: { className?: string }) => (
-  <svg
-    aria-hidden
-    viewBox="0 0 56 24"
-    className={cn("h-5 w-auto fill-white", className)}
-  >
-    <path d="M9.6 0c-.9.1-2 .6-2.7 1.4-.7.8-1.2 1.9-1 3 1 .1 2.1-.5 2.8-1.3.7-.8 1.1-2 1-3.1ZM13.2 15.4c-.4.9-.9 1.7-1.6 2.5-1 1.2-2 2.4-3.7 2.4-1.7 0-2.1-1-4.1-1s-2.5 1-4.1 1c-1.6 0-2.7-1.1-3.7-2.3-2-2.3-3.6-6.5-1.5-9.4C1.6 7.2 3.3 6.3 5.2 6.3c1.7 0 3.3 1.1 4.1 1.1.8 0 2.7-1.3 4.6-1.1.8 0 3.1.3 4.6 2.2-.1.1-2.7 1.6-2.6 4.7.1 3.8 3.4 5.1 3.5 5.2Z" />
-    <path d="M32.7 7.2h-6.3v2.1h2.1v8.4h2.1V9.3h2.1V7.2Zm7.8 10.5c-1.8 0-3.3-1.5-3.3-3.5 0-2.1 1.4-3.5 3.3-3.5s3.3 1.4 3.3 3.5c0 2-1.5 3.5-3.3 3.5Zm0 1.9c3 0 5.4-2.2 5.4-5.4 0-3.2-2.4-5.4-5.4-5.4s-5.4 2.2-5.4 5.4c0 3.2 2.4 5.4 5.4 5.4ZM55.4 17.6h-5.9V7.2h2.1v8.4h3.8v2Z" />
-  </svg>
+const BrandLogo = ({ className }: { className?: string }) => (
+  // eslint-disable-next-line @next/next/no-img-element
+  <img
+    src="/logo.svg"
+    alt="Sale Growth Systems logo"
+    className={cn("h-4 w-4 object-contain", className)}
+  />
 );
 
 export default async function Home() {
@@ -302,9 +290,9 @@ export default async function Home() {
 
       <section>
         <div className="mx-auto flex max-w-[1600px] flex-col items-center px-4 py-16 text-center">
-          <AppleLogo className="h-6 w-6 text-black" />
+          <BrandLogo className="h-6 w-6" />
           <p className={cn("mt-3", heroEyebrowClass)}>
-            Atlas Growth Systems
+            Sale Growth Systems
           </p>
           <h1 className={cn("mt-4", heroHeadingClass)}>
             More orders, bookings, and leads for Shopify brands and local teams.
@@ -421,14 +409,14 @@ export default async function Home() {
               </div>
             </div>
 
-            <div className="mx-auto mt-10 flex w-full max-w-[1075px] flex-col gap-6 rounded-[22px] bg-gradient-to-r from-[#C12BA8] via-[#7c3aed] to-[#2F80FF] px-8 py-8 md:flex-row md:items-center">
+            <div className="mx-auto mt-10 flex w-full max-w-[1075px] flex-col gap-6 rounded-[22px] border border-[#e2e8f0] bg-[#f8fafc] px-8 py-8 shadow-sm md:flex-row md:items-center">
               <div className="flex w-full flex-col items-start gap-4 text-left md:w-[32%]">
-                <h3 className="text-lg font-semibold text-white">
+                <h3 className="text-lg font-semibold text-slate-900">
                   Benchmark authority before
                   <br />
                   you scale SEO
                 </h3>
-                <button className="rounded-xl bg-white px-4 py-2 text-sm font-semibold text-[#0056D2]">
+                <button className="rounded-xl border border-[#d7e1f2] bg-white px-4 py-2 text-sm font-semibold text-[#1d4ed8] shadow-sm">
                   View services →
                 </button>
               </div>
@@ -442,7 +430,7 @@ export default async function Home() {
                     image: "/illustrations/authority-lab.svg",
                     imageLabel: "SEO",
                     headerClass:
-                      "bg-gradient-to-br from-[#0f172a] via-[#1e3a8a] to-[#38bdf8]",
+                      "bg-[#e8f1ff]",
                   },
                   {
                     provider: "Shopify Growth",
@@ -452,7 +440,7 @@ export default async function Home() {
                     image: "/illustrations/shopify-growth.svg",
                     imageLabel: "Shopify",
                     headerClass:
-                      "bg-gradient-to-br from-[#052e16] via-[#15803d] to-[#4ade80]",
+                      "bg-[#ecfdf3]",
                     popular: true,
                   },
                   {
@@ -463,19 +451,19 @@ export default async function Home() {
                     image: "/illustrations/digital-pr.svg",
                     imageLabel: "PR",
                     headerClass:
-                      "bg-gradient-to-br from-[#7c2d12] via-[#ea580c] to-[#fdba74]",
+                      "bg-[#fff1e6]",
                   },
                 ].map((card) => (
                   <div
                     key={card.title}
-                    className="flex min-h-[240px] flex-col overflow-hidden rounded-2xl border border-white/40 bg-white/95 shadow-[0_18px_45px_-35px_rgba(15,23,42,0.45)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-35px_rgba(15,23,42,0.5)]"
+                    className="flex min-h-[240px] flex-col overflow-hidden rounded-2xl border border-[#e2e8f0] bg-white shadow-[0_12px_30px_-24px_rgba(15,23,42,0.25)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-24px_rgba(15,23,42,0.3)]"
                   >
                     <div
                       className={`relative flex h-28 items-center justify-between overflow-hidden ${card.headerClass}`}
                     >
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.25),_transparent_60%)]" />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.5),_transparent_70%)]" />
                       <div className="relative ml-4 flex flex-col gap-2">
-                        <div className="w-fit rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-slate-900">
+                        <div className="w-fit rounded-full border border-white/60 bg-white/95 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-slate-700">
                           {card.imageLabel}
                         </div>
                         {card.popular ? (
@@ -484,7 +472,7 @@ export default async function Home() {
                           </div>
                         ) : null}
                       </div>
-                      <div className="relative mr-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15">
+                      <div className="relative mr-4 flex h-14 w-14 items-center justify-center rounded-2xl border border-white/60 bg-white/70">
                         <img
                           src={card.image}
                           alt={`${card.provider} icon`}
@@ -731,7 +719,7 @@ export default async function Home() {
                       )}
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
                       <div className="absolute bottom-6 left-6 flex flex-col gap-3 text-white">
-                        <AppleTvLogo />
+                        <BrandLogo className="h-6 w-6" />
                         <p
                           className="text-lg font-semibold"
                           dangerouslySetInnerHTML={{

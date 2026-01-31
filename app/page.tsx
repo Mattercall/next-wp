@@ -1,13 +1,6 @@
 import { Star } from "lucide-react";
 import Link from "next/link";
 import {
-  Carousel,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from "@/components/ui/carousel";
-import {
   FeaturedCard,
   FeaturedCardsRow,
 } from "@/components/featured-cards/featured-cards";
@@ -684,66 +677,60 @@ export default async function Home() {
           <h2 className={cn("mb-10 text-center", heroHeadingClass)}>
             Proof that a growth system performs.
           </h2>
-          <Carousel opts={{ align: "center", loop: true }} className="w-full">
-            <CarouselContent>
-              {recentPosts.map((post) => {
-                const media = post._embedded?.["wp:featuredmedia"]?.[0];
-                const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name;
-                const titleText = post.title?.rendered
-                  ? stripHtml(post.title.rendered)
-                  : "Untitled post";
-                const dateLabel = new Date(post.date).toLocaleDateString(
-                  "en-US",
-                  {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  }
-                );
-                const meta = [category, dateLabel].filter(Boolean).join(" • ");
+          <div className="grid gap-6 md:grid-cols-2">
+            {recentPosts.slice(0, 2).map((post) => {
+              const media = post._embedded?.["wp:featuredmedia"]?.[0];
+              const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name;
+              const titleText = post.title?.rendered
+                ? stripHtml(post.title.rendered)
+                : "Untitled post";
+              const dateLabel = new Date(post.date).toLocaleDateString(
+                "en-US",
+                {
+                  month: "short",
+                  day: "numeric",
+                  year: "numeric",
+                }
+              );
+              const meta = [category, dateLabel].filter(Boolean).join(" • ");
 
-                return (
-                  <CarouselItem
-                    key={post.id}
-                    className="pl-4 md:basis-4/5 lg:basis-2/3"
-                  >
-                    <div className="relative h-[420px] overflow-hidden rounded-[28px]">
-                      {media?.source_url ? (
-                        <img
-                          src={media.source_url}
-                          alt={titleText}
-                          className="h-full w-full object-cover"
-                        />
-                      ) : (
-                        <div className="h-full w-full bg-neutral-900/30" />
-                      )}
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                      <div className="absolute bottom-6 left-6 flex flex-col gap-3 text-white">
-                        <BrandLogo className="h-6 w-6" />
-                        <p
-                          className="text-lg font-semibold"
-                          dangerouslySetInnerHTML={{
-                            __html: post.title?.rendered || "Untitled post",
-                          }}
-                        />
-                        <p className="text-xs text-neutral-200">
-                          {meta || "Recent post"}
-                        </p>
-                        <Link
-                          href={`/${post.slug}`}
-                          className="w-fit rounded-full bg-white/90 px-4 py-1 text-xs font-medium text-black"
-                        >
-                          Read post
-                        </Link>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                );
-              })}
-            </CarouselContent>
-            <CarouselPrevious className="hidden sm:flex" />
-            <CarouselNext className="hidden sm:flex" />
-          </Carousel>
+              return (
+                <div
+                  key={post.id}
+                  className="relative aspect-square overflow-hidden rounded-[28px]"
+                >
+                  {media?.source_url ? (
+                    <img
+                      src={media.source_url}
+                      alt={titleText}
+                      className="h-full w-full object-cover"
+                    />
+                  ) : (
+                    <div className="h-full w-full bg-neutral-900/30" />
+                  )}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                  <div className="absolute bottom-6 left-6 right-6 flex flex-col gap-3 text-white">
+                    <BrandLogo className="h-6 w-6" />
+                    <p
+                      className="min-h-[3rem] text-lg font-semibold line-clamp-2"
+                      dangerouslySetInnerHTML={{
+                        __html: post.title?.rendered || "Untitled post",
+                      }}
+                    />
+                    <p className="text-xs text-neutral-200">
+                      {meta || "Recent post"}
+                    </p>
+                    <Link
+                      href={`/${post.slug}`}
+                      className="w-fit rounded-full bg-white/90 px-4 py-1 text-xs font-medium text-black"
+                    >
+                      Read post
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
 
         </div>
       </section>

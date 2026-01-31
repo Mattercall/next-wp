@@ -247,7 +247,7 @@ export const CookieConsent = () => {
             role="dialog"
             aria-modal="true"
             aria-labelledby="cookie-preferences-title"
-            className="relative w-full max-w-2xl rounded-3xl border border-white/10 bg-[#0B0B0C] p-6 text-white shadow-[0_30px_80px_rgba(0,0,0,0.65)]"
+            className="relative w-full max-h-[90vh] max-w-2xl overflow-y-auto rounded-3xl border border-white/10 bg-[#0B0B0C] p-6 text-white shadow-[0_30px_80px_rgba(0,0,0,0.65)]"
           >
             <button
               ref={closeButtonRef}
@@ -438,7 +438,7 @@ const ConsentRow = ({
             </p>
           )}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           <button
             type="button"
             onClick={onToggleExpand}

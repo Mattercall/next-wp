@@ -63,8 +63,7 @@ const promoTiles: {
       "Conversion-first storefronts built to lift AOV,",
       "repeat orders, and mobile checkout completion.",
     ],
-    image:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80",
+    image: "/illustrations/shopify-web-design.svg",
     className: "bg-[#0f172a] text-white",
     isDark: true,
   },
@@ -74,8 +73,7 @@ const promoTiles: {
       "Creative, audiences, and landing flows",
       "that convert clicks into orders and bookings.",
     ],
-    image:
-      "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1200&q=80",
+    image: "/illustrations/meta-ads.svg",
     className: "bg-[#f5f5f7]",
   },
   {
@@ -84,8 +82,7 @@ const promoTiles: {
       "Capture demand with high-intent search",
       "coverage that lowers CAC and CPL.",
     ],
-    image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
+    image: "/illustrations/google-ads-local-search.svg",
     className: "bg-[#f5f5f7]",
   },
   {
@@ -94,8 +91,7 @@ const promoTiles: {
       "Unified offer, messaging, and analytics",
       "that keep growth predictable and measurable.",
     ],
-    image:
-      "https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&w=1200&q=80",
+    image: "/illustrations/growth-strategy-reporting.svg",
     className: "bg-[#f5f5f7]",
   },
 ];

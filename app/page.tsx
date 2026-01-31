@@ -457,74 +457,81 @@ export default function Home() {
                   View services →
                 </button>
               </div>
-              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4 md:w-[68%]">
+              <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:w-[68%]">
                 {[
                   {
                     provider: "Authority Lab",
                     title: "Authority Foundations for Ranking Momentum",
                     type: "Backlink Blueprint",
-                    rating: "★ 4.9",
-                    imageClass:
-                      "bg-gradient-to-br from-green-400 via-blue-500 to-yellow-400",
+                    rating: "4.9",
+                    image: "/illustrations/authority-lab.svg",
                     imageLabel: "SEO",
+                    headerClass:
+                      "bg-gradient-to-br from-[#0f172a] via-[#1e3a8a] to-[#38bdf8]",
                   },
                   {
                     provider: "Shopify Growth",
                     title: "Authority Outreach + PR Placements",
                     type: "Growth Sprint",
-                    rating: "★ 4.8",
-                    imageClass:
-                      "bg-[url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=600&q=80')] bg-cover bg-center",
+                    rating: "4.8",
+                    image: "/illustrations/shopify-growth.svg",
                     imageLabel: "Shopify",
+                    headerClass:
+                      "bg-gradient-to-br from-[#052e16] via-[#15803d] to-[#4ade80]",
                     popular: true,
-                  },
-                  {
-                    provider: "Local SEO",
-                    title: "Local Authority + Map Pack Boost",
-                    type: "Performance Kit",
-                    rating: "★ 4.7",
-                    imageClass: "bg-[#0b2b55]",
-                    imageLabel: "Local",
                   },
                   {
                     provider: "Digital PR",
                     title: "Content-Led Link Velocity",
                     type: "Authority Specialization",
-                    rating: "★ 4.6",
-                    imageClass:
-                      "bg-[url('https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=600&q=80')] bg-cover bg-center",
+                    rating: "4.6",
+                    image: "/illustrations/digital-pr.svg",
                     imageLabel: "PR",
+                    headerClass:
+                      "bg-gradient-to-br from-[#7c2d12] via-[#ea580c] to-[#fdba74]",
                   },
                 ].map((card) => (
                   <div
                     key={card.title}
-                    className="flex min-h-[210px] flex-col overflow-hidden rounded-xl bg-white shadow-sm"
+                    className="flex min-h-[240px] flex-col overflow-hidden rounded-2xl border border-white/40 bg-white/95 shadow-[0_18px_45px_-35px_rgba(15,23,42,0.45)] transition duration-300 hover:-translate-y-1 hover:shadow-[0_24px_60px_-35px_rgba(15,23,42,0.5)]"
                   >
                     <div
-                      className={`relative h-24 ${card.imageClass}`}
+                      className={`relative flex h-28 items-center justify-between overflow-hidden ${card.headerClass}`}
                     >
-                      <div className="absolute left-3 top-3 rounded-md bg-white/90 px-2 py-0.5 text-[10px] font-semibold text-neutral-800">
-                        {card.imageLabel}
-                      </div>
-                      {card.popular ? (
-                        <div className="absolute left-3 top-10 rounded-full bg-[#e2554b] px-2 py-0.5 text-[10px] font-semibold text-white">
-                          POPULAR
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.25),_transparent_60%)]" />
+                      <div className="relative ml-4 flex flex-col gap-2">
+                        <div className="w-fit rounded-full bg-white/90 px-3 py-1 text-[10px] font-semibold uppercase tracking-wide text-slate-900">
+                          {card.imageLabel}
                         </div>
-                      ) : null}
+                        {card.popular ? (
+                          <div className="w-fit rounded-full bg-[#f97316] px-2.5 py-0.5 text-[10px] font-semibold text-white">
+                            POPULAR
+                          </div>
+                        ) : null}
+                      </div>
+                      <div className="relative mr-4 flex h-14 w-14 items-center justify-center rounded-2xl bg-white/15">
+                        <img
+                          src={card.image}
+                          alt={`${card.provider} icon`}
+                          className="h-12 w-12"
+                        />
+                      </div>
                     </div>
-                    <div className="flex flex-1 flex-col px-3 py-3 text-left">
-                      <p className="text-xs font-semibold text-neutral-500">
+                    <div className="flex flex-1 flex-col px-4 py-4 text-left">
+                      <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-500">
                         {card.provider}
                       </p>
-                      <p className="mt-2 text-xs font-semibold text-neutral-900">
+                      <p className="mt-2 text-sm font-semibold text-slate-900">
                         {card.title}
                       </p>
-                      <p className="mt-3 text-[11px] text-neutral-500">
+                      <p className="mt-3 text-xs text-slate-500">
                         {card.type}
                       </p>
-                      <p className="mt-2 text-[11px] text-neutral-700">
-                        {card.rating}
-                      </p>
+                      <div className="mt-3 flex items-center gap-2 text-xs text-slate-700">
+                        <Star className="h-3.5 w-3.5 fill-[#f59e0b] text-[#f59e0b]" />
+                        <span className="font-semibold">{card.rating}</span>
+                        <span className="text-slate-500">/ 5.0 rating</span>
+                      </div>
                     </div>
                   </div>
                 ))}

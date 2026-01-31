@@ -50,14 +50,15 @@ export const CookieConsent = () => {
     defaultPreferences
   )
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [hasLoaded, setHasLoaded] = useState(false)
   const [expanded, setExpanded] = useState<
-    "necessary" | "analytics" | "marketing"
+    "necessary" | "analytics" | "marketing" | null
   >("necessary")
   const closeButtonRef = useRef<HTMLButtonElement | null>(null)
   const modalRef = useRef<HTMLDivElement | null>(null)
 
   const hasDecision = decision !== null
-  const shouldShowBanner = !hasDecision && !isModalOpen
+  const shouldShowBanner = hasLoaded && !hasDecision && !isModalOpen
 
   useEffect(() => {
     if (typeof window === "undefined") return
@@ -84,6 +85,7 @@ export const CookieConsent = () => {
         marketing: cookieValue.includes("marketing"),
       })
     }
+    setHasLoaded(true)
   }, [])
 
   useEffect(() => {
@@ -280,6 +282,9 @@ export const CookieConsent = () => {
                     </Link>
                     .
                   </p>
+                  <p className="text-sm text-white/60">
+                    You can change these anytime in Settings.
+                  </p>
                 </div>
               </div>
 
@@ -291,22 +296,35 @@ export const CookieConsent = () => {
                 <div className="mt-5 space-y-4">
                   <ConsentRow
                     title="Necessary"
-                    description="Necessary cookies are required to enable the basic features of this site, such as providing secure log-in or adjusting your consent preferences."
+                    summary="Required for the site to work (security, login, preferences)."
+                    details={[
+                      "These cookies enable core functionality like page navigation, secure areas, and saving your privacy choices. They can’t be switched off.",
+                      "Example data collected: session identifiers, consent state, security tokens.",
+                      "Typical retention: varies by provider.",
+                      "Providers: first-party cookies set by this site.",
+                    ]}
                     expanded={expanded === "necessary"}
                     onToggleExpand={() =>
-                      setExpanded(expanded === "necessary" ? "analytics" : "necessary")
+                      setExpanded(expanded === "necessary" ? null : "necessary")
                     }
                     required
                     toggleOn
                     toggleDisabled
+                    toggleDescribedBy="cookie-necessary-required"
                   />
 
                   <ConsentRow
                     title="Performance & analytics"
-                    description="Helps us understand how the site is used so we can improve performance, reliability, and user experience."
+                    summary="Helps us understand how the site is used and improve it."
+                    details={[
+                      "We use analytics cookies to measure traffic and usage patterns (e.g., pages visited, time on page, errors). Data is aggregated where possible.",
+                      "Example data collected: page views, click events, device/browser info.",
+                      "Typical retention: varies by provider.",
+                      "Providers: analytics platforms (e.g., Google Analytics).",
+                    ]}
                     expanded={expanded === "analytics"}
                     onToggleExpand={() =>
-                      setExpanded(expanded === "analytics" ? "marketing" : "analytics")
+                      setExpanded(expanded === "analytics" ? null : "analytics")
                     }
                     toggleOn={preferences.analytics}
                     onToggle={() =>
@@ -319,10 +337,16 @@ export const CookieConsent = () => {
 
                   <ConsentRow
                     title="Marketing & Advertising"
-                    description="Used to deliver relevant content and measure the effectiveness of marketing campaigns."
+                    summary="Used to show relevant ads and measure campaign performance."
+                    details={[
+                      "These cookies may track activity across sites to build a profile of interests. They can be set by us or advertising partners.",
+                      "Example data collected: ad interactions, referral sources, hashed identifiers.",
+                      "Typical retention: varies by provider.",
+                      "Providers: ad networks and marketing platforms (e.g., Meta, Google Ads).",
+                    ]}
                     expanded={expanded === "marketing"}
                     onToggleExpand={() =>
-                      setExpanded(expanded === "marketing" ? "analytics" : "marketing")
+                      setExpanded(expanded === "marketing" ? null : "marketing")
                     }
                     toggleOn={preferences.marketing}
                     onToggle={() =>
@@ -368,54 +392,80 @@ export const CookieConsent = () => {
 
 type ConsentRowProps = {
   title: string
-  description?: string
+  summary: string
+  details: string[]
   expanded: boolean
   onToggleExpand: () => void
   required?: boolean
   toggleOn: boolean
   toggleDisabled?: boolean
+  toggleDescribedBy?: string
   onToggle?: () => void
 }
 
 const ConsentRow = ({
   title,
-  description,
+  summary,
+  details,
   expanded,
   onToggleExpand,
   required = false,
   toggleOn,
   toggleDisabled = false,
+  toggleDescribedBy,
   onToggle,
 }: ConsentRowProps) => {
+  const detailsId = `${title.toLowerCase().replace(/[^a-z]+/g, "-")}-details`
   return (
     <div className="space-y-3">
-      <div className="flex items-center justify-between gap-3">
-        <button
-          type="button"
-          onClick={onToggleExpand}
-          className="flex items-center gap-3 text-left"
-          aria-expanded={expanded}
-        >
-          <span className="flex h-7 w-7 items-center justify-center rounded-full border border-white/30 text-white">
-            {expanded ? "−" : "+"}
-          </span>
-          <span className="text-sm font-semibold text-white">
-            {title}
+      <div className="flex flex-wrap items-start justify-between gap-4">
+        <div className="space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-sm font-semibold text-white">{title}</span>
             {required && (
-              <span className="ml-2 rounded-full bg-[#1E3A2E] px-2 py-0.5 text-[10px] font-semibold uppercase text-[#22C55E]">
+              <span className="rounded-full bg-[#1E3A2E]/70 px-2 py-0.5 text-[10px] font-semibold uppercase text-[#22C55E]">
                 Required
               </span>
             )}
-          </span>
-        </button>
-        <ToggleSwitch
-          checked={toggleOn}
-          disabled={toggleDisabled}
-          onToggle={onToggle}
-        />
+          </div>
+          <p className="text-xs text-white/70">{summary}</p>
+          {required && (
+            <p
+              id="cookie-necessary-required"
+              className="text-[11px] text-white/50"
+            >
+              Required cookies are always on.
+            </p>
+          )}
+        </div>
+        <div className="flex items-center gap-3">
+          <button
+            type="button"
+            onClick={onToggleExpand}
+            className="flex min-h-[40px] min-w-[40px] items-center gap-2 rounded-full border border-white/15 px-3 text-xs font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
+            aria-expanded={expanded}
+            aria-controls={detailsId}
+          >
+            <span className="text-sm">{expanded ? "−" : "+"}</span>
+            <span>Details</span>
+          </button>
+          <ToggleSwitch
+            checked={toggleOn}
+            disabled={toggleDisabled}
+            describedBy={toggleDescribedBy}
+            onToggle={onToggle}
+          />
+        </div>
       </div>
-      {expanded && description && (
-        <p className="text-xs text-white/70">{description}</p>
+      {expanded && (
+        <div
+          id={detailsId}
+          className="space-y-2 text-xs text-white/70"
+        >
+          {details.map((detail) => (
+            <p key={detail}>{detail}</p>
+          ))}
+        </div>
       )}
       <div className="h-px w-full bg-white/10" />
     </div>
@@ -425,30 +475,40 @@ const ConsentRow = ({
 type ToggleSwitchProps = {
   checked: boolean
   disabled?: boolean
+  describedBy?: string
   onToggle?: () => void
 }
 
-const ToggleSwitch = ({ checked, disabled, onToggle }: ToggleSwitchProps) => {
+const ToggleSwitch = ({
+  checked,
+  disabled,
+  describedBy,
+  onToggle,
+}: ToggleSwitchProps) => {
   return (
-    <button
-      type="button"
-      role="switch"
-      aria-checked={checked}
-      aria-disabled={disabled}
-      onClick={() => {
-        if (disabled) return
-        onToggle?.()
-      }}
-      className={`relative h-7 w-12 rounded-full border border-white/20 transition ${
-        checked ? "bg-[#248D4B]" : "bg-white/20"
-      } ${disabled ? "cursor-not-allowed opacity-80" : "cursor-pointer"}`}
+    <label
+      className={`inline-flex items-center justify-center ${
+        disabled ? "cursor-not-allowed opacity-60" : "cursor-pointer"
+      }`}
     >
-      <span
-        className={`absolute top-1/2 h-5 w-5 -translate-y-1/2 rounded-full bg-white shadow transition ${
-          checked ? "translate-x-6" : "translate-x-1"
-        }`}
+      <input
+        type="checkbox"
+        role="switch"
+        checked={checked}
+        disabled={disabled}
+        aria-checked={checked}
+        aria-disabled={disabled}
+        aria-describedby={describedBy}
+        onChange={() => {
+          if (disabled) return
+          onToggle?.()
+        }}
+        className="peer sr-only"
       />
-    </button>
+      <span className="inline-flex h-6 w-12 items-center rounded-full border border-white/20 bg-white/20 p-1 transition peer-focus-visible:outline-none peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-300 peer-checked:bg-[#248D4B] peer-disabled:border-white/10 peer-disabled:bg-white/10">
+        <span className="h-4 w-4 rounded-full bg-white shadow transition-transform duration-200 peer-checked:translate-x-6" />
+      </span>
+    </label>
   )
 }
 

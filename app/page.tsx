@@ -320,103 +320,38 @@ const AppleTvLogo = ({ className }: { className?: string }) => (
 
 export default function Home() {
   return (
-    <main className="bg-[#f8fafc] text-neutral-900">
+    <main className="bg-white text-neutral-900">
       <div className="w-full border-b border-neutral-200 bg-white px-4 py-2 text-center text-xs text-[#6e6e73]">
         Done-for-you growth systems for Shopify brands and local businesses.
       </div>
 
-      <section className="bg-white">
-        <div className="mx-auto flex max-w-[1600px] flex-col gap-12 px-4 py-16 lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
-          <div className="flex flex-col text-left">
-            <div className="flex items-center gap-3">
-              <AppleLogo className="h-6 w-6 text-black" />
-              <p className={cn(heroEyebrowClass, "text-left")}>
-                Atlas Growth Systems
-              </p>
-            </div>
-            <h1 className={cn("mt-4 text-balance", heroHeadingClass)}>
-              Enterprise-grade growth for Shopify brands and multi-location teams.
-            </h1>
-            <p className={cn("mt-3 max-w-[620px]", heroBodyClass)}>
-              We design conversion-first storefronts, orchestrate paid media,
-              and automate speed-to-lead workflows so you scale predictable
-              revenue without adding overhead.
-            </p>
-            <div className="mt-6 flex flex-wrap items-center gap-3">
-              <button className={primaryButtonClass}>Book a growth call</button>
-              <button className={secondaryButtonClass}>View services</button>
-            </div>
-            <div className="mt-8 rounded-2xl border border-neutral-200 bg-[#f8fafc] p-6 shadow-sm">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-500">
-                Performance indicators
-              </p>
-              <div className="mt-4 grid gap-4 sm:grid-cols-3">
-                {[
-                  {
-                    label: "Average ROAS lift",
-                    value: "2.4x",
-                    detail: "Across paid media retainers",
-                  },
-                  {
-                    label: "Speed-to-lead",
-                    value: "<5 min",
-                    detail: "Automation response SLA",
-                  },
-                  {
-                    label: "Retention impact",
-                    value: "+18%",
-                    detail: "Repeat order uplift",
-                  },
-                ].map((stat) => (
-                  <div
-                    key={stat.label}
-                    className="rounded-xl bg-white p-4 shadow-[0_12px_30px_-25px_rgba(15,23,42,0.45)]"
-                  >
-                    <p className="text-sm font-semibold text-neutral-900">
-                      {stat.value}
-                    </p>
-                    <p className="mt-1 text-xs font-semibold text-neutral-500">
-                      {stat.label}
-                    </p>
-                    <p className="mt-2 text-xs text-neutral-400">
-                      {stat.detail}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="mt-8">
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-neutral-400">
-                Trusted by growth teams
-              </p>
-              <div className="mt-3 flex flex-wrap items-center gap-3">
-                {courseraPartnerChips.slice(0, 6).map((chip) => (
-                  <div
-                    key={chip.name}
-                    className="flex items-center gap-2 rounded-full border border-neutral-200 bg-white px-3 py-2 text-xs font-semibold text-neutral-700"
-                  >
-                    <span
-                      className={cn(
-                        "flex h-6 min-w-[24px] items-center justify-center rounded-full bg-neutral-100 text-[10px] font-semibold",
-                        chip.color
-                      )}
-                    >
-                      {chip.logo}
-                    </span>
-                    <span>{chip.name}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+      <section>
+        <div className="mx-auto flex max-w-[1600px] flex-col items-center px-4 py-16 text-center">
+          <AppleLogo className="h-6 w-6 text-black" />
+          <p className={cn("mt-3", heroEyebrowClass)}>
+            Atlas Growth Systems
+          </p>
+          <h1 className={cn("mt-4", heroHeadingClass)}>
+            More orders, bookings, and leads for Shopify brands and local teams.
+          </h1>
+          <p className={cn("mt-2", heroBodyClass)}>
+            We build conversion-focused pages, run Facebook + Google ads, grow SEO
+            and backlinks, and automate follow-up so you turn traffic into revenue
+            without adding headcount.
+          </p>
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+            <button className={primaryButtonClass}>Book a growth call</button>
+            <button className={secondaryButtonClass}>View services</button>
           </div>
-
           <FeaturedCardsSection>
             <FeaturedCardsRow>
               {featuredCards.map((card) => (
                 <FeaturedCard
                   key={card.title}
                   href="#"
-                  className={cn(card.isVideo && "order-first sm:order-none")}
+                  className={cn(
+                    card.isVideo && "order-first sm:order-none"
+                  )}
                   media={
                     card.isVideo ? (
                       <video

@@ -1,0 +1,30 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Shopify web design illustration">
+  <defs>
+    <linearGradient id="shopify-bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#111827" />
+    </linearGradient>
+    <linearGradient id="shopify-card" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#22c55e" />
+      <stop offset="100%" stop-color="#16a34a" />
+    </linearGradient>
+    <linearGradient id="shopify-accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#38bdf8" />
+      <stop offset="100%" stop-color="#6366f1" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" rx="48" fill="url(#shopify-bg)" />
+  <rect x="110" y="120" width="980" height="660" rx="40" fill="#111827" stroke="#1f2937" stroke-width="2" />
+  <rect x="150" y="180" width="900" height="520" rx="32" fill="#0b1220" stroke="#1f2937" stroke-width="2" />
+  <rect x="190" y="220" width="320" height="220" rx="24" fill="url(#shopify-card)" />
+  <rect x="540" y="220" width="470" height="52" rx="18" fill="#1f2937" />
+  <rect x="540" y="290" width="380" height="22" rx="11" fill="#1f2937" />
+  <rect x="540" y="325" width="310" height="22" rx="11" fill="#1f2937" />
+  <rect x="540" y="380" width="220" height="46" rx="16" fill="url(#shopify-accent)" />
+  <rect x="190" y="470" width="820" height="180" rx="28" fill="#0f172a" stroke="#1f2937" stroke-width="2" />
+  <rect x="230" y="510" width="260" height="90" rx="18" fill="#1f2937" />
+  <rect x="520" y="510" width="220" height="90" rx="18" fill="#1f2937" />
+  <rect x="770" y="510" width="200" height="90" rx="18" fill="#1f2937" />
+  <circle cx="925" cy="280" r="44" fill="#0ea5e9" opacity="0.2" />
+  <circle cx="925" cy="280" r="22" fill="#38bdf8" />
+</svg>

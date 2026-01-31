@@ -177,28 +177,27 @@ export const CookieConsent = () => {
   }
 
   const bannerActions = (
-    <div className="flex flex-wrap items-center justify-end gap-3">
+    <div className="flex flex-wrap items-center gap-3 sm:justify-end">
+      <button
+        type="button"
+        onClick={() => setIsModalOpen(true)}
+        className="h-10 rounded-full border border-white/20 px-4 text-sm font-semibold text-white/90 transition hover:border-white/40 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+      >
+        Manage preferences
+      </button>
       <button
         type="button"
         onClick={handleRejectAll}
-        className="h-10 rounded-full bg-white px-4 text-sm font-medium text-black shadow-sm transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+        className="h-10 rounded-full border border-white/30 px-4 text-sm font-semibold text-white transition hover:border-white/60 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
       >
         Reject all
       </button>
       <button
         type="button"
         onClick={handleAcceptAll}
-        className="h-10 rounded-full bg-white px-4 text-sm font-medium text-black shadow-sm transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+        className="h-10 rounded-full bg-white px-5 text-sm font-semibold text-black shadow-sm transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
       >
-        Accept cookies
-      </button>
-      <button
-        type="button"
-        onClick={() => setIsModalOpen(true)}
-        className="flex h-10 w-10 items-center justify-center rounded-full border border-white/40 text-white transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
-        aria-label="Manage preferences"
-      >
-        <GearIcon className="h-5 w-5" />
+        Accept all
       </button>
     </div>
   )
@@ -207,76 +206,18 @@ export const CookieConsent = () => {
     <>
       {shouldShowBanner && (
         <div className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-5xl">
-          <div className="flex flex-col gap-4 rounded-2xl border border-[#3F4644] bg-[#0B0B0C]/95 px-5 py-4 text-white shadow-[0_10px_30px_rgba(0,0,0,0.4)] backdrop-blur">
+          <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-gradient-to-br from-[#0B0B0C]/95 via-[#111314]/95 to-[#0B0B0C]/95 px-6 py-5 text-white shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur">
             <div className="flex flex-wrap items-center gap-4">
-              <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/10">
-                <CookieIcon className="h-5 w-5" />
+              <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                <CookieIcon className="h-5 w-5 text-white/90" />
               </div>
-              <p className="text-xs leading-relaxed text-white/90 sm:text-sm">
-                We and our partners use cookies and other technologies to
-                personalize your experience, show you ads, and perform
-                analytics. See our{" "}
-                <Link
-                  href="/legal/privacy"
-                  className="font-semibold text-white underline underline-offset-2"
-                >
-                  Cookie Policy
-                </Link>
-                .
-              </p>
-            </div>
-            <div className="flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <div className="text-xs text-white/70">
-                Manage your choices anytime in settings.
-              </div>
-              {bannerActions}
-            </div>
-          </div>
-        </div>
-      )}
-
-      {hasDecision && !isModalOpen && (
-        <button
-          type="button"
-          onClick={() => setIsModalOpen(true)}
-          className="fixed bottom-4 left-4 z-40 flex h-11 w-11 items-center justify-center rounded-full border border-white/30 bg-[#0B0B0C] text-white shadow-[0_8px_20px_rgba(0,0,0,0.4)] transition hover:bg-white/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
-          aria-label="Open cookie preferences"
-        >
-          <CookieIcon className="h-5 w-5" />
-        </button>
-      )}
-
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-6">
-          <div
-            ref={modalRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="cookie-preferences-title"
-            className="relative w-full max-w-xl rounded-3xl border border-white/10 bg-[#0B0B0C] p-6 text-white shadow-[0_20px_50px_rgba(0,0,0,0.6)]"
-          >
-            <button
-              ref={closeButtonRef}
-              type="button"
-              onClick={() => setIsModalOpen(false)}
-              className="absolute right-5 top-5 text-white/70 transition hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
-              aria-label="Close cookie preferences"
-            >
-              <span className="text-xl">×</span>
-            </button>
-
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <h2
-                  id="cookie-preferences-title"
-                  className="text-2xl font-semibold sm:text-3xl"
-                >
-                  We use cookies
-                </h2>
-                <p className="text-sm text-white/80">
-                  We and our partners use cookies and other technologies to
-                  personalize your experience, show you ads, and perform
-                  analytics. See our{" "}
+              <div className="space-y-1">
+                <p className="text-sm font-semibold text-white">
+                  We respect your privacy
+                </p>
+                <p className="text-xs leading-relaxed text-white/70 sm:text-sm">
+                  We use cookies to personalize your experience, measure
+                  performance, and support marketing. Review our{" "}
                   <Link
                     href="/legal/privacy"
                     className="font-semibold text-white underline underline-offset-2"
@@ -286,15 +227,68 @@ export const CookieConsent = () => {
                   .
                 </p>
               </div>
+            </div>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="text-xs text-white/60">
+                You can change your choices at any time.
+              </div>
+              {bannerActions}
+            </div>
+          </div>
+        </div>
+      )}
 
-              <p className="text-xs uppercase tracking-wide text-white/60">
-                Save your preferences to close:
-              </p>
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-6">
+          <div
+            ref={modalRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="cookie-preferences-title"
+            className="relative w-full max-w-2xl rounded-3xl border border-white/10 bg-[#0B0B0C] p-6 text-white shadow-[0_30px_80px_rgba(0,0,0,0.65)]"
+          >
+            <button
+              ref={closeButtonRef}
+              type="button"
+              onClick={() => setIsModalOpen(false)}
+              className="absolute right-5 top-5 flex h-9 w-9 items-center justify-center rounded-full border border-white/10 text-white/70 transition hover:border-white/30 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300"
+              aria-label="Close cookie preferences"
+            >
+              <span className="text-xl">×</span>
+            </button>
 
-              <div className="rounded-2xl bg-[#27272A] p-4">
-                <p className="text-xs font-semibold text-white/70">You allow:</p>
+            <div className="space-y-6">
+              <div className="flex flex-wrap items-center gap-4">
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                  <CookieIcon className="h-5 w-5 text-white/90" />
+                </div>
+                <div className="space-y-1">
+                  <h2
+                    id="cookie-preferences-title"
+                    className="text-2xl font-semibold sm:text-3xl"
+                  >
+                    Cookie preferences
+                  </h2>
+                  <p className="text-sm text-white/70">
+                    Choose how we use cookies to improve your experience. Learn
+                    more in our{" "}
+                    <Link
+                      href="/legal/privacy"
+                      className="font-semibold text-white underline underline-offset-2"
+                    >
+                      Cookie Policy
+                    </Link>
+                    .
+                  </p>
+                </div>
+              </div>
 
-                <div className="mt-4 space-y-4">
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-5">
+                <p className="text-xs font-semibold uppercase tracking-wide text-white/60">
+                  Cookie categories
+                </p>
+
+                <div className="mt-5 space-y-4">
                   <ConsentRow
                     title="Necessary"
                     description="Necessary cookies are required to enable the basic features of this site, such as providing secure log-in or adjusting your consent preferences."
@@ -309,6 +303,7 @@ export const CookieConsent = () => {
 
                   <ConsentRow
                     title="Performance & analytics"
+                    description="Helps us understand how the site is used so we can improve performance, reliability, and user experience."
                     expanded={expanded === "analytics"}
                     onToggleExpand={() =>
                       setExpanded(expanded === "analytics" ? "marketing" : "analytics")
@@ -324,6 +319,7 @@ export const CookieConsent = () => {
 
                   <ConsentRow
                     title="Marketing & Advertising"
+                    description="Used to deliver relevant content and measure the effectiveness of marketing campaigns."
                     expanded={expanded === "marketing"}
                     onToggleExpand={() =>
                       setExpanded(expanded === "marketing" ? "analytics" : "marketing")
@@ -339,26 +335,29 @@ export const CookieConsent = () => {
                 </div>
               </div>
 
-              <div className="flex flex-col items-center gap-3 pt-2 sm:flex-row sm:justify-center">
+              <div className="flex flex-col items-center gap-3 pt-2 sm:flex-row sm:justify-end">
+                <button
+                  type="button"
+                  onClick={handleRejectAll}
+                  className="h-11 w-full rounded-full border border-white/20 px-6 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 sm:w-auto"
+                >
+                  Reject all
+                </button>
                 <button
                   type="button"
                   onClick={handleAcceptAll}
                   className="h-11 w-full rounded-full bg-white px-6 text-sm font-semibold text-black transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 sm:w-auto"
                 >
-                  Accept cookies
+                  Accept all
                 </button>
                 <button
                   type="button"
                   onClick={handleSavePreferences}
-                  className="h-11 w-full rounded-full bg-white px-6 text-sm font-semibold text-black transition hover:bg-white/90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 sm:w-auto"
+                  className="h-11 w-full rounded-full border border-white/20 px-6 text-sm font-semibold text-white transition hover:border-white/40 hover:bg-white/5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-emerald-300 sm:w-auto"
                 >
                   Save preferences
                 </button>
               </div>
-            </div>
-
-            <div className="absolute -bottom-5 left-6 flex h-10 w-10 items-center justify-center rounded-full border border-white/30 bg-[#0B0B0C] shadow-lg">
-              <CookieIcon className="h-4 w-4" />
             </div>
           </div>
         </div>

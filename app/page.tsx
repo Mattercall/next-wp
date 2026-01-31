@@ -1,6 +1,5 @@
-"use client";
-
 import { Star } from "lucide-react";
+import Link from "next/link";
 import {
   Carousel,
   CarouselContent,
@@ -21,33 +20,8 @@ import {
   heroHeadingClass,
   heroBodyClass,
 } from "@/components/marketing/cta-styles";
-
-const posterSlides = [
-  {
-    title: "Shopify Revenue Lift",
-    meta: "Paid Media + CRO • +18% conversion rate",
-    image:
-      "https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    title: "Local Pipeline Turnaround",
-    meta: "Search + Automation • faster response times",
-    image:
-      "https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    title: "Automation Response Lift",
-    meta: "AI Workflow • speed-to-lead under 5 min",
-    image:
-      "https://images.unsplash.com/photo-1516387938699-a93567ec168e?auto=format&fit=crop&w=1600&q=80",
-  },
-  {
-    title: "Authority Growth Sprint",
-    meta: "SEO + Backlinks • ranking momentum",
-    image:
-      "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1600&q=80",
-  },
-];
+import { getRecentPosts } from "@/lib/wordpress";
+import { stripHtml } from "@/lib/metadata";
 
 const promoTiles: {
   title: string;
@@ -318,7 +292,8 @@ const AppleTvLogo = ({ className }: { className?: string }) => (
   </svg>
 );
 
-export default function Home() {
+export default async function Home() {
+  const recentPosts = (await getRecentPosts()).slice(0, 4);
   return (
     <main className="bg-white text-neutral-900">
       <div className="w-full border-b border-neutral-200 bg-white px-4 py-2 text-center text-xs text-[#6e6e73]">
@@ -723,29 +698,60 @@ export default function Home() {
           </h2>
           <Carousel opts={{ align: "center", loop: true }} className="w-full">
             <CarouselContent>
-              {posterSlides.map((slide) => (
-                <CarouselItem
-                  key={slide.title}
-                  className="pl-4 md:basis-4/5 lg:basis-2/3"
-                >
-                  <div className="relative h-[420px] overflow-hidden rounded-[28px]">
-                    <img
-                      src={slide.image}
-                      alt={slide.title}
-                      className="h-full w-full object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
-                    <div className="absolute bottom-6 left-6 flex flex-col gap-3 text-white">
-                      <AppleTvLogo />
-                      <p className="text-lg font-semibold">{slide.title}</p>
-                      <p className="text-xs text-neutral-200">{slide.meta}</p>
-                      <button className="w-fit rounded-full bg-white/90 px-4 py-1 text-xs font-medium text-black">
-                        View results
-                      </button>
+              {recentPosts.map((post) => {
+                const media = post._embedded?.["wp:featuredmedia"]?.[0];
+                const category = post._embedded?.["wp:term"]?.[0]?.[0]?.name;
+                const titleText = post.title?.rendered
+                  ? stripHtml(post.title.rendered)
+                  : "Untitled post";
+                const dateLabel = new Date(post.date).toLocaleDateString(
+                  "en-US",
+                  {
+                    month: "short",
+                    day: "numeric",
+                    year: "numeric",
+                  }
+                );
+                const meta = [category, dateLabel].filter(Boolean).join(" • ");
+
+                return (
+                  <CarouselItem
+                    key={post.id}
+                    className="pl-4 md:basis-4/5 lg:basis-2/3"
+                  >
+                    <div className="relative h-[420px] overflow-hidden rounded-[28px]">
+                      {media?.source_url ? (
+                        <img
+                          src={media.source_url}
+                          alt={titleText}
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <div className="h-full w-full bg-neutral-900/30" />
+                      )}
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/10 to-transparent" />
+                      <div className="absolute bottom-6 left-6 flex flex-col gap-3 text-white">
+                        <AppleTvLogo />
+                        <p
+                          className="text-lg font-semibold"
+                          dangerouslySetInnerHTML={{
+                            __html: post.title?.rendered || "Untitled post",
+                          }}
+                        />
+                        <p className="text-xs text-neutral-200">
+                          {meta || "Recent post"}
+                        </p>
+                        <Link
+                          href={`/${post.slug}`}
+                          className="w-fit rounded-full bg-white/90 px-4 py-1 text-xs font-medium text-black"
+                        >
+                          Read post
+                        </Link>
+                      </div>
                     </div>
-                  </div>
-                </CarouselItem>
-              ))}
+                  </CarouselItem>
+                );
+              })}
             </CarouselContent>
             <CarouselPrevious className="hidden sm:flex" />
             <CarouselNext className="hidden sm:flex" />

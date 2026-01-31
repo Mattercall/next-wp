@@ -400,7 +400,7 @@ export default function Home() {
 
       <section>
         <div className="mx-auto flex max-w-[1100px] flex-col items-center px-4 py-16 text-center">
-          <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
+          <h2 className={heroHeadingClass}>
             SEO backlinks that build trust, rankings, and qualified demand
           </h2>
           <p className="mt-3 text-base text-neutral-600">
@@ -536,7 +536,7 @@ export default function Home() {
 
       <section className="bg-white">
         <div className="mx-auto flex max-w-[1200px] flex-col px-4 py-16">
-          <h2 className="text-4xl font-semibold text-neutral-900 sm:text-5xl">
+          <h2 className={heroHeadingClass}>
             Automation that turns speed-to-lead into orders and bookings.
           </h2>
           <div className="mt-10 space-y-8">
@@ -711,7 +711,7 @@ export default function Home() {
 
       <section className="bg-white pb-20 pt-6">
         <div className="mx-auto max-w-[1100px] px-4">
-          <h2 className="mb-10 text-center text-3xl font-semibold text-neutral-900 sm:text-4xl">
+          <h2 className={cn("mb-10 text-center", heroHeadingClass)}>
             Proof that a growth system performs.
           </h2>
           <Carousel opts={{ align: "center", loop: true }} className="w-full">

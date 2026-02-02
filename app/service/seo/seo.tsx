@@ -201,7 +201,9 @@ const StartForFreeBar = ({
     >
       {isDark && (
         <div>
-          <div className="text-base font-semibold">Start from $1</div>
+          <div className="text-base font-semibold">
+            Get 1 backlink for $1
+          </div>
           <p className="mt-1 text-xs text-white/60">
             By continuing, you agree to receive marketing emails.
           </p>
@@ -290,7 +292,7 @@ export default function SeoLanding() {
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const primaryCtaLabel = "Continue";
+  const primaryCtaLabel = "Checkout now";
   const secondaryCtaLabel = "Book a growth call";
   const hasHeroVideo = (() => {
     if (!heroVideoUrl?.trim()) return false;

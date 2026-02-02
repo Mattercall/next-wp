@@ -20,11 +20,14 @@ export default function TermsPage() {
           <h1 className={cn(heroHeadingClass, "text-neutral-900")}>
             MatterCall — Terms of Use
           </h1>
-          <p className={cn(heroBodyClass, "mt-4")}>Last updated: [DATE]</p>
+          <p className={cn(heroBodyClass, "mt-4")}>
+            Last updated: February 2, 2026
+          </p>
           <div className="mt-3 text-sm text-neutral-600">
             <p className="font-semibold text-neutral-900">MatterCall</p>
             <p>Radelandstraße 38, 13589 Berlin, Germany</p>
             <p>privacy@mattercall.com</p>
+            <p>https://mattercall.com/contact</p>
           </div>
 
           <div className="mt-10 space-y-8 text-base leading-7 text-neutral-700">
@@ -32,10 +35,34 @@ export default function TermsPage() {
               <p>
                 These Terms of Use ("Terms") govern your access to and use of
                 MatterCall&apos;s websites, applications, digital products, and
-                services (collectively, the "Services"). By accessing or using the
-                Services, you agree to these Terms and to our Privacy Policy. If
+                services (collectively, the "Services"). By accessing or using
+                the Services, you agree to these Terms and our Privacy Policy. If
                 you do not agree, you must not use the Services.
               </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-neutral-900">
+                Plain-English Summary
+              </h2>
+              <ul className="list-disc space-y-2 pl-5">
+                <li>
+                  Use the Services lawfully, keep your account secure, and respect
+                  our intellectual property.
+                </li>
+                <li>
+                  You remain responsible for your content and how you use the
+                  Services.
+                </li>
+                <li>
+                  We can change, suspend, or discontinue Services when needed, and
+                  our liability is limited as permitted by law.
+                </li>
+                <li>
+                  Paid Offerings follow additional Service Terms and the Payments,
+                  Billing &amp; Refunds Policy.
+                </li>
+              </ul>
             </section>
 
             <section className="space-y-4">
@@ -45,6 +72,10 @@ export default function TermsPage() {
                   <strong>"Content"</strong> means any text, files, images, audio,
                   video, software, data, or other materials submitted, uploaded,
                   or made available through the Services.
+                </li>
+                <li>
+                  <strong>"Customer"</strong> means the individual or entity that
+                  purchases or subscribes to Offerings.
                 </li>
                 <li>
                   <strong>"Offerings"</strong> means our digital products,
@@ -64,26 +95,22 @@ export default function TermsPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">
-                Acceptance of Terms; Changes
+                Eligibility and Authority
               </h2>
               <p>
-                By using the Services, you confirm that you have read, understood,
-                and agree to be bound by these Terms. MatterCall may update these
-                Terms from time to time for legal, regulatory, or business reasons.
-                We will indicate the latest update date above. Material changes
-                will apply prospectively; continued use of the Services after the
-                effective date constitutes acceptance of the updated Terms.
+                You must be at least 18 years old (or the age of majority in your
+                jurisdiction) to use the Services. If you use the Services on
+                behalf of a company or other organization, you represent that you
+                have the authority to bind that entity to these Terms.
               </p>
             </section>
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">
-                Eligibility; Account Registration and Security
+                Account Registration and Security
               </h2>
               <p>
-                You must be at least 18 years old (or the age of majority in your
-                jurisdiction) to use the Services. If you create an account, you
-                must provide accurate, complete information and keep it updated.
+                You must provide accurate, complete, and up-to-date information.
                 You are responsible for maintaining the confidentiality of your
                 credentials and for all activity under your account. Notify us
                 promptly of any unauthorized access or security breach.
@@ -110,12 +137,30 @@ export default function TermsPage() {
                   prior written consent.
                 </li>
                 <li>Upload or transmit malware, harmful code, or security exploits.</li>
+                <li>
+                  Use the Services to infringe intellectual property or privacy
+                  rights or to transmit unlawful content.
+                </li>
               </ul>
             </section>
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">
-                Intellectual Property; License
+                User Content and Submissions
+              </h2>
+              <p>
+                You retain ownership of your Content. You are responsible for your
+                Content and for ensuring that you have all rights needed to submit
+                it. You grant MatterCall a worldwide, non-exclusive, royalty-free
+                license to host, reproduce, display, and process your Content
+                solely to provide, maintain, secure, and improve the Services, in
+                accordance with the Privacy Policy.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-neutral-900">
+                Intellectual Property; Limited License
               </h2>
               <p>
                 The Services and all related intellectual property rights are
@@ -124,12 +169,6 @@ export default function TermsPage() {
                 use the Services for your internal or personal purposes in
                 accordance with these Terms. Except for this license, no rights
                 are granted.
-              </p>
-              <p>
-                If you submit Content, you grant MatterCall a worldwide,
-                non-exclusive, royalty-free license to host, reproduce, display,
-                and process that Content solely to provide and improve the
-                Services, subject to applicable law and the Privacy Policy.
               </p>
             </section>
 
@@ -146,14 +185,26 @@ export default function TermsPage() {
             </section>
 
             <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-neutral-900">
+                Availability and Changes
+              </h2>
+              <p>
+                We may modify, suspend, or discontinue any part of the Services at
+                any time for operational, security, legal, or business reasons.
+                We will use reasonable efforts to notify you of material changes
+                where required by law.
+              </p>
+            </section>
+
+            <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">Disclaimers</h2>
               <p>
                 The Services are provided <strong>"as is"</strong> and
                 <strong> "as available"</strong>, without warranties of any kind,
                 express or implied, to the maximum extent permitted by law.
-                MatterCall does not warrant that the Services will be uninterrupted,
-                error-free, or secure, nor that any Content will be accurate,
-                complete, or reliable.
+                MatterCall does not warrant that the Services will be
+                uninterrupted, error-free, or secure, nor that any Content will be
+                accurate, complete, or reliable.
               </p>
             </section>
 
@@ -169,10 +220,12 @@ export default function TermsPage() {
                 arising out of or related to your use of the Services.
               </p>
               <p>
-                Nothing in these Terms limits or excludes liability for intent,
-                gross negligence, death or bodily injury, liability under the
-                German Product Liability Act, or other mandatory liability that
-                cannot be limited under applicable law.
+                For simple negligence, our liability is limited to foreseeable,
+                typical damages arising from a breach of a material contractual
+                obligation ("cardinal duty"). Nothing in these Terms limits or
+                excludes liability for intent, gross negligence, death or bodily
+                injury, liability under the German Product Liability Act, or other
+                mandatory liability that cannot be limited under applicable law.
               </p>
             </section>
 
@@ -192,10 +245,36 @@ export default function TermsPage() {
               </h2>
               <p>
                 MatterCall may suspend or terminate your access to the Services if
-                you violate these Terms or if required for security, legal, or
-                operational reasons. You may stop using the Services at any time.
-                Sections that by their nature should survive termination will
-                remain in effect.
+                you violate these Terms, if payment is overdue, or if required for
+                security, legal, or operational reasons. You may stop using the
+                Services at any time. Sections that by their nature should survive
+                termination will remain in effect.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-neutral-900">
+                Related Terms
+              </h2>
+              <p>
+                Additional terms may apply to specific Offerings, including the
+                Service Terms (Digital Products &amp; Services) and the Payments,
+                Billing &amp; Refunds Policy. In case of conflict, those terms
+                govern the specific Offering. Please review the Privacy Policy to
+                understand how we process personal data.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-neutral-900">
+                Changes to These Terms
+              </h2>
+              <p>
+                We may update these Terms from time to time for legal, regulatory,
+                or business reasons. We will indicate the latest update date above
+                and provide notice of material changes where required by law.
+                Continued use of the Services after the effective date constitutes
+                acceptance of the updated Terms.
               </p>
             </section>
 
@@ -213,13 +292,15 @@ export default function TermsPage() {
             </section>
 
             <section className="space-y-4">
-              <h2 className="text-2xl font-semibold text-neutral-900">Related Terms</h2>
+              <h2 className="text-2xl font-semibold text-neutral-900">Miscellaneous</h2>
               <p>
-                Additional terms may apply to specific Offerings, including the
-                Service Terms (Digital Products &amp; Services) and the Payments,
-                Billing &amp; Refunds Policy. In case of conflict, those terms
-                govern the specific Offering. Please review the Privacy Policy to
-                understand how we process personal data.
+                If any provision of these Terms is held invalid or unenforceable,
+                the remaining provisions will remain in full force. You may not
+                assign these Terms without our prior written consent; MatterCall
+                may assign these Terms as part of a merger, acquisition, or sale
+                of assets. These Terms and the referenced policies constitute the
+                entire agreement between you and MatterCall regarding the
+                Services.
               </p>
             </section>
 
@@ -227,7 +308,7 @@ export default function TermsPage() {
               <h2 className="text-2xl font-semibold text-neutral-900">Contact</h2>
               <p>
                 If you have questions about these Terms, contact us at
-                privacy@mattercall.com.
+                https://mattercall.com/contact or privacy@mattercall.com.
               </p>
             </section>
           </div>

@@ -20,11 +20,14 @@ export default function PaymentTermsPage() {
           <h1 className={cn(heroHeadingClass, "text-neutral-900")}>
             MatterCall — Payments, Billing &amp; Refunds Policy
           </h1>
-          <p className={cn(heroBodyClass, "mt-4")}>Last updated: [DATE]</p>
+          <p className={cn(heroBodyClass, "mt-4")}>
+            Last updated: February 2, 2026
+          </p>
           <div className="mt-3 text-sm text-neutral-600">
             <p className="font-semibold text-neutral-900">MatterCall</p>
             <p>Radelandstraße 38, 13589 Berlin, Germany</p>
             <p>privacy@mattercall.com</p>
+            <p>https://mattercall.com/contact</p>
           </div>
 
           <div className="mt-10 space-y-8 text-base leading-7 text-neutral-700">
@@ -43,7 +46,8 @@ export default function PaymentTermsPage() {
               <p>
                 Prices are shown at checkout in the applicable currency. Taxes or
                 VAT may be added where required and will be displayed before you
-                complete your purchase.
+                complete your purchase. You are responsible for any taxes not
+                collected by MatterCall, unless required by law.
               </p>
             </section>
 
@@ -52,9 +56,9 @@ export default function PaymentTermsPage() {
                 Payment Processing
               </h2>
               <p>
-                Payments are processed by third-party payment processors. MatterCall
-                does not store full payment card details; processors handle that
-                data in accordance with their security standards.
+                Payments are processed by third-party payment processors.
+                MatterCall does not store full payment card details; processors
+                handle that data in accordance with their security standards.
               </p>
             </section>
 
@@ -63,16 +67,18 @@ export default function PaymentTermsPage() {
                 Billing and Failed Payments
               </h2>
               <p>
-                Charges are applied at the time of purchase or at the start of each
-                subscription billing cycle, as described on the Offering page. If a
-                payment fails, we may retry the charge and notify you. Access to
-                paid Offerings may be suspended until payment is received.
+                Charges are applied at the time of purchase or at the start of
+                each subscription billing cycle, as described on the Offering
+                page. If a payment fails, we may retry the charge and notify you.
+                Access to paid Offerings may be suspended until payment is
+                received. We may charge reasonable late fees or collection costs
+                where permitted by law.
               </p>
             </section>
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">
-                Subscriptions
+                Subscriptions and Renewals
               </h2>
               <p>
                 Subscriptions renew automatically unless canceled before the
@@ -81,22 +87,27 @@ export default function PaymentTermsPage() {
                 guarantee prorated refunds for unused periods unless explicitly
                 required by law or stated on the Offering page.
               </p>
+              <p>
+                We may change subscription pricing with advance notice and an
+                opportunity to cancel before the new price takes effect, where
+                required by law.
+              </p>
             </section>
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">Refunds</h2>
               <p>
                 <strong>
-                  14-day money-back guarantee for digital products and 14-day
-                  money-back guarantee if a service is not delivered as described
-                  on the service listing page.
+                  14-day money-back guarantee for digital products and if a
+                  service is not delivered as described on the service listing
+                  page.
                 </strong>
               </p>
               <ul className="list-disc space-y-2 pl-5">
                 <li>
                   Request a refund by emailing privacy@mattercall.com within 14
-                  days of purchase with your order details and a description of the
-                  issue.
+                  days of purchase with your order details and a description of
+                  the issue.
                 </li>
                 <li>
                   We may ask for reasonable verification to confirm the purchase
@@ -108,17 +119,22 @@ export default function PaymentTermsPage() {
                   the payment processor&apos;s timelines.
                 </li>
               </ul>
+              <p>
+                Except for the guarantee above or rights required by law, all
+                sales are final.
+              </p>
             </section>
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">
-                Chargebacks and Disputes
+                Chargebacks, Disputes, and Fraud Prevention
               </h2>
               <p>
-                Please contact us before initiating a chargeback so we can attempt
-                to resolve the issue. We may contest chargebacks that are
+                Please contact us before initiating a chargeback so we can
+                attempt to resolve the issue. We may contest chargebacks that are
                 fraudulent, abusive, or inconsistent with this policy, consistent
-                with applicable law.
+                with applicable law. We may suspend access for accounts with a
+                high risk of fraud or repeated chargebacks.
               </p>
             </section>
 
@@ -126,7 +142,7 @@ export default function PaymentTermsPage() {
               <h2 className="text-2xl font-semibold text-neutral-900">Contact</h2>
               <p>
                 If you have questions about billing or refunds, contact
-                privacy@mattercall.com.
+                https://mattercall.com/contact or privacy@mattercall.com.
               </p>
             </section>
           </div>

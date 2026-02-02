@@ -21,21 +21,24 @@ export default function ServiceTermsPage() {
           <h1 className={cn(heroHeadingClass, "text-neutral-900")}>
             MatterCall — Service Terms (Digital Products &amp; Services)
           </h1>
-          <p className={cn(heroBodyClass, "mt-4")}>Last updated: [DATE]</p>
+          <p className={cn(heroBodyClass, "mt-4")}>
+            Last updated: February 2, 2026
+          </p>
           <div className="mt-3 text-sm text-neutral-600">
             <p className="font-semibold text-neutral-900">MatterCall</p>
             <p>Radelandstraße 38, 13589 Berlin, Germany</p>
             <p>privacy@mattercall.com</p>
+            <p>https://mattercall.com/contact</p>
           </div>
 
           <div className="mt-10 space-y-8 text-base leading-7 text-neutral-700">
             <section className="space-y-4">
               <p>
                 These Service Terms apply to purchases of MatterCall digital
-                products and services ("Offerings"). They supplement the MatterCall
-                Terms of Use. If there is a conflict, these Service Terms control
-                for the specific Offering, and the Payments, Billing &amp; Refunds
-                Policy governs payment-related matters.
+                products and services ("Offerings"). They supplement the
+                MatterCall Terms of Use. If there is a conflict, these Service
+                Terms control for the specific Offering, and the Payments,
+                Billing &amp; Refunds Policy governs payment-related matters.
               </p>
             </section>
 
@@ -93,8 +96,9 @@ export default function ServiceTermsPage() {
               <p>
                 Subscription Offerings renew automatically at the stated billing
                 interval unless canceled before the renewal date. Cancellation is
-                effective at the end of the current billing cycle unless applicable
-                law requires otherwise. Access continues through the paid period.
+                effective at the end of the current billing cycle unless
+                applicable law requires otherwise. Access continues through the
+                paid period.
               </p>
             </section>
 
@@ -105,8 +109,8 @@ export default function ServiceTermsPage() {
               <p>
                 <strong>
                   MatterCall offers a 14-day money-back guarantee on digital
-                  products and also if the service is not delivered as described
-                  on the service listing page.
+                  products and if a service is not delivered as described on the
+                  service listing page.
                 </strong>
               </p>
               <ul className="list-disc space-y-2 pl-5">
@@ -155,12 +159,12 @@ export default function ServiceTermsPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">
-                Termination for Breach
+                Suspension or Termination for Breach
               </h2>
               <p>
-                We may suspend or terminate access to an Offering if you materially
-                breach these Service Terms or the Terms of Use, after providing
-                notice where required by law.
+                We may suspend or terminate access to an Offering if you
+                materially breach these Service Terms or the Terms of Use, after
+                providing notice where required by law.
               </p>
             </section>
 
@@ -168,7 +172,7 @@ export default function ServiceTermsPage() {
               <h2 className="text-2xl font-semibold text-neutral-900">Contact</h2>
               <p>
                 For questions about these Service Terms or to request a refund,
-                contact privacy@mattercall.com.
+                contact https://mattercall.com/contact or privacy@mattercall.com.
               </p>
             </section>
           </div>

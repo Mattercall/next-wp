@@ -234,7 +234,7 @@ const StartForFreeBar = ({
           )}
         >
           <Input
-            placeholder="Enter your email"
+            placeholder="Enter email"
             value={email}
             onChange={(event) => onEmailChange(event.target.value)}
             disabled={isSubmitting}

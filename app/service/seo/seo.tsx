@@ -56,9 +56,9 @@ const features = [
   },
   {
     tag: "DR GROWTH PROGRAM",
-    title: "Compounding domain strength over time",
+    title: "Grow organic traffic with compounding authority",
     description:
-      "A clean, steady approach to DR growth with monthly reporting and next actions. Deliverables include a DR growth roadmap, link velocity plan, and monthly reporting. DR is an Ahrefs metric reflecting backlink profile strength.",
+      "We build durable authority that lifts rankings and organic traffic over time. You receive a DR growth roadmap, a safe link velocity plan, and monthly progress reports with next-step priorities so you always know what is moving the needle. DR is an Ahrefs metric that reflects backlink profile strength.",
     image:
       "/service/seo/feature-dr-growth.svg",
   },
@@ -66,44 +66,54 @@ const features = [
 
 const faqs = [
   {
-    question: "What authority range can you place links on?",
+    question: "What services can I order?",
     answer:
-      "We target real sites in the DA 50–90+ range depending on your niche, budget, and relevance. Every placement is contextual, vetted for quality, and shared with you in reporting.",
+      "You can order DA 30+ backlinks, DA 50+ backlinks, DA 90+ backlinks, and even DA 100 backlinks (including opportunities like wikipedia.org when they are a fit). We also offer press release writing + distribution and a DR growth program. If we cannot provide a service as promised, we issue a 100% refund with no questions asked.",
   },
   {
-    question: "How do you choose keyword wins to accelerate?",
+    question: "How do you decide which pages and keywords to focus on?",
     answer:
-      "We prioritize keywords where ranking gains are most likely to convert—typically page-two opportunities, high-intent terms, and gaps your competitors already own. You receive a focused map with targets, pages, and expected impact.",
+      "We look for the fastest path to revenue: pages already close to page one, high-intent queries with clear buying signals, and competitor gaps you can win. You get a focused priority map that ties each keyword to a page, intent, and expected business impact.",
   },
   {
-    question: "What does PR distribution include?",
+    question: "What does the press release service include?",
     answer:
-      "We handle drafting, edits, formatting, and distribution. You’ll get a final press release plus a distribution report with live URLs where available and performance notes.",
+      "We handle strategy, drafting, edits, formatting, and distribution. You receive the final release, a distribution report with available live URLs, and notes on what to amplify next for continued visibility.",
   },
   {
-    question: "How is DR growth measured and reported?",
+    question: "How does the DR growth program help organic traffic?",
     answer:
-      "We monitor changes in domain metrics, referring domains, and link velocity month over month. Reports include what went live, why it matters, and what we recommend next.",
+      "We strengthen authority in a safe, consistent way so more of your pages can rank. Monthly updates cover DR changes, referring domains, link velocity, and the specific actions that support organic traffic growth so you can see progress and next steps clearly.",
   },
   {
-    question: "What do you need from us to get started?",
+    question: "What do you need from me to get started?",
     answer:
-      "We’ll ask for your website URL, target pages or products, and any priority keywords. If you have existing analytics or Search Console access, that helps us move faster but isn’t required.",
+      "We need your website URL, target pages or products, and any priority keywords or markets. If you can share Search Console, Analytics, or competitor examples, we can move faster, but it is not required.",
   },
   {
-    question: "How quickly will we see results?",
+    question: "How soon should I expect results?",
     answer:
-      "Most clients see early movement within 4–8 weeks, with stronger gains compounding over 3–6 months. Timelines vary based on competition, site health, and how aggressive the plan is.",
+      "Most brands see early movement in 4–8 weeks, with stronger gains compounding over 3–6 months. Timelines depend on competition, site health, and the scope of the strategy, and we set expectations upfront.",
   },
   {
-    question: "Do you guarantee rankings?",
+    question: "Do you guarantee rankings or traffic?",
     answer:
-      "No. Search algorithms change and results depend on many factors. What we guarantee is a clear plan, high-quality deliverables, and transparent reporting on progress.",
+      "No. Search algorithms change and results depend on multiple factors. What we guarantee is a clear plan, high-quality deliverables, and transparent reporting so you always know what work was completed and why it matters.",
   },
   {
-    question: "Can you work with international or local SEO goals?",
+    question: "Can you support local or international SEO goals?",
     answer:
-      "Yes. We can align the strategy to local geo targets or global markets with localized content and link strategies tailored to each region.",
+      "Yes. We align your strategy to local geo targets or international markets with localized content guidance and authority-building tailored to each region.",
+  },
+  {
+    question: "How do you ensure quality and relevance?",
+    answer:
+      "We focus on relevance first, then authority. Every site and topic is reviewed for fit with your industry, audience, and content standards so your growth looks natural and protects long-term brand trust.",
+  },
+  {
+    question: "What happens if the service is not delivered?",
+    answer:
+      "If we cannot provide a service as promised, you receive a 100% refund without any additional questions. We keep the terms simple so you can purchase with confidence.",
   },
 ];
 
@@ -293,7 +303,7 @@ export default function SeoLanding() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const primaryCtaLabel = "Checkout now";
-  const secondaryCtaLabel = "Book a growth call";
+  const secondaryCtaLabel = "Checkout Now ($1)";
   const hasHeroVideo = (() => {
     if (!heroVideoUrl?.trim()) return false;
     try {

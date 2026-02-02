@@ -189,7 +189,7 @@ export default function ContactPage() {
               <div className="space-y-6 lg:col-span-7">
                 <div>
                   <h2 className="text-3xl font-bold text-neutral-900">
-                    Say hello!
+                    How can we help you?
                   </h2>
                 </div>
 
@@ -282,8 +282,8 @@ export default function ContactPage() {
                       Company Email/Phone
                     </h3>
                     <div className="mt-4 space-y-2 text-sm text-neutral-500">
-                      <p>johndoe@gmail.com</p>
-                      <p>+148 589 2001 2466</p>
+                      <p>contact@mattercall.com</p>
+                      <p>+4915510676259</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -294,10 +294,9 @@ export default function ContactPage() {
                       Visit Our HQ
                     </h3>
                     <div className="mt-4 space-y-2 text-sm text-neutral-500">
-                      <p>Office 149,</p>
-                      <p>450 South Brand Brooklyn</p>
-                      <p>San Diego County,</p>
-                      <p>CA 91905, USA</p>
+                      <p>MatterCall International</p>
+                      <p>Radelandstraße 38</p>
+                      <p>13589 Berlin Germany</p>
                     </div>
                   </CardContent>
                 </Card>

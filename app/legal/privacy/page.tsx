@@ -20,62 +20,97 @@ export default function PrivacyPage() {
           <h1 className={cn(heroHeadingClass, "text-neutral-900")}>
             MatterCall — Privacy Policy (GDPR)
           </h1>
-          <p className={cn(heroBodyClass, "mt-4")}>Last updated: [DATE]</p>
+          <p className={cn(heroBodyClass, "mt-4")}>
+            Last updated: February 2, 2026
+          </p>
           <div className="mt-3 text-sm text-neutral-600">
             <p className="font-semibold text-neutral-900">MatterCall</p>
             <p>Radelandstraße 38, 13589 Berlin, Germany</p>
             <p>privacy@mattercall.com</p>
+            <p>https://mattercall.com/contact</p>
           </div>
 
           <div className="mt-10 space-y-8 text-base leading-7 text-neutral-700">
             <section className="space-y-4">
-              <h2 className="text-2xl font-semibold text-neutral-900">
-                Data Controller
-              </h2>
               <p>
-                MatterCall is the data controller for personal data processed under
-                this Privacy Policy.
+                This Privacy Policy explains how MatterCall collects, uses, shares,
+                and protects personal data when you use our Services. If you do
+                not agree with this Policy, please do not use the Services.
               </p>
             </section>
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">
-                What Data We Collect
+                Plain-English Summary
               </h2>
               <ul className="list-disc space-y-2 pl-5">
                 <li>
-                  <strong>Account data:</strong> name, username, password hash, and
-                  account preferences.
+                  We process data to provide the Services, keep them secure, and
+                  meet legal obligations.
                 </li>
                 <li>
-                  <strong>Contact data:</strong> email address, phone number, and
-                  communications with us.
+                  We only share data with trusted providers and as required by law.
                 </li>
                 <li>
-                  <strong>Transaction metadata:</strong> order IDs, invoice data,
-                  timestamps, and status. Payment card details are handled by
-                  third-party payment processors, not stored by MatterCall.
-                </li>
-                <li>
-                  <strong>Usage, device, and log data:</strong> IP address, device
-                  identifiers, browser type, pages viewed, and diagnostic logs.
-                </li>
-                <li>
-                  <strong>Cookies and similar technologies:</strong> identifiers and
-                  preferences stored on your device.
+                  You have GDPR rights, including access, deletion, and objection.
                 </li>
               </ul>
             </section>
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">
-                Purposes and Legal Bases
+                Data Controller
+              </h2>
+              <p>
+                MatterCall is the data controller for personal data processed
+                under this Privacy Policy. You can contact us at
+                https://mattercall.com/contact or privacy@mattercall.com.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-neutral-900">
+                Categories of Personal Data
+              </h2>
+              <ul className="list-disc space-y-2 pl-5">
+                <li>
+                  <strong>Account data:</strong> name, login credentials (hashed),
+                  and account preferences.
+                </li>
+                <li>
+                  <strong>Contact data:</strong> email address, phone number, and
+                  communications with us.
+                </li>
+                <li>
+                  <strong>Transaction metadata:</strong> order IDs, invoices,
+                  timestamps, and status. Payment card details are handled by
+                  payment processors and are not stored by MatterCall.
+                </li>
+                <li>
+                  <strong>Usage, device, and log data:</strong> IP address, device
+                  identifiers, browser type, pages viewed, and diagnostic logs.
+                </li>
+                <li>
+                  <strong>Cookies and similar technologies:</strong> identifiers
+                  and preferences stored on your device.
+                </li>
+                <li>
+                  <strong>Marketing preferences:</strong> opt-in or opt-out status
+                  where applicable.
+                </li>
+              </ul>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-neutral-900">
+                Purposes and Legal Bases (Art. 6 GDPR)
               </h2>
               <p>We process personal data for the following purposes:</p>
               <ul className="list-disc space-y-2 pl-5">
                 <li>
                   <strong>Provide the Services</strong> (Art. 6(1)(b) GDPR),
-                  including account management, delivery of Offerings, and support.
+                  including account management, delivery of Offerings, support,
+                  and billing.
                 </li>
                 <li>
                   <strong>Compliance with legal obligations</strong> (Art. 6(1)(c)
@@ -94,8 +129,13 @@ export default function PrivacyPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">
-                Cookies and Tracking
+                Cookies, Analytics, and Marketing
               </h2>
+              <p>
+                We use cookies and similar technologies to operate and improve the
+                Services. Where required by law, we ask for your consent for
+                non-essential cookies.
+              </p>
               <ul className="list-disc space-y-2 pl-5">
                 <li>
                   <strong>Essential cookies:</strong> required for the Services to
@@ -116,25 +156,24 @@ export default function PrivacyPage() {
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">
+                Service Providers and Recipients
+              </h2>
+              <p>
+                We share personal data with service providers who process data on
+                our behalf (processors), including hosting, analytics, payment
+                processing, and customer support providers. We may also share data
+                with professional advisors or authorities where required by law.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-neutral-900">
                 Cloudflare
               </h2>
               <p>
                 We use Cloudflare as a content delivery network (CDN) and security
                 provider. Cloudflare may process IP addresses and request metadata
                 for security, performance, and reliability purposes.
-              </p>
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="text-2xl font-semibold text-neutral-900">
-                Sharing and Recipients
-              </h2>
-              <p>
-                We share personal data with service providers who process data on
-                our behalf (processors), including hosting, analytics, and payment
-                processing providers. We may also share data with advertising
-                partners where you have provided consent, and with authorities or
-                professional advisors where required by law.
               </p>
             </section>
 
@@ -156,10 +195,24 @@ export default function PrivacyPage() {
               </h2>
               <p>
                 We retain personal data only as long as necessary for the purposes
-                described in this policy, including legal and contractual
-                obligations. For example, account data is kept while your account
-                is active; invoices are retained for statutory retention periods;
-                and security logs are retained for a limited time to prevent abuse.
+                described in this Policy. For example, account data is kept while
+                your account is active; invoices and billing records are retained
+                for statutory retention periods (typically 6 or 10 years under
+                German law); and security logs are retained for a limited time to
+                prevent abuse and maintain system integrity.
+              </p>
+            </section>
+
+            <section className="space-y-4">
+              <h2 className="text-2xl font-semibold text-neutral-900">
+                Security Measures
+              </h2>
+              <p>
+                We implement appropriate technical and organizational measures to
+                protect personal data, including access controls, encryption where
+                appropriate, and monitoring for security incidents. No method of
+                transmission or storage is completely secure; therefore, we cannot
+                guarantee absolute security.
               </p>
             </section>
 
@@ -175,26 +228,24 @@ export default function PrivacyPage() {
                 <li>Restrict processing.</li>
                 <li>Object to processing based on legitimate interests.</li>
                 <li>Data portability.</li>
-                <li>Withdraw consent at any time where processing is based on consent.</li>
+                <li>
+                  Withdraw consent at any time where processing is based on
+                  consent.
+                </li>
               </ul>
+              <p>
+                To exercise your rights, contact us at
+                https://mattercall.com/contact or privacy@mattercall.com.
+              </p>
             </section>
 
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">Complaints</h2>
               <p>
                 You may lodge a complaint with your local supervisory authority or
-                the Berlin supervisory authority for data protection. Contacting
-                us first is appreciated and may resolve concerns more quickly.
-              </p>
-            </section>
-
-            <section className="space-y-4">
-              <h2 className="text-2xl font-semibold text-neutral-900">Security</h2>
-              <p>
-                We implement appropriate technical and organizational measures to
-                protect personal data. No method of transmission or storage is
-                completely secure; therefore, we cannot guarantee absolute
-                security.
+                the Berlin Commissioner for Data Protection and Freedom of
+                Information (BlnBDI). Contacting us first is appreciated and may
+                resolve concerns more quickly.
               </p>
             </section>
 
@@ -220,8 +271,8 @@ export default function PrivacyPage() {
             <section className="space-y-4">
               <h2 className="text-2xl font-semibold text-neutral-900">Contact</h2>
               <p>
-                If you have questions about this Privacy Policy or want to exercise
-                your rights, contact privacy@mattercall.com.
+                If you have questions about this Privacy Policy, contact us at
+                https://mattercall.com/contact or privacy@mattercall.com.
               </p>
             </section>
           </div>

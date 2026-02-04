@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/footer";
 import { CookieConsent } from "@/components/cookie-consent";
 import { Analytics } from "@vercel/analytics/react";
 import { MetaPixel } from "@/components/MetaPixel";
+import { CartProvider } from "@/components/woocommerce/cart-context";
 
 import { siteConfig } from "@/site.config";
 import { cn } from "@/lib/utils";
@@ -117,10 +118,12 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Nav />
-          {children}
-          <Footer />
-          <CookieConsent />
+          <CartProvider>
+            <Nav />
+            {children}
+            <Footer />
+            <CookieConsent />
+          </CartProvider>
         </ThemeProvider>
         <Suspense fallback={null}>
           <MetaPixel />

@@ -1,32 +1,45 @@
 import { NextResponse } from "next/server";
+import { cookies } from "next/headers";
 
-const storeUrl = process.env.WC_STORE_URL;
-
-if (!storeUrl) {
-  throw new Error("WC_STORE_URL is not set");
-}
-
-function buildStoreUrl(path: string, cartKey?: string | null) {
-  const url = new URL(`/wp-json/wc/store/v1/${path}`, storeUrl);
-  if (cartKey) {
-    url.searchParams.set("cart_key", cartKey);
-  }
-  return url.toString();
+function storeApiUrl(storeUrl: string, path: string) {
+  return new URL(`/wp-json/wc/store/v1/${path}`, storeUrl).toString();
 }
 
 export async function POST(request: Request) {
-  const body = await request.json();
-  const { id, quantity = 1, variationId, cartKey } = body as {
+  const storeUrl = process.env.WC_STORE_URL;
+  if (!storeUrl) {
+    return NextResponse.json({ message: "WC_STORE_URL is not set" }, { status: 500 });
+  }
+
+  const { id, quantity = 1, variationId } = (await request.json()) as {
     id: number;
     quantity?: number;
     variationId?: number;
-    cartKey?: string;
   };
 
-  const response = await fetch(buildStoreUrl("cart/add-item", cartKey), {
+  const cookieStore = cookies();
+
+  // Prefer header, fallback to cookie.
+  let cartToken =
+    request.headers.get("cart-token") ||
+    cookieStore.get("wc_cart_token")?.value ||
+    null;
+
+  // If we don't have a cart token yet, get one from GET /cart
+  if (!cartToken) {
+    const cartRes = await fetch(storeApiUrl(storeUrl, "cart"), {
+      method: "GET",
+      headers: { Accept: "application/json" },
+    });
+
+    cartToken = cartRes.headers.get("Cart-Token");
+  }
+
+  const wooRes = await fetch(storeApiUrl(storeUrl, "cart/add-item"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      ...(cartToken ? { "Cart-Token": cartToken } : {}),
     },
     body: JSON.stringify({
       id,
@@ -35,14 +48,23 @@ export async function POST(request: Request) {
     }),
   });
 
-  const data = await response.json();
+  const data = await wooRes.json().catch(() => null);
 
-  if (!response.ok) {
-    return NextResponse.json(
-      { message: data?.message || "Failed to add item" },
-      { status: response.status }
-    );
+  const res = NextResponse.json(
+    wooRes.ok ? data : { message: data?.message || "Failed to add item" },
+    { status: wooRes.status }
+  );
+
+  // Woo may rotate tokens; keep the latest.
+  const newCartToken = wooRes.headers.get("Cart-Token") || cartToken;
+  if (newCartToken) {
+    res.cookies.set("wc_cart_token", newCartToken, {
+      httpOnly: true,
+      sameSite: "lax",
+      path: "/",
+    });
+    res.headers.set("Cart-Token", newCartToken);
   }
 
-  return NextResponse.json(data, { status: response.status });
+  return res;
 }

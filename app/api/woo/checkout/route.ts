@@ -7,8 +7,20 @@ function storeApiUrl(storeUrl: string, path: string) {
 
 type AnyObj = Record<string, any>;
 
-function toAddress(input: AnyObj) {
-  // Accept snake_case or common camelCase keys and output snake_case.
+function asObject(value: unknown): AnyObj {
+  if (value && typeof value === "object" && !Array.isArray(value)) return value as AnyObj;
+  if (typeof value === "string") {
+    // Sometimes clients send JSON strings by mistake
+    try {
+      const parsed = JSON.parse(value);
+      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) return parsed as AnyObj;
+    } catch {}
+  }
+  return {};
+}
+
+function normalizeAddress(input: AnyObj) {
+  // Accept snake_case or common camelCase keys
   return {
     first_name: input.first_name ?? input.firstName ?? "",
     last_name: input.last_name ?? input.lastName ?? "",
@@ -24,28 +36,26 @@ function toAddress(input: AnyObj) {
   };
 }
 
+function stripContactFieldsForShipping(billing: ReturnType<typeof normalizeAddress>) {
+  // shipping_address in Woo docs doesn't include email/phone in examples
+  const { email, phone, ...shipping } = billing;
+  return shipping;
+}
+
 export async function POST(request: Request) {
   const storeUrl = process.env.WC_STORE_URL;
   if (!storeUrl) {
     return NextResponse.json({ message: "WC_STORE_URL is not set" }, { status: 500 });
   }
 
-  const body = (await request.json()) as {
-    // you can make these optional in your frontend now
-    billing_address?: AnyObj;
-    shipping_address?: AnyObj;
-    payment_method: string;
-    customer_note?: string;
-    payment_data?: Array<{ key: string; value: any }>;
-  };
+  const body = (await request.json().catch(() => ({}))) as AnyObj;
 
-  // Build billing
-  const billing = toAddress(body.billing_address ?? {});
+  const payment_method = body.payment_method;
+  if (!payment_method || typeof payment_method !== "string") {
+    return NextResponse.json({ message: "Missing payment_method" }, { status: 400 });
+  }
 
-  // For digital: copy billing -> shipping unless you explicitly pass shipping
-  const shipping = toAddress(body.shipping_address ?? billing);
-
-  // Cart token forwarding (needed for checkout endpoints too)
+  // Read Cart-Token from header/cookie; if missing, fetch one from GET /cart
   const cookieStore = await cookies();
   let cartToken =
     request.headers.get("cart-token") ||
@@ -60,7 +70,20 @@ export async function POST(request: Request) {
     cartToken = cartRes.headers.get("Cart-Token");
   }
 
-  // IMPORTANT: Store API checkout uses payment_method + payment_data
+  // Build billing/shipping objects, even if user didn’t provide them (digital-only UI)
+  const billingInput = asObject(body.billing_address ?? body.billingAddress);
+  const billing = normalizeAddress(billingInput);
+
+  // If you only collect email for digital: ensure at least billing.email is present
+  // (Woo/payment gateways may still require other fields depending on your store settings)
+  if (!billing.email && typeof body.email === "string") billing.email = body.email;
+
+  const shippingInput = asObject(body.shipping_address ?? body.shippingAddress);
+  const shipping =
+    Object.keys(shippingInput).length > 0
+      ? normalizeAddress(shippingInput)
+      : stripContactFieldsForShipping(billing); // copy billing -> shipping
+
   const wooRes = await fetch(storeApiUrl(storeUrl, "checkout"), {
     method: "POST",
     headers: {
@@ -70,21 +93,20 @@ export async function POST(request: Request) {
     body: JSON.stringify({
       billing_address: billing,
       shipping_address: shipping,
-      payment_method: body.payment_method,
-      payment_data: body.payment_data ?? [],
-      customer_note: body.customer_note ?? "",
+      customer_note: typeof body.customer_note === "string" ? body.customer_note : "",
+      payment_method,
+      payment_data: Array.isArray(body.payment_data) ? body.payment_data : [],
     }),
   });
 
   const data = await wooRes.json().catch(() => null);
 
-  // Return raw error details to help you see which subfields are required
   const res = NextResponse.json(
     wooRes.ok ? data : { message: data?.message || "Checkout failed", raw: data },
     { status: wooRes.status }
   );
 
-  // Keep latest Cart-Token
+  // Persist/refresh Cart-Token
   const newCartToken = wooRes.headers.get("Cart-Token") || cartToken;
   if (newCartToken) {
     res.cookies.set("wc_cart_token", newCartToken, {

@@ -1,121 +1,418 @@
-import { NextResponse } from "next/server";
-import { cookies } from "next/headers";
+"use client";
 
-function storeApiUrl(storeUrl: string, path: string) {
-  return new URL(`/wp-json/wc/store/v1/${path}`, storeUrl).toString();
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import { ArrowLeft, Loader2 } from "lucide-react";
+
+import { useCart } from "@/components/shop/cart-provider";
+import { formatPrice } from "@/lib/woocommerce";
+import { Section, Container } from "@/components/craft";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+
+interface CheckoutFormData {
+  email: string;
+  firstName: string;
+  lastName: string;
+  company: string;
+  address1: string;
+  address2: string;
+  city: string;
+  state: string;
+  postcode: string;
+  country: string;
+  phone: string;
+  notes: string;
 }
 
-type AnyObj = Record<string, any>;
+export default function CheckoutPage() {
+  const router = useRouter();
+  const { cart, isLoading, clearCart } = useCart();
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-function asObject(value: unknown): AnyObj {
-  if (value && typeof value === "object" && !Array.isArray(value)) return value as AnyObj;
-  if (typeof value === "string") {
-    // Sometimes clients send JSON strings by mistake
-    try {
-      const parsed = JSON.parse(value);
-      if (parsed && typeof parsed === "object" && !Array.isArray(parsed)) return parsed as AnyObj;
-    } catch {}
-  }
-  return {};
-}
-
-function normalizeAddress(input: AnyObj) {
-  // Accept snake_case or common camelCase keys
-  return {
-    first_name: input.first_name ?? input.firstName ?? "",
-    last_name: input.last_name ?? input.lastName ?? "",
-    company: input.company ?? "",
-    address_1: input.address_1 ?? input.address1 ?? "",
-    address_2: input.address_2 ?? input.address2 ?? "",
-    city: input.city ?? "",
-    state: input.state ?? "",
-    postcode: input.postcode ?? input.postalCode ?? input.zip ?? "",
-    country: input.country ?? "",
-    email: input.email ?? "",
-    phone: input.phone ?? "",
-  };
-}
-
-function stripContactFieldsForShipping(billing: ReturnType<typeof normalizeAddress>) {
-  // shipping_address in Woo docs doesn't include email/phone in examples
-  const { email, phone, ...shipping } = billing;
-  return shipping;
-}
-
-export async function POST(request: Request) {
-  const storeUrl = process.env.WC_STORE_URL;
-  if (!storeUrl) {
-    return NextResponse.json({ message: "WC_STORE_URL is not set" }, { status: 500 });
-  }
-
-  const body = (await request.json().catch(() => ({}))) as AnyObj;
-
-  const payment_method = body.payment_method;
-  if (!payment_method || typeof payment_method !== "string") {
-    return NextResponse.json({ message: "Missing payment_method" }, { status: 400 });
-  }
-
-  // Read Cart-Token from header/cookie; if missing, fetch one from GET /cart
-  const cookieStore = await cookies();
-  let cartToken =
-    request.headers.get("cart-token") ||
-    cookieStore.get("wc_cart_token")?.value ||
-    null;
-
-  if (!cartToken) {
-    const cartRes = await fetch(storeApiUrl(storeUrl, "cart"), {
-      method: "GET",
-      headers: { Accept: "application/json" },
-    });
-    cartToken = cartRes.headers.get("Cart-Token");
-  }
-
-  // Build billing/shipping objects, even if user didn’t provide them (digital-only UI)
-  const billingInput = asObject(body.billing_address ?? body.billingAddress);
-  const billing = normalizeAddress(billingInput);
-
-  // If you only collect email for digital: ensure at least billing.email is present
-  // (Woo/payment gateways may still require other fields depending on your store settings)
-  if (!billing.email && typeof body.email === "string") billing.email = body.email;
-
-  const shippingInput = asObject(body.shipping_address ?? body.shippingAddress);
-  const shipping =
-    Object.keys(shippingInput).length > 0
-      ? normalizeAddress(shippingInput)
-      : stripContactFieldsForShipping(billing); // copy billing -> shipping
-
-  const wooRes = await fetch(storeApiUrl(storeUrl, "checkout"), {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(cartToken ? { "Cart-Token": cartToken } : {}),
-    },
-    body: JSON.stringify({
-      billing_address: billing,
-      shipping_address: shipping,
-      customer_note: typeof body.customer_note === "string" ? body.customer_note : "",
-      payment_method,
-      payment_data: Array.isArray(body.payment_data) ? body.payment_data : [],
-    }),
+  const [formData, setFormData] = useState<CheckoutFormData>({
+    email: "",
+    firstName: "",
+    lastName: "",
+    company: "",
+    address1: "",
+    address2: "",
+    city: "",
+    state: "",
+    postcode: "",
+    country: "US",
+    phone: "",
+    notes: "",
   });
 
-  const data = await wooRes.json().catch(() => null);
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({ ...prev, [name]: value }));
+  };
 
-  const res = NextResponse.json(
-    wooRes.ok ? data : { message: data?.message || "Checkout failed", raw: data },
-    { status: wooRes.status }
-  );
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
 
-  // Persist/refresh Cart-Token
-  const newCartToken = wooRes.headers.get("Cart-Token") || cartToken;
-  if (newCartToken) {
-    res.cookies.set("wc_cart_token", newCartToken, {
-      httpOnly: true,
-      sameSite: "lax",
-      path: "/",
-    });
-    res.headers.set("Cart-Token", newCartToken);
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          billing: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            company: formData.company,
+            address_1: formData.address1,
+            address_2: formData.address2,
+            city: formData.city,
+            state: formData.state,
+            postcode: formData.postcode,
+            country: formData.country,
+            email: formData.email,
+            phone: formData.phone,
+          },
+          shipping: {
+            first_name: formData.firstName,
+            last_name: formData.lastName,
+            company: formData.company,
+            address_1: formData.address1,
+            address_2: formData.address2,
+            city: formData.city,
+            state: formData.state,
+            postcode: formData.postcode,
+            country: formData.country,
+          },
+          line_items: cart.items.map((item) => ({
+            product_id: item.productId,
+            variation_id: item.variationId,
+            quantity: item.quantity,
+          })),
+          customer_note: formData.notes,
+        }),
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.error || "Failed to create order");
+      }
+
+      const { order } = await response.json();
+
+      // Store order ID for reference, then redirect to WooCommerce payment
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("pending_order_id", order.id.toString());
+      }
+
+      // Redirect to WooCommerce checkout for payment
+      if (order.payment_url) {
+        window.location.href = order.payment_url;
+      } else {
+        // Fallback if no payment needed (free order)
+        clearCart();
+        router.push(`/checkout/success?order=${order.id}`);
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Something went wrong");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  if (isLoading) {
+    return (
+      <Section>
+        <Container>
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin" />
+          </div>
+        </Container>
+      </Section>
+    );
   }
 
-  return res;
+  if (cart.items.length === 0) {
+    return (
+      <Section>
+        <Container>
+          <div className="flex flex-col items-center justify-center py-12 space-y-6">
+            <div className="text-center space-y-2">
+              <h1 className="text-2xl font-bold">Your cart is empty</h1>
+              <p className="text-muted-foreground">
+                Add some items to your cart before checking out.
+              </p>
+            </div>
+            <Button asChild>
+              <Link href="/shop">
+                <ArrowLeft className="mr-2 h-4 w-4" />
+                Continue Shopping
+              </Link>
+            </Button>
+          </div>
+        </Container>
+      </Section>
+    );
+  }
+
+  return (
+    <Section>
+      <Container>
+        <div className="space-y-8">
+          <div className="flex items-center gap-4">
+            <Button variant="ghost" size="icon" asChild>
+              <Link href="/cart">
+                <ArrowLeft className="h-4 w-4" />
+              </Link>
+            </Button>
+            <h1 className="text-3xl font-bold">Checkout</h1>
+          </div>
+
+          {error && (
+            <div className="bg-destructive/10 border border-destructive text-destructive px-4 py-3 rounded-lg">
+              {error}
+            </div>
+          )}
+
+          <form onSubmit={handleSubmit}>
+            <div className="grid lg:grid-cols-3 gap-8">
+              {/* Billing Details */}
+              <div className="lg:col-span-2 space-y-6">
+                <div className="border rounded-lg p-6 space-y-4">
+                  <h2 className="text-xl font-bold">Billing Details</h2>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="firstName">First Name *</Label>
+                      <Input
+                        id="firstName"
+                        name="firstName"
+                        required
+                        value={formData.firstName}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="lastName">Last Name *</Label>
+                      <Input
+                        id="lastName"
+                        name="lastName"
+                        required
+                        value={formData.lastName}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="company">Company (optional)</Label>
+                    <Input
+                      id="company"
+                      name="company"
+                      value={formData.company}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="email">Email *</Label>
+                    <Input
+                      id="email"
+                      name="email"
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="phone">Phone *</Label>
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      required
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="address1">Street Address *</Label>
+                    <Input
+                      id="address1"
+                      name="address1"
+                      required
+                      placeholder="House number and street name"
+                      value={formData.address1}
+                      onChange={handleInputChange}
+                    />
+                    <Input
+                      id="address2"
+                      name="address2"
+                      placeholder="Apartment, suite, unit, etc. (optional)"
+                      value={formData.address2}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="city">City *</Label>
+                      <Input
+                        id="city"
+                        name="city"
+                        required
+                        value={formData.city}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="state">State / Province *</Label>
+                      <Input
+                        id="state"
+                        name="state"
+                        required
+                        value={formData.state}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div className="space-y-2">
+                      <Label htmlFor="postcode">ZIP / Postal Code *</Label>
+                      <Input
+                        id="postcode"
+                        name="postcode"
+                        required
+                        value={formData.postcode}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                    <div className="space-y-2">
+                      <Label htmlFor="country">Country *</Label>
+                      <Input
+                        id="country"
+                        name="country"
+                        required
+                        value={formData.country}
+                        onChange={handleInputChange}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="border rounded-lg p-6 space-y-4">
+                  <h2 className="text-xl font-bold">Order Notes (optional)</h2>
+                  <textarea
+                    name="notes"
+                    rows={4}
+                    className="w-full px-3 py-2 border rounded-md resize-none focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Notes about your order, e.g. special notes for delivery"
+                    value={formData.notes}
+                    onChange={handleInputChange}
+                  />
+                </div>
+              </div>
+
+              {/* Order Summary */}
+              <div className="lg:col-span-1">
+                <div className="border rounded-lg p-6 space-y-4 sticky top-4">
+                  <h2 className="text-xl font-bold">Your Order</h2>
+
+                  <div className="space-y-3">
+                    {cart.items.map((item) => (
+                      <div
+                        key={`${item.productId}-${item.variationId || ""}`}
+                        className="flex gap-3"
+                      >
+                        <div className="relative h-16 w-16 flex-shrink-0 rounded-md overflow-hidden bg-muted">
+                          {item.image ? (
+                            <Image
+                              src={item.image}
+                              alt={item.name}
+                              fill
+                              className="object-cover"
+                              sizes="64px"
+                            />
+                          ) : (
+                            <div className="flex items-center justify-center w-full h-full text-muted-foreground text-xs">
+                              No image
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium line-clamp-2">
+                            {item.name}
+                          </p>
+                          <p className="text-sm text-muted-foreground">
+                            Qty: {item.quantity}
+                          </p>
+                        </div>
+                        <p className="text-sm font-medium">
+                          {formatPrice(
+                            (parseFloat(item.price) * item.quantity).toString()
+                          )}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+
+                  <Separator />
+
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Subtotal</span>
+                      <span>{formatPrice(cart.totals.subtotal)}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-muted-foreground">Shipping</span>
+                      <span>Calculated at next step</span>
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  <div className="flex justify-between text-lg font-bold">
+                    <span>Total</span>
+                    <span>{formatPrice(cart.totals.total)}</span>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    size="lg"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      "Proceed to Payment"
+                    )}
+                  </Button>
+
+                  <p className="text-xs text-center text-muted-foreground">
+                    By placing your order, you agree to our Terms of Service and
+                    Privacy Policy.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </Container>
+    </Section>
+  );
 }

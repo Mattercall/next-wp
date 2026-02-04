@@ -79,7 +79,9 @@ export interface WooOrder {
   };
 }
 
-const restBaseUrl = new URL("/wp-json/wc/v3/", storeUrl).toString();
+const restBaseUrl = new URL("/wp-json/wc/v3/", storeUrl!).toString();
+const requiredConsumerKey = consumerKey!;
+const requiredConsumerSecret = consumerSecret!;
 
 async function wooRestFetch<T>(
   path: string,
@@ -88,8 +90,8 @@ async function wooRestFetch<T>(
   revalidate = 60
 ): Promise<T> {
   const url = new URL(path.replace(/^\//, ""), restBaseUrl);
-  url.searchParams.set("consumer_key", consumerKey);
-  url.searchParams.set("consumer_secret", consumerSecret);
+  url.searchParams.set("consumer_key", requiredConsumerKey);
+  url.searchParams.set("consumer_secret", requiredConsumerSecret);
   Object.entries(params).forEach(([key, value]) => {
     if (value !== undefined && value !== null) {
       url.searchParams.set(key, String(value));

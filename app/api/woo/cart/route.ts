@@ -23,7 +23,6 @@ export async function GET(request: Request) {
   });
 
   const data = await response.json();
-  const nonce = response.headers.get("x-wc-store-api-nonce") ?? undefined;
 
   if (!response.ok) {
     return NextResponse.json(
@@ -32,11 +31,5 @@ export async function GET(request: Request) {
     );
   }
 
-  return NextResponse.json(
-    {
-      ...data,
-      nonce,
-    },
-    { status: response.status }
-  );
+  return NextResponse.json(data, { status: response.status });
 }

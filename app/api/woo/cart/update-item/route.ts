@@ -21,13 +21,11 @@ export async function POST(request: Request) {
     quantity: number;
     cartKey?: string;
   };
-  const nonce = request.headers.get("x-wc-store-api-nonce") ?? undefined;
 
   const response = await fetch(buildStoreUrl("cart/update-item", cartKey), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      ...(nonce ? { "X-WC-Store-API-Nonce": nonce } : {}),
     },
     body: JSON.stringify({
       key,
@@ -36,7 +34,6 @@ export async function POST(request: Request) {
   });
 
   const data = await response.json();
-  const responseNonce = response.headers.get("x-wc-store-api-nonce") ?? undefined;
 
   if (!response.ok) {
     return NextResponse.json(
@@ -45,11 +42,5 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json(
-    {
-      ...data,
-      nonce: responseNonce,
-    },
-    { status: response.status }
-  );
+  return NextResponse.json(data, { status: response.status });
 }

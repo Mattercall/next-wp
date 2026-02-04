@@ -55,7 +55,6 @@ interface ShippingPackage {
 
 interface CartResponse {
   cart_key?: string;
-  nonce?: string;
   items: CartItem[];
   totals: CartTotals;
   shipping_rates?: ShippingPackage[];
@@ -80,12 +79,10 @@ interface CartContextValue {
 const CartContext = createContext<CartContextValue | undefined>(undefined);
 
 const CART_KEY_STORAGE = "woo_cart_key";
-const CART_NONCE_STORAGE = "woo_store_api_nonce";
 
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [cart, setCart] = useState<CartResponse | null>(null);
   const [cartKey, setCartKey] = useState<string | null>(null);
-  const [nonce, setNonce] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -98,21 +95,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
-  const storeNonce = useCallback((value: string | null) => {
-    setNonce(value);
-    if (value) {
-      localStorage.setItem(CART_NONCE_STORAGE, value);
-    } else {
-      localStorage.removeItem(CART_NONCE_STORAGE);
-    }
-  }, []);
-
   const request = useCallback(async (input: string, init?: RequestInit) => {
     const response = await fetch(input, {
       ...init,
       headers: {
         "Content-Type": "application/json",
-        ...(nonce ? { "X-WC-Store-API-Nonce": nonce } : {}),
         ...(init?.headers ?? {}),
       },
     });
@@ -124,7 +111,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
 
     return data as CartResponse;
-  }, [nonce]);
+  }, []);
 
   const refreshCart = useCallback(async () => {
     setIsLoading(true);
@@ -134,9 +121,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       if (data.cart_key) {
         storeCartKey(data.cart_key);
       }
-      if (data.nonce) {
-        storeNonce(data.nonce);
-      }
       setCart(data);
       setError(null);
     } catch (err) {
@@ -144,7 +128,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, [cartKey, request, storeCartKey, storeNonce]);
+  }, [cartKey, request, storeCartKey]);
 
   const addItem = useCallback(
     async ({ id, quantity = 1, variationId }: { id: number; quantity?: number; variationId?: number }) => {
@@ -162,9 +146,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         if (data.cart_key) {
           storeCartKey(data.cart_key);
         }
-        if (data.nonce) {
-          storeNonce(data.nonce);
-        }
         setCart(data);
         setError(null);
       } catch (err) {
@@ -173,7 +154,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(false);
       }
     },
-    [cartKey, request, storeCartKey, storeNonce]
+    [cartKey, request, storeCartKey]
   );
 
   const updateItem = useCallback(
@@ -191,9 +172,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         if (data.cart_key) {
           storeCartKey(data.cart_key);
         }
-        if (data.nonce) {
-          storeNonce(data.nonce);
-        }
         setCart(data);
         setError(null);
       } catch (err) {
@@ -202,7 +180,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(false);
       }
     },
-    [cartKey, request, storeCartKey, storeNonce]
+    [cartKey, request, storeCartKey]
   );
 
   const removeItem = useCallback(
@@ -216,9 +194,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         if (data.cart_key) {
           storeCartKey(data.cart_key);
         }
-        if (data.nonce) {
-          storeNonce(data.nonce);
-        }
         setCart(data);
         setError(null);
       } catch (err) {
@@ -227,7 +202,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         setIsLoading(false);
       }
     },
-    [cartKey, request, storeCartKey, storeNonce]
+    [cartKey, request, storeCartKey]
   );
 
   const clearCart = useCallback(async () => {
@@ -242,9 +217,6 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       } else {
         storeCartKey(null);
       }
-      if (data.nonce) {
-        storeNonce(data.nonce);
-      }
       setCart(data);
       setError(null);
     } catch (err) {
@@ -252,16 +224,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setIsLoading(false);
     }
-  }, [cartKey, request, storeCartKey, storeNonce]);
+  }, [cartKey, request, storeCartKey]);
 
   useEffect(() => {
     const stored = localStorage.getItem(CART_KEY_STORAGE);
     if (stored) {
       setCartKey(stored);
-    }
-    const storedNonce = localStorage.getItem(CART_NONCE_STORAGE);
-    if (storedNonce) {
-      setNonce(storedNonce);
     }
   }, []);
 

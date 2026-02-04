@@ -95,6 +95,14 @@ export function Nav({ className, children, id }: NavProps) {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+          <div className="hidden items-center gap-4 text-sm font-medium md:flex">
+            <Link href="/shop" className="hover:text-foreground/80">
+              Shop
+            </Link>
+            <Link href="/cart" className="hover:text-foreground/80">
+              Cart
+            </Link>
+          </div>
           <Button
             asChild
             className="hidden rounded-full px-5 sm:flex"

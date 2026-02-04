@@ -17,15 +17,13 @@ export async function POST(request: Request) {
     variationId?: number;
   };
 
-  const cookieStore = cookies();
+  const cookieStore = await cookies();
 
-  // Prefer header, fallback to cookie.
   let cartToken =
     request.headers.get("cart-token") ||
     cookieStore.get("wc_cart_token")?.value ||
     null;
 
-  // If we don't have a cart token yet, get one from GET /cart
   if (!cartToken) {
     const cartRes = await fetch(storeApiUrl(storeUrl, "cart"), {
       method: "GET",
@@ -55,7 +53,7 @@ export async function POST(request: Request) {
     { status: wooRes.status }
   );
 
-  // Woo may rotate tokens; keep the latest.
+  // Keep the latest cart token (Woo can rotate it)
   const newCartToken = wooRes.headers.get("Cart-Token") || cartToken;
   if (newCartToken) {
     res.cookies.set("wc_cart_token", newCartToken, {

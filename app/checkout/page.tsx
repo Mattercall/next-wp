@@ -16,22 +16,28 @@ export default function CheckoutPage() {
   const { cart, cartKey, isLoading, error, clearCart } = useCart();
   const [paymentMethods, setPaymentMethods] = useState<PaymentMethod[]>([]);
   const [selectedPayment, setSelectedPayment] = useState<string>("");
-  const [selectedShipping, setSelectedShipping] = useState<string>("");
+  const [selectedShipping, setSelectedShipping] = useState<Record<number, string>>(
+    {}
+  );
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const shippingOptions = useMemo(() => {
     if (!cart?.shipping_rates?.length) {
-      return [] as Array<{ id: string; name: string; price: string }>;
+      return [] as Array<{
+        packageId: number;
+        rates: Array<{ id: string; name: string; price: string }>;
+      }>;
     }
 
-    return cart.shipping_rates.flatMap((pkg) =>
-      pkg.shipping_rates.map((rate) => ({
+    return cart.shipping_rates.map((pkg) => ({
+      packageId: pkg.package_id,
+      rates: pkg.shipping_rates.map((rate) => ({
         id: rate.rate_id,
         name: rate.name,
         price: rate.price,
-      }))
-    );
+      })),
+    }));
   }, [cart]);
 
   useEffect(() => {
@@ -50,10 +56,24 @@ export default function CheckoutPage() {
   }, []);
 
   useEffect(() => {
-    if (!selectedShipping && shippingOptions.length) {
-      setSelectedShipping(shippingOptions[0].id);
+    if (!shippingOptions.length) {
+      return;
     }
-  }, [selectedShipping, shippingOptions]);
+
+    setSelectedShipping((prev) => {
+      let changed = false;
+      const next = { ...prev };
+
+      for (const pkg of shippingOptions) {
+        if (!next[pkg.packageId] && pkg.rates.length) {
+          next[pkg.packageId] = pkg.rates[0].id;
+          changed = true;
+        }
+      }
+
+      return changed ? next : prev;
+    });
+  }, [shippingOptions]);
 
   if (!cart) {
     return (
@@ -103,6 +123,21 @@ export default function CheckoutPage() {
     const shipping_address = billing_address;
 
     try {
+      const shipping_method = shippingOptions.length
+        ? shippingOptions
+            .map((pkg) => selectedShipping[pkg.packageId])
+            .filter(Boolean)
+        : [];
+
+      if (
+        shippingOptions.length &&
+        shipping_method.length !== shippingOptions.length
+      ) {
+        setSubmitError("Please select a shipping method for each package.");
+        setIsSubmitting(false);
+        return;
+      }
+
       const response = await fetch("/api/woo/checkout", {
         method: "POST",
         headers: {
@@ -115,7 +150,7 @@ export default function CheckoutPage() {
           payment_method_title:
             paymentMethods.find((method) => method.id === selectedPayment)
               ?.title || "Cash on delivery",
-          shipping_method: selectedShipping ? [selectedShipping] : undefined,
+          shipping_method: shipping_method.length ? shipping_method : undefined,
           cartKey,
         }),
       });
@@ -295,22 +330,39 @@ export default function CheckoutPage() {
           </div>
 
           {shippingOptions.length ? (
-            <label className="flex flex-col gap-2 text-sm">
-              Shipping method
-              <select
-                className="rounded-md border border-input bg-background px-3 py-2 text-sm"
-                value={selectedShipping}
-                onChange={(event) => setSelectedShipping(event.target.value)}
-              >
-                {shippingOptions.map((option) => (
-                  <option key={option.id} value={option.id}>
-                    {option.name} ({
-                      formatStorePrice(option.price, currencyCode, minorUnit)
-                    })
-                  </option>
-                ))}
-              </select>
-            </label>
+            <div className="space-y-3 text-sm">
+              <p className="font-medium">Shipping method</p>
+              {shippingOptions.map((pkg, index) => (
+                <label
+                  key={pkg.packageId}
+                  className="flex flex-col gap-2 text-sm"
+                >
+                  Package {index + 1}
+                  <select
+                    className="rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    value={selectedShipping[pkg.packageId] || ""}
+                    onChange={(event) =>
+                      setSelectedShipping((prev) => ({
+                        ...prev,
+                        [pkg.packageId]: event.target.value,
+                      }))
+                    }
+                    required
+                  >
+                    <option value="" disabled>
+                      Select a shipping method
+                    </option>
+                    {pkg.rates.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.name} (
+                        {formatStorePrice(option.price, currencyCode, minorUnit)}
+                        )
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              ))}
+            </div>
           ) : null}
 
           <label className="flex flex-col gap-2 text-sm">

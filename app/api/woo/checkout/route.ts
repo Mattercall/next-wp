@@ -56,6 +56,42 @@ export async function POST(request: Request) {
     cartToken = cartRes.headers.get("Cart-Token");
   }
 
+  const updateCustomerRes = await fetch(storeApiUrl(storeUrl, "cart/update-customer"), {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      ...(cartToken ? { "Cart-Token": cartToken } : {}),
+    },
+    body: JSON.stringify({
+      billing_address,
+      shipping_address,
+    }),
+  });
+
+  const updateCustomerData = await updateCustomerRes.json().catch(() => null);
+
+  if (!updateCustomerRes.ok) {
+    const res = NextResponse.json(
+      {
+        message: updateCustomerData?.message || "Failed to update customer",
+        raw: updateCustomerData,
+      },
+      { status: updateCustomerRes.status }
+    );
+
+    const newCartToken = updateCustomerRes.headers.get("Cart-Token") || cartToken;
+    if (newCartToken) {
+      res.cookies.set("wc_cart_token", newCartToken, {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+      });
+      res.headers.set("Cart-Token", newCartToken);
+    }
+
+    return res;
+  }
+
   // IMPORTANT: Store API checkout does NOT take payment_method_title or shipping_method.
   // Shipping is selected via cart endpoints; payment gateways use payment_data.
   const wooRes = await fetch(storeApiUrl(storeUrl, "checkout"), {
@@ -65,8 +101,6 @@ export async function POST(request: Request) {
       ...(cartToken ? { "Cart-Token": cartToken } : {}),
     },
     body: JSON.stringify({
-      billing_address,
-      shipping_address,
       payment_method: body.payment_method,
       customer_note: body.customer_note ?? "",
       payment_data: body.payment_data ?? [],

@@ -7,30 +7,9 @@ function storeApiUrl(storeUrl: string, path: string) {
 
 type AnyObj = Record<string, any>;
 
-const requiredBillingFields = [
-  "first_name",
-  "last_name",
-  "address_1",
-  "city",
-  "state",
-  "postcode",
-  "country",
-  "email",
-];
-
-const requiredShippingFields = [
-  "first_name",
-  "last_name",
-  "address_1",
-  "city",
-  "state",
-  "postcode",
-  "country",
-];
-
-function normalizeAddress(input: AnyObj, includeContact = false) {
+function normalizeAddress(input: AnyObj) {
   // Accept either snake_case or common camelCase and output Store API snake_case.
-  const normalized = {
+  return {
     first_name: input.first_name ?? input.firstName ?? "",
     last_name: input.last_name ?? input.lastName ?? "",
     company: input.company ?? "",
@@ -42,40 +21,6 @@ function normalizeAddress(input: AnyObj, includeContact = false) {
     country: input.country ?? "",
     email: input.email ?? "",
     phone: input.phone ?? "",
-  };
-  if (!includeContact) {
-    normalized.email = "";
-    normalized.phone = "";
-  }
-  return normalized;
-}
-
-function missingFields(address: AnyObj, requiredFields: string[]) {
-  return requiredFields.filter((field) => {
-    const value = address[field];
-    return typeof value !== "string" || value.trim().length === 0;
-  });
-}
-
-function maskEmail(email: string) {
-  if (!email) return "";
-  const [user, domain] = email.split("@");
-  if (!domain) return "***";
-  return `${user.slice(0, 1)}***@${domain}`;
-}
-
-function maskPhone(phone: string) {
-  if (!phone) return "";
-  const digits = phone.replace(/\D/g, "");
-  if (digits.length <= 2) return "***";
-  return `***${digits.slice(-2)}`;
-}
-
-function sanitizeAddressForLog(address: AnyObj) {
-  return {
-    ...address,
-    email: maskEmail(address.email),
-    phone: maskPhone(address.phone),
   };
 }
 
@@ -93,39 +38,8 @@ export async function POST(request: Request) {
     payment_data?: Array<{ key: string; value: any }>;
   };
 
-  const billing_address = normalizeAddress(body.billing_address ?? {}, true);
+  const billing_address = normalizeAddress(body.billing_address ?? {});
   const shipping_address = normalizeAddress(body.shipping_address ?? {});
-  const payment_method = String(body.payment_method ?? "").trim();
-
-  const missingBilling = missingFields(billing_address, requiredBillingFields);
-  const missingShipping = missingFields(shipping_address, requiredShippingFields);
-
-  if (!payment_method) {
-    return NextResponse.json(
-      { message: "Please select a payment method before checking out." },
-      { status: 400 }
-    );
-  }
-
-  if (missingBilling.length || missingShipping.length) {
-    const missing = Array.from(new Set([...missingBilling, ...missingShipping]));
-    return NextResponse.json(
-      {
-        message: `Please complete the required address fields: ${missing
-          .map((field) => field.replace(/_/g, " "))
-          .join(", ")}.`,
-        missing_fields: missing,
-      },
-      { status: 400 }
-    );
-  }
-
-  console.info("Woo checkout payload", {
-    payment_method,
-    billing_address: sanitizeAddressForLog(billing_address),
-    shipping_address: sanitizeAddressForLog(shipping_address),
-    payment_data_keys: body.payment_data?.map((entry) => entry.key) ?? [],
-  });
 
   // Cart-Token (same approach as your cart routes)
   const cookieStore = await cookies();
@@ -153,20 +67,13 @@ export async function POST(request: Request) {
     body: JSON.stringify({
       billing_address,
       shipping_address,
-      payment_method,
+      payment_method: body.payment_method,
       customer_note: body.customer_note ?? "",
       payment_data: body.payment_data ?? [],
     }),
   });
 
   const data = await wooRes.json().catch(() => null);
-  console.info("Woo checkout response", {
-    ok: wooRes.ok,
-    status: wooRes.status,
-    order_id: data?.order_id ?? data?.order_key ?? null,
-    message: data?.message ?? null,
-    code: data?.code ?? null,
-  });
 
   const res = NextResponse.json(
     wooRes.ok ? data : { message: data?.message || "Checkout failed", raw: data },

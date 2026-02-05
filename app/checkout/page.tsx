@@ -101,6 +101,7 @@ export default function CheckoutPage() {
     };
 
     const shipping_address = billing_address;
+    const customer_note = String(formData.get("order_notes") || "");
 
     try {
       const response = await fetch("/api/woo/checkout", {
@@ -112,6 +113,7 @@ export default function CheckoutPage() {
           billing_address,
           shipping_address,
           payment_method: selectedPayment || "cod",
+          customer_note,
           payment_method_title:
             paymentMethods.find((method) => method.id === selectedPayment)
               ?.title || "Cash on delivery",

@@ -135,8 +135,20 @@ export async function getProductBySlug(slug: string) {
   const products = await wooRestFetch<WooProduct[]>("products", {
     slug,
     status: "publish",
+    per_page: 100,
   });
-  return products[0] ?? null;
+  const exactMatch = products.find((product) => product.slug === slug);
+  if (exactMatch) {
+    return exactMatch;
+  }
+
+  const searchResults = await wooRestFetch<WooProduct[]>("products", {
+    search: slug,
+    status: "publish",
+    per_page: 100,
+  });
+
+  return searchResults.find((product) => product.slug === slug) ?? null;
 }
 
 export async function getProductVariations(productId: number) {

@@ -56,24 +56,31 @@ export async function POST(request: Request) {
     cartToken = cartRes.headers.get("Cart-Token");
   }
 
-  const updateCustomerRes = await fetch(storeApiUrl(storeUrl, "cart/update-customer"), {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      ...(cartToken ? { "Cart-Token": cartToken } : {}),
-    },
-    body: JSON.stringify({
-      billing_address,
-      shipping_address,
-    }),
-  });
+  const updateCustomerRes = await fetch(
+    storeApiUrl(storeUrl, "cart/update-customer"),
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        ...(cartToken ? { "Cart-Token": cartToken } : {}),
+      },
+      body: JSON.stringify({
+        billing_address,
+        shipping_address,
+      }),
+    }
+  );
 
   const updateCustomerData = await updateCustomerRes.json().catch(() => null);
+  const updateCustomerMessage = String(updateCustomerData?.message ?? "");
+  const invalidAddressParams =
+    updateCustomerData?.code === "rest_invalid_param" &&
+    /billing_address|shipping_address/.test(updateCustomerMessage);
 
-  if (!updateCustomerRes.ok) {
+  if (!updateCustomerRes.ok && !invalidAddressParams) {
     const res = NextResponse.json(
       {
-        message: updateCustomerData?.message || "Failed to update customer",
+        message: updateCustomerMessage || "Failed to update customer",
         raw: updateCustomerData,
       },
       { status: updateCustomerRes.status }
@@ -94,17 +101,24 @@ export async function POST(request: Request) {
 
   // IMPORTANT: Store API checkout does NOT take payment_method_title or shipping_method.
   // Shipping is selected via cart endpoints; payment gateways use payment_data.
+  const checkoutPayload: Record<string, unknown> = {
+    payment_method: body.payment_method,
+    customer_note: body.customer_note ?? "",
+    payment_data: body.payment_data ?? [],
+  };
+
+  if (invalidAddressParams) {
+    checkoutPayload.billing_address = billing_address;
+    checkoutPayload.shipping_address = shipping_address;
+  }
+
   const wooRes = await fetch(storeApiUrl(storeUrl, "checkout"), {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
       ...(cartToken ? { "Cart-Token": cartToken } : {}),
     },
-    body: JSON.stringify({
-      payment_method: body.payment_method,
-      customer_note: body.customer_note ?? "",
-      payment_data: body.payment_data ?? [],
-    }),
+    body: JSON.stringify(checkoutPayload),
   });
 
   const data = await wooRes.json().catch(() => null);

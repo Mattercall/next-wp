@@ -101,6 +101,32 @@ export default function CheckoutPage() {
     };
 
     const shipping_address = billing_address;
+    const requiredFields = [
+      { key: "first_name", label: "First name" },
+      { key: "last_name", label: "Last name" },
+      { key: "email", label: "Email" },
+      { key: "address_1", label: "Address" },
+      { key: "city", label: "City" },
+      { key: "state", label: "State" },
+      { key: "postcode", label: "Postal code" },
+      { key: "country", label: "Country" },
+    ];
+
+    const missingFields = requiredFields
+      .filter(({ key }) => !String(billing_address[key as keyof typeof billing_address]).trim())
+      .map(({ label }) => label);
+
+    if (!selectedPayment) {
+      setSubmitError("Please select a payment method.");
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (missingFields.length) {
+      setSubmitError(`Please complete: ${missingFields.join(", ")}.`);
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
       const response = await fetch("/api/woo/checkout", {
@@ -111,12 +137,7 @@ export default function CheckoutPage() {
         body: JSON.stringify({
           billing_address,
           shipping_address,
-          payment_method: selectedPayment || "cod",
-          payment_method_title:
-            paymentMethods.find((method) => method.id === selectedPayment)
-              ?.title || "Cash on delivery",
-          shipping_method: selectedShipping ? [selectedShipping] : undefined,
-          cartKey,
+          payment_method: selectedPayment,
         }),
       });
 

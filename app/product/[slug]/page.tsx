@@ -5,6 +5,37 @@ import { formatDecimalPrice } from "@/lib/woocommerce-format";
 
 export const revalidate = 60;
 
+function renderPrice({
+  price,
+  regular_price,
+  sale_price,
+  currency,
+}: {
+  price: string;
+  regular_price: string;
+  sale_price: string;
+  currency: string;
+}) {
+  if (sale_price && sale_price !== regular_price) {
+    return (
+      <div className="flex items-center gap-3">
+        <span className="text-2xl font-semibold">
+          {formatDecimalPrice(sale_price, currency)}
+        </span>
+        <span className="text-sm text-muted-foreground line-through">
+          {formatDecimalPrice(regular_price, currency)}
+        </span>
+      </div>
+    );
+  }
+
+  return (
+    <span className="text-2xl font-semibold">
+      {formatDecimalPrice(price, currency)}
+    </span>
+  );
+}
+
 export default async function ProductPage({
   params,
 }: {
@@ -34,32 +65,102 @@ export default async function ProductPage({
   const currency = process.env.NEXT_PUBLIC_WC_CURRENCY ?? "USD";
 
   return (
-    <main className="mx-auto max-w-5xl px-6 py-16">
-      <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-        <div className="space-y-6">
-          {product.images?.[0]?.src ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={product.images[0].src}
-              alt={product.images[0].alt || product.name}
-              className="w-full rounded-3xl border border-muted/50 object-cover"
-            />
-          ) : (
-            <div className="h-96 w-full rounded-3xl bg-muted" />
-          )}
-          <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: product.description }} />
-        </div>
-        <aside className="rounded-3xl border border-muted/50 bg-background p-6">
-          <p className="text-sm text-muted-foreground">Product</p>
-          <h1 className="mt-2 text-3xl font-semibold">{product.name}</h1>
-          <p className="mt-4 text-lg font-semibold">
-            {formatDecimalPrice(product.price, currency)}
-          </p>
-          <AddToCartForm product={product} variations={variations} />
-          <Link href="/cart" className="mt-6 inline-flex text-sm font-semibold text-primary">
-            Go to cart →
+    <main className="mx-auto max-w-6xl px-6 py-16">
+      <div className="flex flex-col gap-8">
+        <nav className="text-xs text-muted-foreground">
+          <Link href="/shop" className="hover:text-foreground">
+            Shop
           </Link>
-        </aside>
+          <span className="mx-2">/</span>
+          <span className="text-foreground">{product.name}</span>
+        </nav>
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+          <div className="space-y-6">
+            <div className="overflow-hidden rounded-3xl border border-muted/50 bg-muted">
+              {product.images?.[0]?.src ? (
+                // eslint-disable-next-line @next/next/no-img-element
+                <img
+                  src={product.images[0].src}
+                  alt={product.images[0].alt || product.name}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="h-96 w-full" />
+              )}
+            </div>
+            {product.images?.length > 1 ? (
+              <div className="grid grid-cols-4 gap-4">
+                {product.images.slice(1, 5).map((image) => (
+                  <div
+                    key={image.id}
+                    className="overflow-hidden rounded-2xl border border-muted/50 bg-muted"
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={image.src}
+                      alt={image.alt || product.name}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ))}
+              </div>
+            ) : null}
+            {product.description ? (
+              <div
+                className="prose max-w-none"
+                dangerouslySetInnerHTML={{ __html: product.description }}
+              />
+            ) : null}
+          </div>
+          <aside className="flex flex-col gap-6 rounded-3xl border border-muted/50 bg-background p-6">
+            <div className="space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
+                Product details
+              </p>
+              <h1 className="text-3xl font-semibold">{product.name}</h1>
+              {renderPrice({
+                price: product.price,
+                regular_price: product.regular_price,
+                sale_price: product.sale_price,
+                currency,
+              })}
+              {product.short_description ? (
+                <div
+                  className="prose prose-sm max-w-none text-muted-foreground"
+                  dangerouslySetInnerHTML={{ __html: product.short_description }}
+                />
+              ) : null}
+            </div>
+
+            <div className="rounded-2xl border border-muted/50 bg-muted/10 p-4 text-xs text-muted-foreground">
+              <div className="flex items-center justify-between">
+                <span>Status</span>
+                <span className="font-semibold text-foreground">
+                  {product.stock_status === "outofstock"
+                    ? "Out of stock"
+                    : "In stock"}
+                </span>
+              </div>
+              <div className="mt-2 flex items-center justify-between">
+                <span>Type</span>
+                <span className="font-semibold text-foreground">
+                  {product.type}
+                </span>
+              </div>
+            </div>
+
+            <AddToCartForm product={product} variations={variations} />
+
+            <div className="flex flex-wrap gap-3 text-xs text-muted-foreground">
+              <Link href="/cart" className="font-semibold text-primary">
+                View cart →
+              </Link>
+              <Link href="/checkout" className="font-semibold text-primary">
+                Checkout →
+              </Link>
+            </div>
+          </aside>
+        </div>
       </div>
     </main>
   );

@@ -102,6 +102,9 @@ export function Nav({ className, children, id }: NavProps) {
             <Link href="/cart" className="hover:text-foreground/80">
               Cart
             </Link>
+            <Link href="/my-account" className="hover:text-foreground/80">
+              My account
+            </Link>
           </div>
           <Button
             asChild

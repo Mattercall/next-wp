@@ -1,6 +1,10 @@
 import Link from "next/link";
 import { AddToCartForm } from "@/components/woocommerce/add-to-cart-form";
-import { getProductBySlug, getProductVariations } from "@/lib/woocommerce";
+import {
+  getProductById,
+  getProductBySlug,
+  getProductVariations,
+} from "@/lib/woocommerce";
 import { formatDecimalPrice } from "@/lib/woocommerce-format";
 
 export const revalidate = 60;
@@ -41,7 +45,22 @@ export default async function ProductPage({
 }: {
   params: { slug: string };
 }) {
-  const product = await getProductBySlug(params.slug);
+  const slugParam = params.slug;
+  const idMatch = slugParam.match(/^(\d+)(?:-|$)/);
+  const slugFromParam = slugParam.replace(/^\d+-/, "");
+  let product = null;
+
+  if (idMatch) {
+    try {
+      product = await getProductById(Number(idMatch[1]));
+    } catch (error) {
+      console.warn("Failed to load product by id.", error);
+    }
+  }
+
+  if (!product) {
+    product = await getProductBySlug(slugFromParam);
+  }
 
   if (!product) {
     return (

@@ -151,6 +151,10 @@ export async function getProductBySlug(slug: string) {
   return searchResults.find((product) => product.slug === slug) ?? null;
 }
 
+export async function getProductById(id: number | string) {
+  return wooRestFetch<WooProduct>(`products/${id}`);
+}
+
 export async function getProductVariations(productId: number) {
   return wooRestFetch<WooVariation[]>(`products/${productId}/variations`, {
     per_page: 100,

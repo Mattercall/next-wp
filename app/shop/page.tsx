@@ -97,7 +97,11 @@ export default async function ShopPage({
                       : "In stock"}
                   </span>
                   <Link
-                    href={`/product/${product.slug}`}
+                    href={`/product/${
+                      product.slug
+                        ? `${product.id}-${product.slug}`
+                        : String(product.id)
+                    }`}
                     className="text-sm font-semibold text-primary"
                   >
                     View product →

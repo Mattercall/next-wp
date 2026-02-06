@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { EmbeddedFrame } from "@/components/embedded-frame";
 
 type EmbeddedPageProps = {
   title?: string;
@@ -38,8 +37,14 @@ export function EmbeddedPage({
       ) : null}
 
       {url ? (
-        <section className="w-full overflow-x-clip">
-          <EmbeddedFrame title={title ?? "Embedded content"} src={url} />
+        <section className="h-[75vh] w-full overflow-hidden rounded-lg border border-border/70 bg-background shadow-sm">
+          <iframe
+            title={title ?? "Embedded content"}
+            src={url}
+            className="h-full w-full"
+            loading="lazy"
+            referrerPolicy="strict-origin-when-cross-origin"
+          />
         </section>
       ) : (
         <section className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-900">

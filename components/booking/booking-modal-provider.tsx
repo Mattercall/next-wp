@@ -35,13 +35,24 @@ export function BookingModalProvider({
   const [embeddingBlocked, setEmbeddingBlocked] = useState(false);
   const triggerRef = useRef<HTMLElement | null>(null);
   const modalRef = useRef<HTMLDivElement | null>(null);
+  const embedTimeoutRef = useRef<number | null>(null);
+
+  const clearEmbedTimeout = useCallback(() => {
+    if (embedTimeoutRef.current === null) {
+      return;
+    }
+
+    window.clearTimeout(embedTimeoutRef.current);
+    embedTimeoutRef.current = null;
+  }, []);
 
   const closeModal = useCallback(() => {
+    clearEmbedTimeout();
     setIsOpen(false);
     setEmbeddingBlocked(false);
     setIsLoading(false);
     triggerRef.current?.focus();
-  }, []);
+  }, [clearEmbedTimeout]);
 
   const openBookingModal = useCallback(
     (trigger?: HTMLElement | null) => {
@@ -113,18 +124,20 @@ export function BookingModalProvider({
 
   useEffect(() => {
     if (!isOpen || !bookingUrl) {
+      clearEmbedTimeout();
       return;
     }
 
-    const timer = window.setTimeout(() => {
+    clearEmbedTimeout();
+    embedTimeoutRef.current = window.setTimeout(() => {
       setEmbeddingBlocked(true);
       setIsLoading(false);
     }, 7000);
 
     return () => {
-      window.clearTimeout(timer);
+      clearEmbedTimeout();
     };
-  }, [isOpen, bookingUrl]);
+  }, [clearEmbedTimeout, isOpen, bookingUrl]);
 
   const value = useMemo(() => ({ openBookingModal }), [openBookingModal]);
 
@@ -188,10 +201,12 @@ export function BookingModalProvider({
                   src={bookingUrl}
                   className="h-full min-h-[60vh] w-full border-0"
                   onLoad={() => {
+                    clearEmbedTimeout();
                     setIsLoading(false);
                     setEmbeddingBlocked(false);
                   }}
                   onError={() => {
+                    clearEmbedTimeout();
                     setIsLoading(false);
                     setEmbeddingBlocked(true);
                   }}

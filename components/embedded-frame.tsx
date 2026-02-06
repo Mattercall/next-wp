@@ -24,17 +24,6 @@ export function EmbeddedFrame({ title, src }: EmbeddedFrameProps) {
     });
   }, []);
 
-  const updateViewportHeightFallback = useCallback(() => {
-    const iframe = iframeRef.current;
-    if (!iframe) {
-      return;
-    }
-
-    const rect = iframe.getBoundingClientRect();
-    const availableViewportHeight = window.innerHeight - rect.top - 24;
-    updateHeight(availableViewportHeight);
-  }, [updateHeight]);
-
   const measureIframeContentHeight = useCallback(() => {
     const iframe = iframeRef.current;
     if (!iframe) {
@@ -111,23 +100,11 @@ export function EmbeddedFrame({ title, src }: EmbeddedFrameProps) {
       const measuredHeight = measureIframeContentHeight();
       if (measuredHeight) {
         updateHeight(measuredHeight);
-        return;
       }
-
-      updateViewportHeightFallback();
     }, 800);
 
     return () => window.clearInterval(pollingId);
-  }, [measureIframeContentHeight, updateHeight, updateViewportHeightFallback]);
-
-  useEffect(() => {
-    updateViewportHeightFallback();
-
-    const onResize = () => updateViewportHeightFallback();
-    window.addEventListener("resize", onResize);
-
-    return () => window.removeEventListener("resize", onResize);
-  }, [updateViewportHeightFallback]);
+  }, [measureIframeContentHeight, updateHeight]);
 
   return (
     <iframe
@@ -135,9 +112,9 @@ export function EmbeddedFrame({ title, src }: EmbeddedFrameProps) {
       title={title}
       src={src}
       style={{ height: `${height}px` }}
-      className="block w-full border-0"
+      className="block w-full overflow-hidden border-0"
       loading="lazy"
-      scrolling="auto"
+      scrolling="no"
       referrerPolicy="strict-origin-when-cross-origin"
     />
   );

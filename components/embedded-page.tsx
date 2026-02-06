@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 type EmbeddedPageProps = {
   title: string;
-  description: string;
+  description?: string;
   url?: string;
   missingEnvVarNames: string[];
 };
@@ -29,7 +29,7 @@ export function EmbeddedPage({
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-8 md:px-8">
       <header className="space-y-1">
         <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
-        <p className="text-sm text-muted-foreground">{description}</p>
+        {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
       </header>
 
       {url ? (

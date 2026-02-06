@@ -13,10 +13,6 @@ export const metadata = buildEmbeddedPageMetadata(
 
 export default function AccountPage() {
   return (
-    <EmbeddedPage
-      title="Account"
-      url={accountUrl}
-      missingEnvVarNames={accountUrlEnvKeys}
-    />
+    <EmbeddedPage url={accountUrl} missingEnvVarNames={accountUrlEnvKeys} />
   );
 }

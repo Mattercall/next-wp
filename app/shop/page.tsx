@@ -12,10 +12,6 @@ export const metadata = buildEmbeddedPageMetadata(
 
 export default function ShopPage() {
   return (
-    <EmbeddedPage
-      title="Shop"
-      url={shopUrl}
-      missingEnvVarNames={shopUrlEnvKeys}
-    />
+    <EmbeddedPage url={shopUrl} missingEnvVarNames={shopUrlEnvKeys} />
   );
 }

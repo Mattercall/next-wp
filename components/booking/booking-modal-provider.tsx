@@ -111,21 +111,6 @@ export function BookingModalProvider({
     };
   }, [closeModal, isOpen]);
 
-  useEffect(() => {
-    if (!isOpen || !bookingUrl) {
-      return;
-    }
-
-    const timer = window.setTimeout(() => {
-      setEmbeddingBlocked(true);
-      setIsLoading(false);
-    }, 7000);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [isOpen, bookingUrl]);
-
   const value = useMemo(() => ({ openBookingModal }), [openBookingModal]);
 
   return (

@@ -15,6 +15,7 @@ import {
 } from "@/components/marketing/cta-styles";
 import { getRecentPosts } from "@/lib/wordpress";
 import { stripHtml } from "@/lib/metadata";
+import { BookingCallTrigger } from "@/components/booking/booking-call-trigger";
 
 const promoTiles: {
   title: string;
@@ -296,7 +297,7 @@ export default async function Home() {
             without adding headcount.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <button className={primaryButtonClass}>Book a growth call</button>
+            <BookingCallTrigger className={primaryButtonClass}>Book a growth call</BookingCallTrigger>
             <button className={secondaryButtonClass}>View services</button>
           </div>
           <FeaturedCardsSection>
@@ -364,7 +365,7 @@ export default async function Home() {
             and compound high-intent traffic for Shopify and local services.
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
-            <button className={primaryButtonClass}>Book a growth call</button>
+            <BookingCallTrigger className={primaryButtonClass}>Book a growth call</BookingCallTrigger>
             <button className={secondaryButtonClass}>View services</button>
           </div>
           <div className="mt-12 w-full">
@@ -642,9 +643,9 @@ export default async function Home() {
                     <button className={primaryButtonClass}>{tile.singleCta}</button>
                   ) : (
                     <>
-                      <button className={primaryButtonClass}>
+                      <BookingCallTrigger className={primaryButtonClass}>
                         Book a growth call
-                      </button>
+                      </BookingCallTrigger>
                       <button className={secondaryButtonClass}>
                         View services
                       </button>

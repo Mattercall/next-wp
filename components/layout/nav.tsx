@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import Logo from "@/public/logo.svg";
 import Image from "next/image";
 import Link from "next/link";
+import { BookingCallTrigger } from "@/components/booking/booking-call-trigger";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -95,12 +96,9 @@ export function Nav({ className, children, id }: NavProps) {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
-          <Button
-            asChild
-            className="hidden rounded-full px-5 sm:flex"
-          >
-            <Link href="/contact">Book a growth call</Link>
-          </Button>
+          <BookingCallTrigger className="hidden rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground shadow transition hover:bg-primary/90 sm:flex">
+            Book a growth call
+          </BookingCallTrigger>
           <MobileNav />
         </div>
       </div>

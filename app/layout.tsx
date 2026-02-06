@@ -9,6 +9,7 @@ import { Footer } from "@/components/layout/footer";
 import { CookieConsent } from "@/components/cookie-consent";
 import { Analytics } from "@vercel/analytics/react";
 import { MetaPixel } from "@/components/MetaPixel";
+import { BookingModalProvider } from "@/components/booking/booking-modal-provider";
 
 import { siteConfig } from "@/site.config";
 import { cn } from "@/lib/utils";
@@ -65,6 +66,10 @@ const website = {
 
 // Set NEXT_PUBLIC_META_PIXEL_ID in your env (e.g. .env.local) to enable Meta Pixel.
 const metaPixelId = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+const bookingUrl =
+  process.env.BOOKING__URL ??
+  process.env.BOOKING_URL ??
+  process.env.NEXT_PUBLIC_BOOKING_URL;
 
 export default function RootLayout({
   children,
@@ -117,10 +122,12 @@ export default function RootLayout({
           enableSystem={false}
           disableTransitionOnChange
         >
-          <Nav />
-          {children}
-          <Footer />
-          <CookieConsent />
+          <BookingModalProvider bookingUrl={bookingUrl}>
+            <Nav />
+            {children}
+            <Footer />
+            <CookieConsent />
+          </BookingModalProvider>
         </ThemeProvider>
         <Suspense fallback={null}>
           <MetaPixel />

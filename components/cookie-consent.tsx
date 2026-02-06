@@ -207,7 +207,7 @@ export const CookieConsent = () => {
   return (
     <>
       {shouldShowBanner && (
-        <div className="fixed inset-x-4 bottom-4 z-50 mx-auto max-w-5xl">
+        <div className="fixed inset-x-4 bottom-4 z-[60] mx-auto max-w-5xl">
           <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-gradient-to-br from-[#0B0B0C]/95 via-[#111314]/95 to-[#0B0B0C]/95 px-6 py-5 text-white shadow-[0_20px_60px_rgba(0,0,0,0.45)] backdrop-blur">
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
@@ -241,7 +241,7 @@ export const CookieConsent = () => {
       )}
 
       {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 py-6">
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/70 px-4 py-6">
           <div
             ref={modalRef}
             role="dialog"

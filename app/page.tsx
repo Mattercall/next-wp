@@ -298,14 +298,14 @@ export default async function Home() {
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <BookingCallTrigger className={primaryButtonClass}>Book a growth call</BookingCallTrigger>
-            <button className={secondaryButtonClass}>View services</button>
+            <Link href="/shop" className={secondaryButtonClass}>View services</Link>
           </div>
           <FeaturedCardsSection>
             <FeaturedCardsRow>
               {featuredCards.map((card) => (
                 <FeaturedCard
                   key={card.title}
-                  href="#"
+                  href="/shop"
                   className={cn(
                     card.isVideo && "order-first sm:order-none"
                   )}
@@ -366,7 +366,7 @@ export default async function Home() {
           </p>
           <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
             <BookingCallTrigger className={primaryButtonClass}>Book a growth call</BookingCallTrigger>
-            <button className={secondaryButtonClass}>View services</button>
+            <Link href="/shop" className={secondaryButtonClass}>View services</Link>
           </div>
           <div className="mt-12 w-full">
             <div className="mx-auto flex max-w-[1080px] flex-wrap items-center justify-center gap-4 rounded-full bg-[#F3F8FF] px-6 py-4 text-left">
@@ -410,9 +410,12 @@ export default async function Home() {
                   <br />
                   you scale SEO
                 </h3>
-                <button className="rounded-xl border border-[#d7e1f2] bg-white px-4 py-2 text-sm font-semibold text-[#1d4ed8] shadow-sm">
+                <Link
+                  href="/shop"
+                  className="rounded-xl border border-[#d7e1f2] bg-white px-4 py-2 text-sm font-semibold text-[#1d4ed8] shadow-sm"
+                >
                   View services →
-                </button>
+                </Link>
               </div>
               <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 md:w-[68%]">
                 {[
@@ -646,9 +649,9 @@ export default async function Home() {
                       <BookingCallTrigger className={primaryButtonClass}>
                         Book a growth call
                       </BookingCallTrigger>
-                      <button className={secondaryButtonClass}>
+                      <Link href="/shop" className={secondaryButtonClass}>
                         View services
-                      </button>
+                      </Link>
                     </>
                   )}
                 </div>

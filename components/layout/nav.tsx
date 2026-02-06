@@ -96,6 +96,14 @@ export function Nav({ className, children, id }: NavProps) {
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
+          <div className="hidden items-center gap-1 md:flex">
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/account">Account</Link>
+            </Button>
+            <Button asChild variant="ghost" size="sm">
+              <Link href="/shop">Shop</Link>
+            </Button>
+          </div>
           <BookingCallTrigger className="hidden rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground shadow transition hover:bg-primary/90 sm:flex">
             Book a growth call
           </BookingCallTrigger>

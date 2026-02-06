@@ -14,7 +14,6 @@ export default function ShopPage() {
   return (
     <EmbeddedPage
       title="Shop"
-      description="Browse and purchase products from this embedded shop view."
       url={shopUrl}
       missingEnvVarNames={shopUrlEnvKeys}
     />

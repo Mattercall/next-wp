@@ -15,7 +15,6 @@ export default function AccountPage() {
   return (
     <EmbeddedPage
       title="Account"
-      description="Manage your account from this embedded view."
       url={accountUrl}
       missingEnvVarNames={accountUrlEnvKeys}
     />

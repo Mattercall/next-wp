@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server"
 
-const BREVO_ENDPOINT = "https://api.brevo.com/v3/smtp/email"
+const EMAIL_REGEX = /^\S+@\S+\.\S+$/
 
 type ContactPayload = {
   name?: string
@@ -14,7 +14,7 @@ export async function POST(request: Request) {
 
   try {
     payload = (await request.json()) as ContactPayload
-  } catch (error) {
+  } catch {
     return NextResponse.json(
       { ok: false, error: "Invalid JSON payload." },
       { status: 400 }
@@ -33,60 +33,48 @@ export async function POST(request: Request) {
     )
   }
 
-  const apiKey = process.env.BREVO_API_KEY
-  const toEmail = process.env.CONTACT_TO_EMAIL
-  const fromEmail = process.env.CONTACT_FROM_EMAIL
-  const fromName = process.env.CONTACT_FROM_NAME || "Website"
-
-  if (!apiKey || !toEmail || !fromEmail) {
+  if (!EMAIL_REGEX.test(email)) {
     return NextResponse.json(
-      { ok: false, error: "Email service is not configured." },
+      { ok: false, error: "A valid email is required." },
+      { status: 400 }
+    )
+  }
+
+  const webhookUrl = process.env.CHAT_WEBHOOK_URL
+
+  if (!webhookUrl) {
+    return NextResponse.json(
+      { ok: false, error: "Webhook service is not configured." },
       { status: 500 }
     )
   }
 
-  const textContent = [
-    `Name: ${name}`,
-    `Email: ${email}`,
-    phone ? `Phone: ${phone}` : null,
-    "",
-    message,
-  ]
+  const content = [message, phone ? `\n\nPhone: ${phone}` : null]
     .filter(Boolean)
-    .join("\n")
+    .join("")
 
-  const htmlContent = `
-    <p><strong>Name:</strong> ${name}</p>
-    <p><strong>Email:</strong> ${email}</p>
-    ${phone ? `<p><strong>Phone:</strong> ${phone}</p>` : ""}
-    <p><strong>Message:</strong></p>
-    <p>${message.replace(/\n/g, "<br />")}</p>
-  `
-
-  const response = await fetch(BREVO_ENDPOINT, {
+  const webhookResponse = await fetch(webhookUrl, {
     method: "POST",
     headers: {
-      "api-key": apiKey,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      sender: { email: fromEmail, name: fromName },
-      to: [{ email: toEmail }],
-      replyTo: { email, name },
-      subject: `New contact form submission from ${name}`,
-      textContent,
-      htmlContent,
+      title: `Contact form submission from ${name}`,
+      content,
+      sender: {
+        first_name: name,
+        email,
+      },
     }),
   })
 
-  if (!response.ok) {
-    const errorText = await response.text()
+  if (!webhookResponse.ok) {
     return NextResponse.json(
       {
         ok: false,
-        error: errorText || "Failed to send message.",
+        error: "Unable to send your message right now. Please try again.",
       },
-      { status: response.status >= 400 && response.status < 500 ? response.status : 500 }
+      { status: 502 }
     )
   }
 

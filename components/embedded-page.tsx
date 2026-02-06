@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 
+import { EmbeddedIframe } from "@/components/embedded-iframe";
+
 type EmbeddedPageProps = {
   title: string;
   description: string;
@@ -33,15 +35,7 @@ export function EmbeddedPage({
       </header>
 
       {url ? (
-        <section className="h-[75vh] w-full overflow-hidden rounded-lg border border-border/70 bg-background shadow-sm">
-          <iframe
-            title={title}
-            src={url}
-            className="h-full w-full"
-            loading="lazy"
-            referrerPolicy="strict-origin-when-cross-origin"
-          />
-        </section>
+        <EmbeddedIframe title={title} src={url} />
       ) : (
         <section className="rounded-lg border border-amber-500/40 bg-amber-500/10 p-4 text-sm text-amber-900">
           This page is not configured yet. Set one of the following environment variables:

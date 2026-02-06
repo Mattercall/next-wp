@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 type EmbeddedPageProps = {
-  title: string;
+  title?: string;
   description?: string;
   url?: string;
   missingEnvVarNames: string[];
@@ -25,17 +25,21 @@ export function EmbeddedPage({
   url,
   missingEnvVarNames,
 }: EmbeddedPageProps) {
+  const shouldRenderHeader = Boolean(title || description);
+
   return (
     <main className="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-8 md:px-8">
-      <header className="space-y-1">
-        <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
-        {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
-      </header>
+      {shouldRenderHeader ? (
+        <header className="space-y-1">
+          {title ? <h1 className="text-2xl font-semibold tracking-tight">{title}</h1> : null}
+          {description ? <p className="text-sm text-muted-foreground">{description}</p> : null}
+        </header>
+      ) : null}
 
       {url ? (
         <section className="h-[75vh] w-full overflow-hidden rounded-lg border border-border/70 bg-background shadow-sm">
           <iframe
-            title={title}
+            title={title ?? "Embedded content"}
             src={url}
             className="h-full w-full"
             loading="lazy"

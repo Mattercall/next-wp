@@ -1,21 +1,30 @@
-"use client"
+"use client";
 
-import type { ChangeEvent, FormEvent } from "react"
-import { useState } from "react"
-import { Mail, Phone, Plus, User } from "lucide-react"
+import type { ChangeEvent, FormEvent } from "react";
+import { useMemo, useState } from "react";
+import { Plus } from "lucide-react";
 
-import { Button } from "@/components/ui/button"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
-const initialFormValues = {
+type FormValues = {
+  name: string;
+  email: string;
+  message: string;
+};
+
+type FieldErrors = Partial<Record<keyof FormValues, string>>;
+
+const EMAIL_REGEX = /^\S+@\S+\.\S+$/;
+
+const initialFormValues: FormValues = {
   name: "",
   email: "",
-  phone: "",
   message: "",
-}
+};
 
 const faqItems = [
   {
@@ -42,7 +51,7 @@ const faqItems = [
     question: "Do you work with international clients and different time zones?",
     answer: "Yes, remote-friendly with flexible scheduling.",
   },
-]
+];
 
 const commonQuestions = [
   {
@@ -70,19 +79,19 @@ const commonQuestions = [
     answer:
       "Final designs/assets + handoff notes; code handoff if applicable.",
   },
-]
+];
 
 const FaqList = ({
   items,
 }: {
-  items: { question: string; answer: string }[]
+  items: { question: string; answer: string }[];
 }) => {
-  const [openIndex, setOpenIndex] = useState<number | null>(0)
+  const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
     <div className="mt-6 divide-y divide-neutral-200">
       {items.map((item, index) => {
-        const isOpen = openIndex === index
+        const isOpen = openIndex === index;
         return (
           <div key={item.question} className="py-5">
             <button
@@ -114,57 +123,113 @@ const FaqList = ({
               </div>
             </div>
           </div>
-        )
+        );
       })}
     </div>
-  )
-}
+  );
+};
 
 export default function ContactPage() {
-  const [formValues, setFormValues] = useState(initialFormValues)
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [formValues, setFormValues] = useState(initialFormValues);
+  const [errors, setErrors] = useState<FieldErrors>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState<{
-    type: "success" | "error"
-    message: string
-  } | null>(null)
+    type: "success" | "error";
+    message: string;
+  } | null>(null);
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = event.target
-    setFormValues((prev) => ({ ...prev, [name]: value }))
-  }
+  const title = useMemo(() => {
+    const normalizedName = formValues.name.trim();
+    const normalizedEmail = formValues.email.trim();
+
+    if (normalizedName) {
+      return `Website chat request from ${normalizedName}`;
+    }
+
+    if (normalizedEmail) {
+      return `Website chat request from ${normalizedEmail}`;
+    }
+
+    return "Website chat request";
+  }, [formValues.email, formValues.name]);
+
+  const handleChange = (
+    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    const { name, value } = event.target;
+    setFormValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const validateForm = (values: FormValues) => {
+    const validationErrors: FieldErrors = {};
+
+    if (!values.email.trim()) {
+      validationErrors.email = "Email is required.";
+    } else if (!EMAIL_REGEX.test(values.email.trim())) {
+      validationErrors.email = "Please enter a valid email address.";
+    }
+
+    if (!values.message.trim()) {
+      validationErrors.message = "Message is required.";
+    }
+
+    return validationErrors;
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    setIsSubmitting(true)
-    setStatus(null)
+    event.preventDefault();
+
+    const nextErrors = validateForm(formValues);
+    setErrors(nextErrors);
+    setStatus(null);
+
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
+
+    setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/contact", {
+      const response = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formValues),
-      })
-      const data = (await response.json()) as { ok: boolean; error?: string }
+        body: JSON.stringify({
+          title,
+          content: formValues.message.trim(),
+          sender: {
+            first_name: formValues.name.trim(),
+            email: formValues.email.trim(),
+          },
+        }),
+      });
 
-      if (!response.ok || !data.ok) {
-        throw new Error(data.error || "Something went wrong.")
+      const data = (await response.json().catch(() => null)) as
+        | { ok?: boolean; error?: string }
+        | null;
+
+      if (!response.ok || !data?.ok) {
+        throw new Error(data?.error || "We could not start the chat. Please try again.");
       }
 
-      setStatus({ type: "success", message: "Message sent successfully." })
-      setFormValues(initialFormValues)
+      setStatus({
+        type: "success",
+        message: "Your message has been sent. We will get back to you shortly.",
+      });
+      setFormValues(initialFormValues);
+      setErrors({});
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : "Unable to send message."
-      setStatus({ type: "error", message })
+        error instanceof Error ? error.message : "Something went wrong. Please try again.";
+      setStatus({ type: "error", message });
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   return (
     <main className="bg-white">
       <section
-        className="relative min-h-[58vh] w-full overflow-hidden bg-black"
+        className="relative min-h-[40vh] w-full overflow-hidden bg-black"
         style={{
           backgroundImage:
             "linear-gradient(135deg, rgba(26,6,14,0.98) 0%, rgba(10,16,38,0.95) 48%, rgba(4,5,8,1) 100%)",
@@ -172,140 +237,97 @@ export default function ContactPage() {
           backgroundPosition: "center",
         }}
       >
-        <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 py-20 text-center text-white sm:py-24 lg:py-28">
+        <div className="relative z-10 flex h-full flex-col items-center justify-center px-4 py-20 text-center text-white sm:py-24">
           <h1 className="max-w-3xl text-3xl font-bold leading-tight sm:text-4xl lg:text-5xl">
-            Get in touch with us for more information
+            Start a chat with our team
           </h1>
           <p className="mt-3 max-w-2xl text-sm text-white/80 sm:text-base">
-            If you need help or have a question, we&#39;re here for you
+            Send your details and message below and we&apos;ll follow up shortly.
           </p>
         </div>
       </section>
 
-      <section className="relative -mt-24 pb-20 sm:-mt-28 lg:-mt-32">
-        <Card className="mx-auto w-[92%] max-w-6xl rounded-3xl border border-neutral-200 bg-white shadow-xl">
-          <CardContent className="p-6 sm:p-8 lg:p-10">
-            <div className="grid gap-8 lg:grid-cols-12">
-              <div className="space-y-6 lg:col-span-7">
-                <div>
-                  <h2 className="text-3xl font-bold text-neutral-900">
-                    How can we help you?
-                  </h2>
-                </div>
+      <section className="relative -mt-16 pb-20 sm:-mt-20">
+        <Card className="mx-auto w-[92%] max-w-3xl rounded-3xl border border-neutral-200 bg-white shadow-xl">
+          <CardContent className="p-6 sm:p-8">
+            <h2 className="text-2xl font-bold text-neutral-900 sm:text-3xl">Start Chat</h2>
+            <p className="mt-2 text-sm text-neutral-600">
+              Fields marked with * are required.
+            </p>
 
-                <form className="space-y-5" onSubmit={handleSubmit}>
-                  <div className="grid gap-4 sm:grid-cols-2">
-                    <div className="space-y-2">
-                      <Label htmlFor="name">Your Name</Label>
-                      <div className="relative">
-                        <Input
-                          id="name"
-                          name="name"
-                          placeholder="Enter your name here..."
-                          className="pr-10"
-                          value={formValues.name}
-                          onChange={handleChange}
-                        />
-                        <User className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
-                      </div>
-                    </div>
-                    <div className="space-y-2">
-                      <Label htmlFor="email">Your Email</Label>
-                      <div className="relative">
-                        <Input
-                          id="email"
-                          name="email"
-                          placeholder="Enter your email here..."
-                          className="pr-10"
-                          value={formValues.email}
-                          onChange={handleChange}
-                        />
-                        <Mail className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
-                    <div className="relative">
-                      <Input
-                        id="phone"
-                        name="phone"
-                        placeholder="Enter your phone number here..."
-                        className="pr-10"
-                        value={formValues.phone}
-                        onChange={handleChange}
-                      />
-                      <Phone className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-neutral-400" />
-                    </div>
-                  </div>
-
-                  <div className="space-y-2">
-                    <Label htmlFor="message">Message</Label>
-                    <Textarea
-                      id="message"
-                      name="message"
-                      placeholder="Enter your message"
-                      className="min-h-[140px] resize-none"
-                      value={formValues.message}
-                      onChange={handleChange}
-                    />
-                  </div>
-
-                  {status ? (
-                    <p
-                      className={
-                        status.type === "success"
-                          ? "text-sm font-medium text-green-600"
-                          : "text-sm font-medium text-red-600"
-                      }
-                      role="status"
-                    >
-                      {status.message}
-                    </p>
-                  ) : null}
-
-                  <Button
-                    className="h-12 w-full rounded-lg bg-neutral-900 text-white hover:bg-neutral-900/90"
-                    disabled={isSubmitting}
-                    type="submit"
-                  >
-                    {isSubmitting ? "Sending..." : "Send Your Message"}
-                  </Button>
-                </form>
+            <form className="mt-6 space-y-5" onSubmit={handleSubmit} noValidate>
+              <div className="space-y-2">
+                <Label htmlFor="name">Name</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  placeholder="Jane"
+                  value={formValues.name}
+                  onChange={handleChange}
+                  autoComplete="name"
+                />
               </div>
 
-              <div className="space-y-6 lg:col-span-5">
-                <Card className="rounded-2xl border border-neutral-200 shadow-none">
-                  <CardContent className="p-6 text-center sm:p-8">
-                    <h3 className="text-lg font-semibold text-neutral-900">
-                      Company Email/Phone
-                    </h3>
-                    <div className="mt-4 space-y-2 text-sm text-neutral-500">
-                      <p>contact@mattercall.com</p>
-                      <p>+4915510676259</p>
-                    </div>
-                  </CardContent>
-                </Card>
+              <div className="space-y-2">
+                <Label htmlFor="email">
+                  Email <span className="text-destructive">*</span>
+                </Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="you@example.com"
+                  value={formValues.email}
+                  onChange={handleChange}
+                  autoComplete="email"
+                  aria-invalid={Boolean(errors.email)}
+                  aria-describedby={errors.email ? "contact-email-error" : undefined}
+                />
+                {errors.email ? (
+                  <p id="contact-email-error" className="text-xs text-destructive">
+                    {errors.email}
+                  </p>
+                ) : null}
+              </div>
 
-                <Card className="rounded-2xl border border-neutral-200 shadow-none">
-                  <CardContent className="p-6 text-center sm:p-8">
-                    <h3 className="text-lg font-semibold text-neutral-900">
-                      Visit Our HQ
-                    </h3>
-                    <div className="mt-4 space-y-2 text-sm text-neutral-500">
-                      <p>MatterCall International</p>
-                      <p>Radelandstraße 38</p>
-                      <p>13589 Berlin Germany</p>
-                    </div>
-                  </CardContent>
-                </Card>
+              <div className="space-y-2">
+                <Label htmlFor="message">
+                  Message <span className="text-destructive">*</span>
+                </Label>
+                <Textarea
+                  id="message"
+                  name="message"
+                  placeholder="How can we help?"
+                  className="min-h-[160px] resize-y"
+                  value={formValues.message}
+                  onChange={handleChange}
+                  aria-invalid={Boolean(errors.message)}
+                  aria-describedby={errors.message ? "contact-message-error" : undefined}
+                />
+                {errors.message ? (
+                  <p id="contact-message-error" className="text-xs text-destructive">
+                    {errors.message}
+                  </p>
+                ) : null}
+              </div>
 
-                <p className="text-center text-sm text-neutral-500">
-                  Opening Hours 8AM - 5PM Everyday
+              {status ? (
+                <p
+                  className={`rounded-md px-3 py-2 text-sm ${
+                    status.type === "success"
+                      ? "bg-emerald-100 text-emerald-800"
+                      : "bg-destructive/10 text-destructive"
+                  }`}
+                  role="status"
+                >
+                  {status.message}
                 </p>
-              </div>
-            </div>
+              ) : null}
+
+              <Button className="h-12 w-full rounded-lg" disabled={isSubmitting} type="submit">
+                {isSubmitting ? "Sending..." : "Start Chat"}
+              </Button>
+            </form>
           </CardContent>
         </Card>
       </section>
@@ -319,12 +341,10 @@ export default function ContactPage() {
 
       <section className="faq-section">
         <div className="mx-auto max-w-5xl px-4">
-          <h2 className="text-3xl font-semibold text-neutral-900">
-            Common Questions
-          </h2>
+          <h2 className="text-3xl font-semibold text-neutral-900">Common Questions</h2>
           <FaqList items={commonQuestions} />
         </div>
       </section>
     </main>
-  )
+  );
 }

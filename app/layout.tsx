@@ -10,6 +10,7 @@ import { CookieConsent } from "@/components/cookie-consent";
 import { Analytics } from "@vercel/analytics/react";
 import { MetaPixel } from "@/components/MetaPixel";
 import { BookingModalProvider } from "@/components/booking/booking-modal-provider";
+import { ChatWidget } from "@/components/chat/chat-widget";
 
 import { siteConfig } from "@/site.config";
 import { cn } from "@/lib/utils";
@@ -127,6 +128,7 @@ export default function RootLayout({
             {children}
             <Footer />
             <CookieConsent />
+            <ChatWidget />
           </BookingModalProvider>
         </ThemeProvider>
         <Suspense fallback={null}>

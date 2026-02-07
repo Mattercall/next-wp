@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import {
@@ -13,12 +13,19 @@ import {
 } from "lucide-react";
 
 import { Container, Section } from "@/components/craft";
+import { useBookingModal } from "@/components/booking/booking-modal-provider";
+
+interface FooterLink {
+  label: string;
+  href?: string;
+  opensBookingModal?: boolean;
+}
 
 const footerColumns = [
   {
     title: "Contact",
     links: [
-      { label: "Book a Growth Call", href: "/contact" },
+      { label: "Book a Growth Call", opensBookingModal: true },
       { label: "Email Our Team", href: "/contact" },
     ],
   },
@@ -73,6 +80,7 @@ const trustBadges = [
 ];
 
 export function Footer() {
+  const { openBookingModal } = useBookingModal();
   const baseId = useId();
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     Contact: false,
@@ -84,6 +92,32 @@ export function Footer() {
 
   const toggleSection = (title: string) => {
     setOpenSections((prev) => ({ ...prev, [title]: !prev[title] }));
+  };
+
+  const FooterNavLink = ({ link }: { link: FooterLink }) => {
+    const triggerRef = useRef<HTMLButtonElement | null>(null);
+
+    if (link.opensBookingModal) {
+      return (
+        <button
+          ref={triggerRef}
+          type="button"
+          onClick={() => openBookingModal(triggerRef.current)}
+          className="text-secondary/70 transition hover:text-secondary hover:underline underline-offset-4 dark:text-muted-foreground dark:hover:text-foreground"
+        >
+          {link.label}
+        </button>
+      );
+    }
+
+    return (
+      <Link
+        href={link.href ?? "/contact"}
+        className="text-secondary/70 transition hover:text-secondary hover:underline underline-offset-4 dark:text-muted-foreground dark:hover:text-foreground"
+      >
+        {link.label}
+      </Link>
+    );
   };
 
   return (
@@ -99,12 +133,7 @@ export function Footer() {
                 <ul className="space-y-2 text-sm">
                   {column.links.map((link) => (
                     <li key={link.label}>
-                      <Link
-                        href={link.href}
-                        className="text-secondary/70 transition hover:text-secondary hover:underline underline-offset-4 dark:text-muted-foreground dark:hover:text-foreground"
-                      >
-                        {link.label}
-                      </Link>
+                      <FooterNavLink link={link} />
                     </li>
                   ))}
                 </ul>
@@ -169,12 +198,7 @@ export function Footer() {
                       <ul className="space-y-2">
                         {column.links.map((link) => (
                           <li key={link.label}>
-                            <Link
-                              href={link.href}
-                              className="text-secondary/70 transition hover:text-secondary hover:underline underline-offset-4 dark:text-muted-foreground dark:hover:text-foreground"
-                            >
-                              {link.label}
-                            </Link>
+                            <FooterNavLink link={link} />
                           </li>
                         ))}
                       </ul>
